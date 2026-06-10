@@ -361,8 +361,8 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
 
             if (onOffValue && device.online) {
                 cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
-                nameTv.setTextColor(context.getColor(R.color.colorPrimary))
-                levelTv.setTextColor(context.getColor(R.color.colorPrimary))
+                nameTv.setTextColor(context.getColor(R.color.colorTextPrimary))
+                levelTv.setTextColor(0xCCFFFFFF.toInt())
                 iconIv.setImageDrawable(ContextCompat.getDrawable(context, icon.onResId))
 
                 when {
@@ -392,8 +392,8 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
                 }
             } else {
                 cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
-                nameTv.setTextColor(context.getColor(R.color.colorPrimaryBackground))
-                levelTv.setTextColor(context.getColor(R.color.colorPrimaryBackground))
+                nameTv.setTextColor(context.getColor(R.color.colorTextPrimary))
+                levelTv.setTextColor(0x80FFFFFF.toInt())
                 iconIv.setImageDrawable(ContextCompat.getDrawable(context, icon.offResId))
 
                 if (device.online) {
@@ -426,7 +426,7 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
             nameTv.text = device.name
 
             cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
-            nameTv.setTextColor(context.getColor(R.color.colorPrimary))
+            nameTv.setTextColor(context.getColor(R.color.colorTextPrimary))
             iconIv.setImageDrawable(ContextCompat.getDrawable(context, icon.onResId))
         }
     }
@@ -471,16 +471,16 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
 
             if (onOffValue && device.online) {
                 cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
-                nameTv.setTextColor(context.getColor(R.color.colorPrimary))
-                levelTv.setTextColor(context.getColor(R.color.colorPrimary))
+                nameTv.setTextColor(context.getColor(R.color.colorTextPrimary))
+                levelTv.setTextColor(0xCCFFFFFF.toInt())
                 iconIv.setImageDrawable(ContextCompat.getDrawable(context, icon.onResId))
 
                 levelTv.text = context.getString(R.string.on)
 
             } else {
                 cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
-                nameTv.setTextColor(context.getColor(R.color.colorPrimaryBackground))
-                levelTv.setTextColor(context.getColor(R.color.colorPrimaryBackground))
+                nameTv.setTextColor(context.getColor(R.color.colorTextPrimary))
+                levelTv.setTextColor(0x80FFFFFF.toInt())
                 iconIv.setImageDrawable(ContextCompat.getDrawable(context, icon.offResId))
 
                 if (device.online) {
@@ -614,8 +614,8 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
 
             if (onOffValue && !offline) {
                 cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
-                nameTv.setTextColor(context.getColor(R.color.colorPrimary))
-                levelTv.setTextColor(context.getColor(R.color.colorPrimary))
+                nameTv.setTextColor(context.getColor(R.color.colorTextPrimary))
+                levelTv.setTextColor(0xCCFFFFFF.toInt())
 
                 when {
                     levelValue % 10 == 1 && levelValue != 1 -> {
@@ -644,8 +644,8 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
                 }
             } else {
                 cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
-                nameTv.setTextColor(context.getColor(R.color.colorPrimaryBackground))
-                levelTv.setTextColor(context.getColor(R.color.colorPrimaryBackground))
+                nameTv.setTextColor(context.getColor(R.color.colorTextPrimary))
+                levelTv.setTextColor(0x80FFFFFF.toInt())
 
                 levelTv.text = context.getString(R.string.off)
 
