@@ -79,7 +79,9 @@ android {
                 debugSymbolLevel = 'full'
             }
         }
-    }
+        packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        }
 }
 
 android.buildTypes.release.ndk.debugSymbolLevel = 'full'
