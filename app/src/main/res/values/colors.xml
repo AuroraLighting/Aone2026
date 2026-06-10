@@ -16,10 +16,8 @@
 
     <color name="daylightRed">#dd2727</color>
     <color name="daylightGreen">#41f648</color>
-
     <color name="greenBackground">#4CD964</color>
 
-<!--    Scene icon background colours -->
     <color name="sceneDefault">#C9D4DE</color>
     <color name="sceneWhite">#FFFFFF</color>
     <color name="sceneYellow">#FFD300</color>
