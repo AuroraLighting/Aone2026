@@ -79,9 +79,11 @@ android {
                 debugSymbolLevel = 'full'
             }
         }
-        packagingOptions {
+    }
+
+    packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
-        }
+    }
 }
 
 android.buildTypes.release.ndk.debugSymbolLevel = 'full'
@@ -106,53 +108,27 @@ dependencies {
     testImplementation 'org.json:json:20210307'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    // Volley
     implementation 'com.android.volley:volley:1.2.1'
-
-    // Nabto
     implementation files('nabto-lib/nabto-api-release.aar')
-
-    // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$arch_lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-common-java8:$arch_lifecycle_version"
-
-    // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
-
-    // Crashlytics
     implementation 'com.google.firebase:firebase-analytics:21.5.1'
     implementation 'com.google.firebase:firebase-crashlytics:18.6.2'
-
-    // Room
     implementation "androidx.room:room-runtime:$rootProject.room_version"
     implementation "androidx.room:room-ktx:$rootProject.room_version"
     kapt "androidx.room:room-compiler:$rootProject.room_version"
-
-    // Websocket
     implementation 'org.java-websocket:Java-WebSocket:1.5.2'
-
-    // Lottie
     implementation 'com.airbnb.android:lottie:6.3.0'
-
     implementation "androidx.viewpager2:viewpager2:1.0.0"
-
     implementation project(":queue-release")
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-
-    // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-
     implementation "com.google.android.gms:play-services-location:21.2.0"
-
-    // GSON
     implementation 'com.google.code.gson:gson:2.10.1'
-
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
 }
