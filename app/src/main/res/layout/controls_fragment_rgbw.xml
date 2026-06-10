@@ -1,109 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/controls_background"
-    tools:context="com.aurora.aonev3.ui.fragments.controls.ControlsFragment">
+    android:background="@drawable/controls_background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/levelsLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/colourLayout">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/level_layout"
-            android:layout_width="88dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/colour_temperature_layout">
-
-            <TextView
-                android:id="@+id/tvLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="120dp"
-                android:textColor="@color/colorTextPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/level_seekbar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <SeekBar
-                android:id="@+id/level_seekbar"
-                android:layout_width="300dp"
-                android:layout_height="48dp"
-                android:layout_marginBottom="130dp"
-                android:maxHeight="48dp"
-                android:minHeight="48dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:progress="40"
-                android:progressDrawable="@drawable/level_seekbar"
-                android:rotation="90"
-                android:splitTrack="false"
-                android:thumb="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/colour_temperature_layout"
-            android:layout_width="88dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/level_layout"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <TextView
-                android:id="@+id/tvColourTemperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="120dp"
-                android:textColor="@color/colorTextPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/colour_temperature_seekbar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <SeekBar
-                android:id="@+id/colour_temperature_seekbar"
-                android:layout_width="300dp"
-                android:layout_height="48dp"
-                android:layout_marginBottom="130dp"
-                android:maxHeight="48dp"
-                android:minHeight="48dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:progress="40"
-                android:progressDrawable="@drawable/colour_temperature_seekbar"
-                android:rotation="90"
-                android:splitTrack="false"
-                android:thumb="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <!-- Colour wheel area -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/colourLayout"
         android:layout_width="0dp"
@@ -124,10 +26,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Colour cycle controls -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/colourCycleLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -136,46 +40,183 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/colour_cycling"
-                android:textColor="@color/colorTextPrimary"
-                android:textSize="16sp"
+                android:textColor="#80ffffff"
+                android:textSize="13sp"
+                android:letterSpacing="0.05"
                 app:layout_constraintBottom_toTopOf="@id/btnStop"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="12dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnStop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/daylightRed"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
                 android:text="@string/stop"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
+                android:textSize="14sp"
+                app:backgroundTint="#C0392B"
+                app:cornerRadius="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toStartOf="@id/btnSlow"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="8dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSlow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
                 android:text="@string/slow"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
+                android:textSize="14sp"
+                app:backgroundTint="#0D2E52"
+                app:cornerRadius="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnStop" />
+                app:layout_constraintEnd_toStartOf="@id/btnFast"
+                app:layout_constraintStart_toEndOf="@id/btnStop"
+                android:layout_marginEnd="8dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
                 android:text="@string/fast"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
+                android:textSize="14sp"
+                app:backgroundTint="#0D2E52"
+                app:cornerRadius="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnSlow" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Sliders area -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/levelsLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Brightness card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/brightnessCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="#0D2E52"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toStartOf="@id/ctCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100%"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/level_seekbar"
+                    android:layout_width="180dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="12dp"
+                    android:maxHeight="44dp"
+                    android:minHeight="44dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:progress="40"
+                    android:progressDrawable="@drawable/level_seekbar"
+                    android:rotation="90"
+                    android:splitTrack="false"
+                    android:thumb="@android:color/white"
+                    android:layout_marginBottom="80dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvLevel"
+                    app:layout_constraintVertical_bias="1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Colour temp card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/ctCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#0D2E52"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/brightnessCard"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvColourTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2700K"
+                    android:textColor="#FFD080"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/colour_temperature_seekbar"
+                    android:layout_width="180dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="12dp"
+                    android:maxHeight="44dp"
+                    android:minHeight="44dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:progress="40"
+                    android:progressDrawable="@drawable/colour_temperature_seekbar"
+                    android:rotation="90"
+                    android:splitTrack="false"
+                    android:thumb="@android:color/white"
+                    android:layout_marginBottom="80dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvColourTemperature"
+                    app:layout_constraintVertical_bias="1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

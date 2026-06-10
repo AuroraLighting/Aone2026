@@ -7,18 +7,33 @@
     android:background="@color/colorPrimaryBackground"
     tools:context="com.aurora.aonev3.ui.fragments.alldevices.AllDevicesFragment">
 
-    <TextView
-        android:id="@+id/tvTitle"
+    <!-- Back + title -->
+    <ImageView
+        android:id="@+id/fabHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="52dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_outline_home_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/white" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
         android:text="@string/all_devices"
         android:textColor="@color/colorTextPrimary"
-        android:textSize="40sp"
+        android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/fabHome"
+        app:layout_constraintEnd_toStartOf="@id/menu"
+        app:layout_constraintStart_toEndOf="@id/fabHome"
+        app:layout_constraintTop_toTopOf="@id/fabHome" />
 
     <ImageView
         android:id="@+id/menu"
@@ -35,26 +50,21 @@
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:paddingBottom="120dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
-
+        app:layout_constraintTop_toBottomOf="@id/fabHome" />
 
     <ImageView
-        android:id="@+id/fabHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:padding="16dp"
-        android:src="@drawable/ic_outline_home_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tint="@null" />
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:src="@drawable/bottom_gradient"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
