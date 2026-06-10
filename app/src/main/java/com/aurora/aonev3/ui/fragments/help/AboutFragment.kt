@@ -83,7 +83,7 @@ class AboutFragment : Fragment() {
                         it,
                         IMMEDIATE,
                         activity,
-                        SplashscreenActivity.APP_UPDATE_REQUEST_CODE
+                        0
                     )
                 } else {
                     if (!activity.isFinishing) {
