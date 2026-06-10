@@ -17,22 +17,14 @@ import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.OtaHandler
 import com.aurora.aonev3.ui.activities.createaccount.ActivateAccountActivity
 import com.aurora.aonev3.ui.activities.login.LoginActivity
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
-import com.google.android.play.core.install.model.UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-import com.google.android.play.core.install.model.UpdateAvailability.UPDATE_AVAILABLE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SplashscreenActivity : AppCompatActivity() {
 
-    private val appUpdateManager by lazy { AppUpdateManagerFactory.create(applicationContext) }
-    private var waitForUpdate = false
-
     companion object {
         const val TAG = "SplashscreenActivity"
-        const val APP_UPDATE_REQUEST_CODE = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,21 +46,6 @@ class SplashscreenActivity : AppCompatActivity() {
             }
         }
 
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-
-        appUpdateInfoTask.addOnSuccessListener {
-            if (it.updateAvailability() == UPDATE_AVAILABLE &&
-                    it.isUpdateTypeAllowed(IMMEDIATE)) {
-                appUpdateManager.startUpdateFlowForResult(
-                    it,
-                    IMMEDIATE,
-                    this,
-                    APP_UPDATE_REQUEST_CODE
-                )
-                waitForUpdate = true
-            }
-        }
-
         chooseStartLocation()
     }
 
@@ -80,17 +57,14 @@ class SplashscreenActivity : AppCompatActivity() {
                     val response = CloudHandler.login(credentials.first, credentials.second)
                     if (response.optJSONObject("body")?.optString("status") == "PE") {
                         CoroutineScope(Dispatchers.Main).launch {
-                            if (!waitForUpdate) {
-                                startActivity(
-                                    Intent(
-                                        this@SplashscreenActivity,
-                                        ActivateAccountActivity::class.java
-                                    )
+                            startActivity(
+                                Intent(
+                                    this@SplashscreenActivity,
+                                    ActivateAccountActivity::class.java
                                 )
-                                finish()
-                            }
+                            )
+                            finish()
                         }
-
                         return@launch
                     }
                     CloudHandler.getGateways()
@@ -108,85 +82,48 @@ class SplashscreenActivity : AppCompatActivity() {
                     NabtoHandler.openTunnels(credentials.first)
                 }
                 CoroutineScope(Dispatchers.Main).launch {
-                    if (!waitForUpdate) {
-                        if (SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean(
-                                "introDone",
-                                false
-                            )
-                        ) {
-                            startActivity(
-                                Intent(
-                                    this@SplashscreenActivity,
-                                    MainActivity::class.java
-                                )
-                            )
-                        } else {
-                            val intent =
-                                Intent(this@SplashscreenActivity, IntroActivity::class.java)
-                            intent.putExtra("target", "main")
-                            startActivity(intent)
-                        }
-                        finish()
-                    }
-                }
-            }
-        } else {
-            Handler(mainLooper).postDelayed({
-                if (!waitForUpdate) {
                     if (SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean(
                             "introDone",
                             false
                         )
                     ) {
-                        startActivity(Intent(this, LoginActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@SplashscreenActivity,
+                                MainActivity::class.java
+                            )
+                        )
                     } else {
-                        val intent = Intent(this, IntroActivity::class.java)
-                        intent.putExtra("target", "login")
+                        val intent = Intent(this@SplashscreenActivity, IntroActivity::class.java)
+                        intent.putExtra("target", "main")
                         startActivity(intent)
                     }
                     finish()
                 }
+            }
+        } else {
+            Handler(mainLooper).postDelayed({
+                if (SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean(
+                        "introDone",
+                        false
+                    )
+                ) {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                } else {
+                    val intent = Intent(this, IntroActivity::class.java)
+                    intent.putExtra("target", "login")
+                    startActivity(intent)
+                }
+                finish()
             }, 2000)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == APP_UPDATE_REQUEST_CODE) {
-            waitForUpdate = false
-
-            if (resultCode == RESULT_OK) {
-                chooseStartLocation()
-            } else if (resultCode == RESULT_CANCELED) {
-                if (!isFinishing) {
-                    AlertDialog.Builder(this)
-                        .setMessage("You can update the App from the Play Store or from Help > About")
-                        .setPositiveButton(R.string.ok) { _, _ ->
-                            chooseStartLocation()
-                        }
-                        .create()
-                        .show()
-                }
-            }
-        }
     }
 
     override fun onResume() {
         super.onResume()
-
-        appUpdateManager
-            .appUpdateInfo
-            .addOnSuccessListener { appUpdateInfo ->
-
-                if (appUpdateInfo.updateAvailability() == DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                    // If an in-app update is already running, resume the update.
-                    appUpdateManager.startUpdateFlowForResult(
-                        appUpdateInfo,
-                        IMMEDIATE,
-                        this,
-                        APP_UPDATE_REQUEST_CODE
-                    )
-                }
-            }
     }
 }
