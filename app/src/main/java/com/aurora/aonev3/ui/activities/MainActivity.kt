@@ -1,17 +1,13 @@
 package com.aurora.aonev3.ui.activities
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -45,7 +41,6 @@ class MainActivity : AppCompatActivity() {
     private var hasCheckedMqttCerts = false
 
     private var gateway: NabtoHandler.NabtoGateway? = null
-
     private var mPreviousGateway: NabtoHandler.NabtoGateway? = null
     private var firmwareVerified: Boolean = false
 
@@ -53,24 +48,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ActivityCompat.checkSelfPermission(
-                    this, Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    REQUEST_NOTIFICATION_PERMISSION
-                )
-            }
-        }
-
         val loggedInObserver = Observer<Boolean?> { loggedIn ->
             if (loggedIn != false) return@Observer
-            NabtoHandler.nabtoGateways.forEach {
-                it.isConnected = false
-            }
+            NabtoHandler.nabtoGateways.forEach { it.isConnected = false }
             NabtoHandler.signOut()
             RequestQueue.clear()
 
@@ -92,17 +72,11 @@ class MainActivity : AppCompatActivity() {
 
         val observer = Observer<Boolean> {
             runOnUiThread {
-                val builder =
-                    AlertDialog.Builder(this)
-                        .setMessage(getString(R.string.gateway_migrating))
-                        .setPositiveButton(R.string.ok) { _, _ ->
-                            finishAffinity()
-                        }
-                        .create()
-
-                if (it == true && !isFinishing && !isDestroyed) {
-                    builder.show()
-                }
+                val builder = AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.gateway_migrating))
+                    .setPositiveButton(R.string.ok) { _, _ -> finishAffinity() }
+                    .create()
+                if (it == true && !isFinishing && !isDestroyed) builder.show()
             }
         }
 
@@ -119,38 +93,26 @@ class MainActivity : AppCompatActivity() {
                 if (version.isBlank() || increment == -1) return@Observer
                 latestFirmwareVersion = version
                 latestFirmwareIncrement = increment
-
                 if (gwFirmwareVersion.isNullOrBlank() || gwFirmwareIncrement == 0) return@Observer
-
-                if (verifyFirmware(gateway)) {
-                    isFirmwareChecked.postValue(true)
-                }
+                if (verifyFirmware(gateway)) isFirmwareChecked.postValue(true)
             })
 
             gateway.gwFirmware.observeForever(Observer { version ->
                 if (version?.isBlank() != false) return@Observer
                 gwFirmwareVersion = version
-
                 if (latestFirmwareVersion.isNullOrBlank() || gwFirmwareIncrement == 0) return@Observer
-
-                if (verifyFirmware(gateway)) {
-                    isFirmwareChecked.postValue(true)
-                }
+                if (verifyFirmware(gateway)) isFirmwareChecked.postValue(true)
             })
 
-            SyncHandler.devices
-                .observeForever(Observer { devices ->
-                    val device =
-                        devices.toList().find { it.parentGateway == gateway.serial && it.deviceClass == Device.DeviceClass.GATEWAY } ?: return@Observer
-                    gwFirmwareIncrement = device.metadata.optInt("firmware_version", -1)
-                    firmwareBundleIncrement = device.metadata.optInt("zigbee_firmware_bundle", -1)
-
-                    if (latestFirmwareVersion.isNullOrBlank() || gwFirmwareVersion.isNullOrBlank()) return@Observer
-
-                    if (verifyFirmware(gateway)) {
-                        isFirmwareChecked.postValue(true)
-                    }
-                })
+            SyncHandler.devices.observeForever(Observer { devices ->
+                val device = devices.toList().find {
+                    it.parentGateway == gateway.serial && it.deviceClass == Device.DeviceClass.GATEWAY
+                } ?: return@Observer
+                gwFirmwareIncrement = device.metadata.optInt("firmware_version", -1)
+                firmwareBundleIncrement = device.metadata.optInt("zigbee_firmware_bundle", -1)
+                if (latestFirmwareVersion.isNullOrBlank() || gwFirmwareVersion.isNullOrBlank()) return@Observer
+                if (verifyFirmware(gateway)) isFirmwareChecked.postValue(true)
+            })
 
             isFirmwareChecked.observeForever(Observer firmwareCheckedObserver@{ isFirmwareChecked ->
                 if (isFirmwareChecked == true) {
@@ -158,7 +120,6 @@ class MainActivity : AppCompatActivity() {
                         val firmwareBundleIncrement = firmwareBundleIncrement
                         val increment = zigbeeFirmwareBundle.optInt("fw_increment", -1)
                         if (increment == -1) return@Observer
-
                         if (increment > firmwareBundleIncrement) {
                             if (!gateway.isConnected) return@Observer
                             SyncHandler.syncHandlerCoroutineScope.launch {
@@ -177,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                 if (isLatest == false && !gateway.firmwarePopupDismissed && !gateway.firmwarePopupShown) {
                     gateway.firmwarePopupShown = true
                     val fw = OtaHandler.gatewayFirmware.value ?: return@observeForever
-                    val builder = AlertDialog.Builder(this)
+                    AlertDialog.Builder(this)
                         .setTitle("Firmware upgrade")
                         .setMessage(getString(R.string.fw_available))
                         .setPositiveButton("Upgrade") { _, _ ->
@@ -192,47 +153,34 @@ class MainActivity : AppCompatActivity() {
                                             .put("algorithm", fw.optString("algorithm"))
                                             .put("storage", "persisted")
                                     )
-
                                     runOnUiThread {
                                         if (!isFinishing) {
                                             AlertDialog.Builder(this@MainActivity)
                                                 .setTitle("Firmware upgrade")
                                                 .setMessage(getString(R.string.hub_upgrading))
                                                 .setPositiveButton("OK", null)
-                                                .create()
-                                                .show()
+                                                .create().show()
                                         }
                                     }
                                 } catch (err: VolleyError) {
                                     handleConnectionError(err, gateway)
-                                    err.printStackTrace()
                                 }
                             }
                         }
-                        .setNegativeButton("Later") { _, _ ->
-                            gateway.firmwarePopupDismissed = true
-                        }
+                        .setNegativeButton("Later") { _, _ -> gateway.firmwarePopupDismissed = true }
                         .create()
-
-                    if (!isFinishing) {
-                        builder.show()
-                    }
+                        .also { if (!isFinishing) it.show() }
                 }
             }
         })
 
         NabtoHandler.selectedGatewayLive.observe(this, Observer { gateway ->
             if (gateway == null) return@Observer
-
             this.gateway = gateway
             hasCheckedMqttCerts = false
             firmwareVerified = false
             runOnUiThread {
-                if (gateway.isConnecting) {
-                    connectingLayout.visibility = View.VISIBLE
-                } else {
-                    connectingLayout.visibility = View.GONE
-                }
+                connectingLayout.visibility = if (gateway.isConnecting) View.VISIBLE else View.GONE
             }
         })
 
@@ -248,7 +196,6 @@ class MainActivity : AppCompatActivity() {
 
         checkMqttCerts.observe(this) {
             if (hasCheckedMqttCerts) return@observe
-
             SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
                 val gateway = gateway ?: return@launch
                 val mqttConfig = CloudHandler.getMqttConfig().optJSONObject("body") ?: JSONObject()
@@ -258,17 +205,13 @@ class MainActivity : AppCompatActivity() {
                     || mqttConfig.optString("cacrt") != hubMqttConfig.optString("cacrt")
                     || mqttConfig.optString("crt") != hubMqttConfig.optString("crt")
                     || mqttConfig.optString("key") != hubMqttConfig.optString("key")) {
-                    DevelcoHandler.putMqttConfig(
-                        gateway,
-                        mqttConfig.put("keypassword", "")
-                    )
+                    DevelcoHandler.putMqttConfig(gateway, mqttConfig.put("keypassword", ""))
                     delay(10 * 1000)
                 }
 
                 if (DevelcoHandler.getMqttStatus(gateway).optJSONObject("body")?.optBoolean("connected") != true) {
                     DevelcoHandler.putMqttConfig(gateway, JSONObject())
                 }
-
                 hasCheckedMqttCerts = true
             }
         }
@@ -276,7 +219,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         ConnectionService.start(this)
-
         SyncHandler.restartCoroutineScope()
         NabtoHandler.cancelClosing()
 
@@ -316,10 +258,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun handleConnectionError(
-        err: VolleyError,
-        gateway: NabtoHandler.NabtoGateway
-    ) {
+    private fun handleConnectionError(err: VolleyError, gateway: NabtoHandler.NabtoGateway) {
         if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
             gateway.isConnected = false
             val credentials = CloudHandler.getCredentials()
@@ -337,27 +276,21 @@ class MainActivity : AppCompatActivity() {
     private fun verifyFirmware(gateway: NabtoHandler.NabtoGateway): Boolean {
         if (firmwareVerified) return true
 
-        if (latestFirmwareIncrement > gwFirmwareIncrement
-            && gwFirmwareVersion != latestFirmwareVersion) {
-            val latestVersion = latestFirmwareVersion
-                ?.split("-")?.get(0)
-                ?.split(".")?.get(2)?.toInt() ?: 0
-            val gwVersion = gwFirmwareVersion
-                ?.split("-")?.get(0)
-                ?.split(".")?.get(2)?.toInt() ?: 0
-
+        if (latestFirmwareIncrement > gwFirmwareIncrement && gwFirmwareVersion != latestFirmwareVersion) {
+            val latestVersion = latestFirmwareVersion?.split("-")?.get(0)?.split(".")?.get(2)?.toInt() ?: 0
+            val gwVersion = gwFirmwareVersion?.split("-")?.get(0)?.split(".")?.get(2)?.toInt() ?: 0
             if (gwVersion < latestVersion) {
                 gateway.isLatestFirmware.postValue(false)
                 return false
             }
-        } else if (latestFirmwareIncrement > gwFirmwareIncrement
-            && gwFirmwareVersion == latestFirmwareVersion) {
+        } else if (latestFirmwareIncrement > gwFirmwareIncrement && gwFirmwareVersion == latestFirmwareVersion) {
             CoroutineScope(Dispatchers.IO).launch {
                 val metadata = SyncHandler.getHubMetadata(gateway) ?: return@launch
                 metadata.put("firmware_version", latestFirmwareIncrement)
-
                 try {
-                    SyncHandler.devicesList.find { it.parentGateway == gateway.serial && it.deviceClass == Device.DeviceClass.GATEWAY }?.let { gatewayDevice ->
+                    SyncHandler.devicesList.find {
+                        it.parentGateway == gateway.serial && it.deviceClass == Device.DeviceClass.GATEWAY
+                    }?.let { gatewayDevice ->
                         DevelcoHandler.putDevice(
                             gateway,
                             gatewayDevice.id,
@@ -366,7 +299,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 } catch (err: VolleyError) {
                     handleConnectionError(err, gateway)
-                    err.printStackTrace()
                 }
             }
         }
@@ -382,23 +314,16 @@ class MainActivity : AppCompatActivity() {
             view.setOnTouchListener { _, _ ->
                 hideSoftKeyboard(this)
                 val focusedView = view.findFocus()
-                if (focusedView is EditText) {
-                    focusedView.clearFocus()
-                }
+                if (focusedView is EditText) focusedView.clearFocus()
                 false
             }
         }
-
         if (view is ViewGroup) {
-            for (i in 0 until view.childCount) {
-                val innerView = view.getChildAt(i)
-                setupUI(innerView)
-            }
+            for (i in 0 until view.childCount) setupUI(view.getChildAt(i))
         }
     }
 
     companion object {
         const val TAG = "MainActivity"
-        private const val REQUEST_NOTIFICATION_PERMISSION = 100
     }
 }
