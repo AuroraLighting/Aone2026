@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Request POST_NOTIFICATIONS permission on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ActivityCompat.checkSelfPermission(
                     this, Manifest.permission.POST_NOTIFICATIONS
@@ -275,10 +274,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ── Lifecycle ─────────────────────────────────────────────────────────────
-
     override fun onResume() {
-        // Start the foreground service to keep WebSocket alive
         ConnectionService.start(this)
 
         SyncHandler.restartCoroutineScope()
@@ -311,20 +307,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        // Do NOT stop the service here — keep connection alive when screen off
         NabtoHandler.closeNabtoDelayed()
         super.onPause()
     }
 
     override fun onDestroy() {
-        // Only stop service when app is fully closed
         ConnectionService.stop(this)
         super.onDestroy()
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
-    private fun handleConnectionError(err: VolleyError, gateway: NabtoHandler.NabtoGateway) {
+    private fun handleConnectionError(
+        err: VolleyError,
+        gateway: NabtoHandler.NabtoGateway
+    ) {
         if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
             gateway.isConnected = false
             val credentials = CloudHandler.getCredentials()
@@ -333,7 +328,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(applicationContext, SplashscreenActivity::class.java))
                 return
             }
-            NabtoHandler.openTunnel(gateway, credentials.first)
+            SyncHandler.syncHandlerCoroutineScope.launch {
+                NabtoHandler.openTunnel(gateway, credentials.first)
+            }
         }
     }
 
