@@ -1,0 +1,116 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.TimeConditionFragment">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/set_time_for_event"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnSunrise"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/colorTileInactive"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/sunrise"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryBackground"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnSunset"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/colorTileInactive"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/sunset"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryBackground"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSunrise" />
+
+        <Button
+            android:id="@+id/btnTime"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/colorTileInactive"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="00:00"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryBackground"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSunset"
+            tools:ignore="HardcodedText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnSave"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:text="@string/cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@id/btnSave"
+        app:layout_constraintEnd_toStartOf="@id/btnSave"
+        app:layout_constraintTop_toTopOf="@id/btnSave" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

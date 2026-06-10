@@ -1,0 +1,157 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:fillViewport="true"
+    tools:context="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.SecondaryModeInstructionsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="120dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/secondary_mode_title"
+            android:textColor="@color/colorTextPrimary"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSecondaryMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/battery_dimmer_secondary_mode"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <TextView
+            android:id="@+id/tvColourTuningModeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="14dp"
+            android:text="@string/colour_tuning_mode_title"
+            android:textColor="@color/colorTextPrimary"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSecondaryMode" />
+
+        <TextView
+            android:id="@+id/tvColourTuningMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/colour_tuning_mode"
+            app:layout_constraintTop_toBottomOf="@id/tvColourTuningModeTitle" />
+
+        <ImageView
+            android:id="@+id/ivColourTuning"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvColourTuningMode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/battery_dimmer_cx" />
+
+        <TextView
+            android:id="@+id/tvColourModeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="14dp"
+            android:text="@string/colour_mode_title"
+            android:textColor="@color/colorTextPrimary"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivColourTuning" />
+
+        <TextView
+            android:id="@+id/tvColourMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/colour_mode"
+            app:layout_constraintTop_toBottomOf="@id/tvColourModeTitle" />
+
+        <ImageView
+            android:id="@+id/ivColour"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvColourMode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/battery_dimmer_rgb" />
+
+        <TextView
+            android:id="@+id/tvScenesModeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="14dp"
+            android:text="@string/scenes_mode_title"
+            android:textColor="@color/colorTextPrimary"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivColour" />
+
+        <TextView
+            android:id="@+id/tvScenesMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/scenes_mode"
+            app:layout_constraintTop_toBottomOf="@id/tvScenesModeTitle" />
+
+        <ImageView
+            android:id="@+id/ivScenes"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvScenesMode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/battery_dimmer_scenes" />
+
+        <TextView
+            android:id="@+id/tvBatteryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="14dp"
+            android:text="@string/battery_life_title"
+            android:textColor="@color/colorTextPrimary"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivScenes" />
+
+        <TextView
+            android:id="@+id/tvBattery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/battery_life"
+            app:layout_constraintTop_toBottomOf="@id/tvBatteryTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

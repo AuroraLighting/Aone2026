@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/controls_background"
+    tools:context=".ui.fragments.controls.PowerFragment">
+
+    <ProgressBar
+        android:id="@+id/power_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/circle_shape"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="30"
+        android:progressDrawable="@drawable/circular_progress_bar_low"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/power_progress_bar"
+        app:layout_constraintEnd_toEndOf="@id/power_progress_bar"
+        app:layout_constraintStart_toStartOf="@id/power_progress_bar"
+        app:layout_constraintTop_toTopOf="@id/power_progress_bar">
+
+        <TextView
+            android:id="@+id/power_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="51sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="W"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

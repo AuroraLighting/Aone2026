@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryBackground"
+    tools:context="com.aurora.aonev3.ui.fragments.group.GroupFragment">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="34dp"
+        android:text="Space"
+        android:textColor="@color/colorTextPrimary"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_vertical_dots"
+        app:layout_constraintBottom_toBottomOf="@id/tvTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvTitle"
+        app:tint="@android:color/white" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:overScrollMode="never"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:layout_marginBottom="120dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:id="@+id/scrollView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tvTitle"-->
+<!--        android:layout_marginBottom="120dp">-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/recyclerView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="12dp"-->
+<!--                android:overScrollMode="never"-->
+<!--                android:paddingStart="8dp"-->
+<!--                android:paddingEnd="8dp"/>-->
+
+<!--    </androidx.core.widget.NestedScrollView>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/bottom_gradient"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_power_inactive"
+        app:backgroundTint="@color/colorTileActive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@null" />
+
+    <ImageView
+        android:id="@+id/fabHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_outline_home_24"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@null" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_levels"
+        app:backgroundTint="@color/colorTileInactive"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/fabPower"
+        app:layout_constraintEnd_toEndOf="@id/fabPower"
+        app:layout_constraintStart_toStartOf="@id/fabPower"
+        app:tint="@color/colorTileActive" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabScenes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:foreground="@drawable/ic_scenes"
+        app:backgroundTint="@color/colorTileInactive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fabPower" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabScene1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorTileInactive"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/fabScenes"
+        app:layout_constraintEnd_toEndOf="@id/fabScenes"
+        app:layout_constraintStart_toStartOf="@id/fabScenes"
+        app:tint="@null" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabScene2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorTileInactive"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/fabScene1"
+        app:layout_constraintEnd_toEndOf="@id/fabScenes"
+        app:layout_constraintStart_toStartOf="@id/fabScenes"
+        app:tint="@null" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabScene3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorTileInactive"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/fabScene2"
+        app:layout_constraintEnd_toEndOf="@id/fabScenes"
+        app:layout_constraintStart_toStartOf="@id/fabScenes"
+        app:tint="@null" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabScene4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorTileInactive"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/fabScene3"
+        app:layout_constraintEnd_toEndOf="@id/fabScenes"
+        app:layout_constraintStart_toStartOf="@id/fabScenes"
+        app:tint="@null" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabScene5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorTileInactive"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/fabScene4"
+        app:layout_constraintEnd_toEndOf="@id/fabScenes"
+        app:layout_constraintStart_toStartOf="@id/fabScenes"
+        app:tint="@null" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

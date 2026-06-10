@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000033</color>
+    <color name="colorPrimaryDark">#000019</color>
+    <color name="colorAccent">#00aeef</color>
+    <color name="colorTextPrimary">#ffffff</color>
+    <color name="colorTileActive">#B8D5E8</color>
+    <color name="colorTileInactive">#00437B</color>
+    <color name="colorTileTextActive">#00437B</color>
+    <color name="colorPrimaryBackground">#001F54</color>
+    <color name="colorControlGradientTop">#004982</color>
+    <color name="sceneIconBackground">#C9D4DE</color>
+    <color name="sceneNameBackground">#94ABBF</color>
+    <color name="searchingNewDevicesBackground">#1b1b31</color>
+    <color name="searchingNewDevicesText">#64ffffff</color>
+
+    <color name="daylightRed">#dd2727</color>
+    <color name="daylightGreen">#41f648</color>
+
+    <color name="greenBackground">#4CD964</color>
+
+<!--    Scene icon background colours -->
+    <color name="sceneDefault">#C9D4DE</color>
+    <color name="sceneWhite">#FFFFFF</color>
+    <color name="sceneYellow">#FFD300</color>
+    <color name="sceneOrange">#FF9C00</color>
+    <color name="sceneRed">#D0021B</color>
+    <color name="scenePink">#D901CC</color>
+    <color name="scenePurple">#8800FF</color>
+    <color name="sceneBlue">#0037FF</color>
+    <color name="sceneCyan">#00BFFF</color>
+    <color name="sceneGreen">#00DB25</color>
+    <color name="sceneTurquoise">#50E3C2</color>
+    <color name="scenePaleBlue">#B8D5E8</color>
+    <color name="dayBackground">#F5A623</color>
+    <color name="dinnerBackground">#F26621</color>
+    <color name="eveningBackground">#2B3C70</color>
+    <color name="morningBackground">#F8E71C</color>
+    <color name="movieBackground">#50E3C2</color>
+    <color name="nightlightBackground">#343A4F</color>
+    <color name="partyBackground">#BD10E0</color>
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/renameGroup"
+        android:title="@string/rename_space" />
+    <item
+        android:id="@+id/addDevicesFragment"
+        android:title="@string/add_manage_devices" />
+    <item
+        android:id="@+id/add_nested_groups"
+        android:title="@string/manage_nested_spaces" />
+    <item
+        android:id="@+id/create_scene"
+        android:title="@string/create_scene" />
+    <item
+        android:id="@+id/create_schedule"
+        android:title="@string/create_schedule" />
+    <item
+        android:id="@+id/create_dynamic_event"
+        android:title="@string/create_dynamic_event" />
+    <item
+        android:id="@+id/delete_group"
+        android:title="@string/delete_space" />
+</menu>

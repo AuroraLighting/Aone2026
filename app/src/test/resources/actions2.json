@@ -1,0 +1,156 @@
+[
+  {
+    "type": "GetResource",
+    "path": "config/time",
+    "mappings": [
+      {
+        "xpath": "$.tzoffset:integer",
+        "variable": "##TZ_OFFSET_S##"
+      },
+      {
+        "xpath": "$.dst:boolean",
+        "variable": "##IS_DST##"
+      }
+    ]
+  },
+  {
+    "type": "ExternalApiRequest",
+    "uri": "https://api.sunrise-sunset.org/json?lat=51.5548095703125&lng=-1.8443697033216748&formatted=0",
+    "method": "GET",
+    "mappings": [
+      {
+        "xpath": "$.results.sunrise:string",
+        "variable": "##SUNRISE##"
+      },
+      {
+        "xpath": "$.results.sunset:string",
+        "variable": "##SUNSET##"
+      }
+    ]
+  },
+  {
+    "type": "CalculateValue",
+    "expressions": [
+      {
+        "expression": "##SUNRISE_H##=str_substr('##SUNRISE##', 11, 13)"
+      },
+      {
+        "expression": "##SUNRISE_H##=##SUNRISE_H##+(##TZ_OFFSET_S##/3600)",
+        "rule": "##IS_DST##==false"
+      },
+      {
+        "expression": "##SUNRISE_H##=##SUNRISE_H##+(##TZ_OFFSET_S##/3600)+1",
+        "rule": "##IS_DST##==true"
+      },
+      {
+        "expression": "##SUNRISE_M##=str_substr('##SUNRISE##', 14, 16)"
+      },
+      {
+        "expression": "##SUNRISE_AS_MINUTES##=##SUNRISE_H##*60+##SUNRISE_M##"
+      },
+      {
+        "expression": "##SUNSET_H##=str_substr('##SUNSET##', 11, 13)"
+      },
+      {
+        "expression": "##SUNSET_H##=##SUNSET_H##+(##TZ_OFFSET_S##/3600)",
+        "rule": "##IS_DST##==false"
+      },
+      {
+        "expression": "##SUNSET_H##=##SUNSET_H##+(##TZ_OFFSET_S##/3600)+1",
+        "rule": "##IS_DST##==true"
+      },
+      {
+        "expression": "##SUNSET_M##=str_substr('##SUNSET##', 14, 16)"
+      },
+      {
+        "expression": "##SUNSET_AS_MINUTES##=##SUNSET_H##*60+##SUNSET_M##"
+      },
+      {
+        "expression": "##SUNSET_N_OFFSET_30##=##SUNSET_AS_MINUTES##"
+      },
+      {
+        "expression": "##SUNSET_N_OFFSET_30_H##=floor(##SUNSET_N_OFFSET_30##/60)"
+      },
+      {
+        "expression": "##SUNSET_N_OFFSET_30_M##=##SUNSET_N_OFFSET_30##%60"
+      }
+    ]
+  },
+  {
+    "type": "UpdateResource",
+    "path": "logic/collection/49/rule/7",
+    "data": {
+      "triggers": [
+        {
+          "type": "TimeOfDay",
+          "min": "##SUNSET_N_OFFSET_30_M##",
+          "hour": "##SUNSET_N_OFFSET_30_H##"
+        }
+      ]
+    }
+  },
+  {
+    "type": "UpdateResource",
+    "path": "logic/collection/7/rule/1",
+    "data": {
+      "conditions": [
+        {
+          "type": "ResourceValue",
+          "path": "zb/dev/11/ldev/alarm/data/alarm.value",
+          "rule": "##INVAL## == false"
+        },
+        {
+          "type": "DayOfWeek",
+          "days": [
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY",
+            "SUNDAY"
+          ]
+        },
+        {
+          "endMin": "##SUNRISE_P_OFFSET_60_M##",
+          "startHour": "##SUNSET_N_OFFSET_60_H##",
+          "type": "TimeInterval",
+          "startMin": "##SUNSET_N_OFFSET_60_M##",
+          "endHour": "##SUNRISE_P_OFFSET_60_H##"
+        }
+      ]
+    }
+  },
+  {
+    "type": "UpdateResource",
+    "path": "logic/collection/7/rule/2",
+    "data": {
+      "conditions": [
+        {
+          "type": "ResourceValue",
+          "path": "zb/dev/11/ldev/alarm/data/alarm.value",
+          "rule": "##INVAL## == true"
+        },
+        {
+          "type": "DayOfWeek",
+          "days": [
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY",
+            "SUNDAY"
+          ]
+        },
+        {
+          "endMin": "##SUNRISE_P_OFFSET_60_M##",
+          "startHour": "##SUNSET_N_OFFSET_60_H##",
+          "type": "TimeInterval",
+          "startMin": "##SUNSET_N_OFFSET_60_M##",
+          "endHour": "##SUNRISE_P_OFFSET_60_H##"
+        }
+      ]
+    }
+  }
+]

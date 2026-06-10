@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sunriseVar">##SUNRISE##</string>
+    <string name="sunriseHour">##SUNRISE_H##</string>
+    <string name="sunriseMinute">##SUNRISE_M##</string>
+    <string name="sunriseAsMinutes">##SUNRISE_AS_MINUTES##</string>
+    <string name="sunrisePositiveOffset">##SUNRISE_P_OFFSET_%d##</string>
+    <string name="sunrisePositiveOffsetHours">##SUNRISE_P_OFFSET_%d_H##</string>
+    <string name="sunrisePositiveOffsetMinutes">##SUNRISE_P_OFFSET_%d_M##</string>
+    <string name="sunriseNegativeOffset">##SUNRISE_N_OFFSET_%d##</string>
+    <string name="sunriseNegativeOffsetHours">##SUNRISE_N_OFFSET_%d_H##</string>
+    <string name="sunriseNegativeOffsetMinutes">##SUNRISE_N_OFFSET_%d_M##</string>
+
+    <string name="sunsetVar">##SUNSET##</string>
+    <string name="sunsetHour">##SUNSET_H##</string>
+    <string name="sunsetMinute">##SUNSET_M##</string>
+    <string name="sunsetAsMinutes">##SUNSET_AS_MINUTES##</string>
+    <string name="sunsetPositiveOffset">##SUNSET_P_OFFSET_%d##</string>
+    <string name="sunsetPositiveOffsetHours">##SUNSET_P_OFFSET_%d_H##</string>
+    <string name="sunsetPositiveOffsetMinutes">##SUNSET_P_OFFSET_%d_M##</string>
+    <string name="sunsetNegativeOffset">##SUNSET_N_OFFSET_%d##</string>
+    <string name="sunsetNegativeOffsetHours">##SUNSET_N_OFFSET_%d_H##</string>
+    <string name="sunsetNegativeOffsetMinutes">##SUNSET_N_OFFSET_%d_M##</string>
+
+    <string name="expressionVarToHour">%s=str_substr(\'%s\', 11, 13)</string>
+    <string name="expressionHourToHourTimezone">%s=%s+(##TZ_OFFSET_S##/3600)</string>
+    <string name="expressionHourToHourTimezoneDst">%s=%s+(##TZ_OFFSET_S##/3600)+1</string>
+    <string name="expressionVarToMinutes">%s=str_substr(\'%s\', 14, 16)</string>
+    <string name="expressionTimeToMinutes">%s=%s*60+%s</string>
+    <string name="expressionTimePositiveOffset">%s=%s+%d</string>
+    <string name="expressionTimeNegativeOffset">%s=%s-%d</string>
+    <string name="expressionHourOffset">%s=floor(%s/60)</string>
+    <string name="expressionMinutesOffset">%s=%s%%60</string>
+</resources>

@@ -1,0 +1,77 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="Button.Accent" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_bottom_sheet</item>
+    </style>
+
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/colorPrimaryBackground</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="DeleteAlertDialogCustom" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/sceneRed</item>
+    </style>
+
+    <style name="LabelTextView" parent="@android:style/Widget.TextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DefaultNumberPickerTheme">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="editTextColor">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:descendantFocusability">blocksDescendants</item>
+    </style>
+
+    <style name="ActiveTileButton" parent="Widget.MaterialComponents.TextView">
+        <item name="backgroundTint">@color/colorTileActive</item>
+        <item name="android:ellipsize">end</item>
+        <item name="singleLine">true</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textColor">@color/colorTileTextActive</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="ClickableTileButton" parent="ActiveTileButton">
+        <item name="backgroundTint">@color/colorTileInactive</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="InactiveTileButton" parent="ClickableTileButton">
+        <item name="android:textColor">@color/colorPrimaryBackground</item>
+        <item name="android:clickable">false</item>
+    </style>
+
+</resources>

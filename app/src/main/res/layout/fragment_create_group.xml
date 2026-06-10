@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.aurora.aonev3.ui.fragments.groups.creategroups.CreateGroupFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/create_some_custom_spaces"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:overScrollMode="never"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/createEditTextLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toTopOf="@id/btnSave"
+                app:layout_constraintTop_toBottomOf="@id/recyclerView"
+                app:layout_constraintVertical_bias="0.0">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name"
+                    android:labelFor="@id/etName"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@android:color/transparent"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapSentences|textAutoComplete|textAutoCorrect"
+                        android:textColor="@color/colorTextPrimary" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/virtualLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/createEditTextLayout"
+                app:layout_constraintTop_toBottomOf="@+id/createEditTextLayout" >
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/virtual_space"
+                    app:layout_constraintTop_toTopOf="@id/isVirtualSwitch"
+                    app:layout_constraintBottom_toBottomOf="@id/isVirtualSwitch"
+                    app:layout_constraintEnd_toStartOf="@id/virtualInfoIv"/>
+
+                <ImageView
+                    android:id="@+id/virtualInfoIv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="center"
+                    app:layout_constraintTop_toTopOf="@id/isVirtualSwitch"
+                    app:layout_constraintBottom_toBottomOf="@id/isVirtualSwitch"
+                    app:layout_constraintEnd_toStartOf="@id/isVirtualSwitch"
+                    android:src="@drawable/ic_info_outline_red_24dp"
+                    app:tint="@color/colorAccent" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/isVirtualSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/createCardLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/btnSave"
+                app:layout_constraintTop_toBottomOf="@id/recyclerView"
+                app:layout_constraintVertical_bias="0.0">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/colorTileInactive"
+                    app:cardCornerRadius="8dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/ivIcon"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="20dp"
+                                android:src="@drawable/ic_add_circle_outline_black_24dp"
+                                app:layout_constraintBottom_toBottomOf="@id/tvName"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/tvName"
+                                app:tint="@color/colorTextPrimary" />
+
+                            <TextView
+                                android:id="@+id/tvName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:ellipsize="end"
+                                android:singleLine="true"
+                                android:text="@string/add_custom_space"
+                                android:textColor="@color/colorTextPrimary"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toEndOf="@id/ivIcon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:text="@string/save"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@id/btnSave"
+                app:layout_constraintEnd_toStartOf="@id/btnSave"
+                app:layout_constraintTop_toTopOf="@id/btnSave" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

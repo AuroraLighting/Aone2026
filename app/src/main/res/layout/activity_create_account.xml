@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.aurora.aonev3.ui.activities.createaccount.CreateAccountActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/aone_logo"
+        app:layout_constraintBottom_toTopOf="@id/input_layout_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="82dp"
+        android:layout_marginEnd="82dp"
+        android:hint="@string/name"
+        android:labelFor="@id/etName"
+        android:textColor="@color/colorTextPrimary"
+        app:layout_constraintBottom_toTopOf="@id/input_layout_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName|textCapWords"
+            android:textColor="@color/colorTextPrimary" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="82dp"
+        android:layout_marginEnd="82dp"
+        android:layout_marginBottom="62dp"
+        android:hint="@string/prompt_email"
+        android:labelFor="@id/etEmail"
+        android:textColor="@color/colorTextPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorTextPrimary" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="82dp"
+        android:layout_marginEnd="82dp"
+        android:hint="@string/prompt_password"
+        android:labelFor="@id/etPassword"
+        android:textColor="@color/colorTextPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_email"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@android:color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:textColor="@color/colorTextPrimary" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/termsTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/termsSwitch"
+        app:layout_constraintBottom_toBottomOf="@id/termsSwitch"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="82dp"
+        android:textColor="@color/colorTextPrimary"
+        android:text="@string/terms_amp_conditions"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/termsSwitch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="82dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_password" />
+
+    <TextView
+        android:id="@+id/ppTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/ppSwitch"
+        app:layout_constraintBottom_toBottomOf="@id/ppSwitch"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="82dp"
+        android:textColor="@color/colorTextPrimary"
+        android:text="@string/privacy_policy_title"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/ppSwitch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="82dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/termsSwitch" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        style="@style/Button.Accent"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginBottom="52dp"
+        android:enabled="false"
+        android:text="@string/create_account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/controls_background"
+    tools:context=".DoubleSocketPowerFragment">
+
+    <TextView
+        android:id="@+id/tvSocket1Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="Left Socket"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/power_progress_bar1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ProgressBar
+        android:id="@+id/power_progress_bar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/circle_shape"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="30"
+        android:progressDrawable="@drawable/circular_progress_bar_low"
+        app:layout_constraintBottom_toTopOf="@id/tvSocket2Title"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSocket1Title"
+        app:layout_constraintVertical_bias="1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@id/power_progress_bar1"
+        app:layout_constraintEnd_toEndOf="@id/power_progress_bar1"
+        app:layout_constraintStart_toStartOf="@id/power_progress_bar1"
+        app:layout_constraintTop_toTopOf="@id/power_progress_bar1">
+
+        <TextView
+            android:id="@+id/power1_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="25sp"
+            app:autoSizeMaxTextSize="50sp"
+            app:autoSizeStepGranularity="2sp"
+            android:textSize="51sp"
+            android:textAlignment="center"
+            android:text="9"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="W"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSocket2Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Right Socket"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/power_progress_bar2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/power_progress_bar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/circle_shape"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="30"
+        android:progressDrawable="@drawable/circular_progress_bar_low"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="@id/power_progress_bar1"
+        app:layout_constraintStart_toStartOf="@id/power_progress_bar1"
+        app:layout_constraintVertical_bias="1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@id/power_progress_bar2"
+        app:layout_constraintEnd_toEndOf="@id/power_progress_bar2"
+        app:layout_constraintStart_toStartOf="@id/power_progress_bar2"
+        app:layout_constraintTop_toTopOf="@id/power_progress_bar2">
+
+        <TextView
+            android:id="@+id/power2_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="25sp"
+            app:autoSizeMaxTextSize="50sp"
+            app:autoSizeStepGranularity="2sp"
+            android:textSize="51sp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="W"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

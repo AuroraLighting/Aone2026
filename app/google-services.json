@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "912602704243",
+    "firebase_url": "https://aonev3-5e8f8.firebaseio.com",
+    "project_id": "aonev3-5e8f8",
+    "storage_bucket": "aonev3-5e8f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912602704243:android:0b569768a08d56bcb9bd06",
+        "android_client_info": {
+          "package_name": "com.aurora.aonev3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912602704243-p0lfmec5cqco95jvlgdr7b5p96mlj2tv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWpznOy9RZlI54ICvSpI_BzB4MYduqX2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912602704243-p0lfmec5cqco95jvlgdr7b5p96mlj2tv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "912602704243-pjg01vicdfn4m07eo1b8c536dj6hj7ij.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.auroralighting.aone"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912602704243:android:64721d128bb1a5c1b9bd06",
+        "android_client_info": {
+          "package_name": "com.aurora.aonev3.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912602704243-p0lfmec5cqco95jvlgdr7b5p96mlj2tv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWpznOy9RZlI54ICvSpI_BzB4MYduqX2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912602704243-p0lfmec5cqco95jvlgdr7b5p96mlj2tv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "912602704243-pjg01vicdfn4m07eo1b8c536dj6hj7ij.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.auroralighting.aone"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

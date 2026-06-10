@@ -1,0 +1,1378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/groupsFragment">
+
+    <fragment
+        android:id="@+id/groupsFragment"
+        android:name="com.aurora.aonev3.ui.fragments.groups.GroupsFragment"
+        android:label="fragment_groups"
+        tools:layout="@layout/fragment_groups">
+        <action
+            android:id="@+id/action_groupsFragment_to_groupFragment"
+            app:destination="@id/groupFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_groupsFragment_to_allDevicesFragment"
+            app:destination="@id/allDevicesFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_groupsFragment_to_noGroupsFragment"
+            app:destination="@id/noGroupsFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_groupsFragment_to_gatewaySwitchFragment"
+            app:destination="@id/gatewaySwitchFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_groupsFragment_to_help"
+            app:destination="@id/help"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupFragment"
+        android:name="com.aurora.aonev3.ui.fragments.group.GroupFragment"
+        android:label="fragment_group"
+        tools:layout="@layout/fragment_group">
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_groupFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment"
+            app:enterAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_up" />
+        <action
+            android:id="@+id/action_groupFragment_to_newSceneFragment"
+            app:destination="@id/newSceneFragment"
+            app:enterAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_up" />
+        <action
+            android:id="@+id/action_groupFragment_to_addDevicesFragment"
+            app:destination="@id/addDevicesFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_groupFragment_to_addNestedGroupsFragment"
+            app:destination="@id/addNestedGroupsFragment"
+            app:enterAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_up" />
+        <action
+            android:id="@+id/action_groupFragment_self"
+            app:destination="@id/groupFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+        <argument
+            android:name="showScenes"
+            android:defaultValue="true"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_groupFragment_to_renameGroupFragment"
+            app:destination="@id/renameGroupFragment"
+            app:enterAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_up" />
+        <action
+            android:id="@+id/action_groupFragment_to_powerFragment"
+            app:destination="@id/powerFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_groupFragment_to_doubleSocketPowerFragment"
+            app:destination="@id/doubleSocketPowerFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+    </fragment>
+    <fragment
+        android:id="@+id/controlsFragment"
+        android:name="com.aurora.aonev3.ui.fragments.controls.ControlsFragment"
+        android:label="controls_fragment_rgbw"
+        tools:layout="@layout/controls_fragment_rgbw">
+        <argument
+            android:name="deviceId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="groupId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="isRgb"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isCt"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="ctMax"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="ctMin"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_controlsFragment"
+        app:destination="@id/controlsFragment"
+        app:enterAnim="@anim/slide_in_up"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_down" />
+    <fragment
+        android:id="@+id/allDevicesFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.AllDevicesFragment"
+        android:label="fragment_all_devices"
+        tools:layout="@layout/fragment_all_devices">
+        <action
+            android:id="@+id/action_allDevicesFragment_to_gatewayDetailFragment"
+            app:destination="@id/gatewayDetailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_pairingFragment"
+            app:destination="@id/pairingFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_wallDimmerControlFragment"
+            app:destination="@id/wallDimmerControlFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_wallDimmerInlineFragment"
+            app:destination="@id/wallDimmerInlineFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_deviceDetailFragment"
+            app:destination="@id/deviceDetailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_batteryDimmer1GFragment"
+            app:destination="@id/batteryDimmer1GFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_kineticDetails"
+            app:destination="@id/kineticDetails"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_doorSensorDetails"
+            app:destination="@id/doorSensorDetails"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_motionSensorDetails"
+            app:destination="@id/motionSensorDetails"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_batteryDimmer2GFragment"
+            app:destination="@id/batteryDimmer2GFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_remoteDetails"
+            app:destination="@id/remoteDetails"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_legacyScheduleFragment"
+            app:destination="@id/legacyScheduleFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allDevicesFragment_to_doubleSocketDetailFragment"
+            app:destination="@id/doubleSocketDetailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/createGroupFragment"
+        android:name="com.aurora.aonev3.ui.fragments.groups.creategroups.CreateGroupFragment"
+        android:label="fragment_create_group"
+        tools:layout="@layout/fragment_create_group">
+        <action
+            android:id="@+id/action_createGroupFragment_to_groupsFragment"
+            app:destination="@id/groupsFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down"
+            app:popUpTo="@id/groupsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_createGroupFragment_to_groupHelpFragment"
+            app:destination="@id/groupHelpFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+        <argument
+            android:name="isVirtual"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_createGroupFragment_to_addNestedGroupsFragment"
+            app:destination="@id/addNestedGroupsFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_createGroupFragment"
+        app:destination="@id/createGroupFragment"
+        app:enterAnim="@anim/slide_in_up"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_down" />
+    <fragment
+        android:id="@+id/gatewayDetailFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.gateway.GatewayDetailFragment"
+        android:label="GatewayDetailFragment"
+        tools:layout="@layout/fragment_device_detail">
+        <action
+            android:id="@+id/action_gatewayDetailFragment_to_shareGatewayFragment"
+            app:destination="@id/shareGatewayFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceDetailFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.DeviceDetailFragment"
+        android:label="fragment_device_detail"
+        tools:layout="@layout/fragment_device_detail" />
+    <fragment
+        android:id="@+id/groupSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.groups.groupselector.GroupSelectorFragment"
+        android:label="fragment_group_selector"
+        tools:layout="@layout/fragment_group_selector" />
+    <fragment
+        android:id="@+id/editMotionSensorEventFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.EditMotionSensorEventFragment"
+        android:label="EditMotionSensorEventFragment"
+        tools:layout="@layout/fragment_motion_sensor_event" />
+    <action
+        android:id="@+id/action_global_editMotionSensorEventFragment"
+        app:destination="@id/editMotionSensorEventFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <navigation
+        android:id="@+id/kineticDetails"
+        app:startDestination="@id/kineticDetailFragment">
+        <fragment
+            android:id="@+id/kineticDetailFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.kinetics.KineticDetailFragment"
+            android:label="KineticDetailFragment"
+            tools:layout="@layout/fragment_device_detail">
+            <action
+                android:id="@+id/action_kineticDetailFragment_to_kineticUpDownSelectorFragment"
+                app:destination="@id/kineticUpDownSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/kineticUpDownSelectorFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.kinetics.KineticUpDownSelectorFragment"
+            android:label="KineticUpDownSelectorFragment"
+            tools:layout="@layout/fragment_selector">
+            <argument
+                android:name="secondaryMode"
+                app:argType="boolean" />
+        </fragment>
+    </navigation>
+    <navigation
+        android:id="@+id/doorSensorDetails"
+        app:startDestination="@id/doorSensorDetailFragment">
+        <fragment
+            android:id="@+id/doorSensorEventFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventFragment"
+            android:label="DoorSensorEventFragment"
+            tools:layout="@layout/fragment_motion_sensor_event">
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_motionSensorGroupSelectorFragment"
+                app:destination="@id/motionSensorGroupSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_eventGroupSelectorFragment"
+                app:destination="@id/eventGroupSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_eventTargetSelectorFragment"
+                app:destination="@id/eventTargetSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_eventSceneSelectorFragment"
+                app:destination="@id/eventSceneSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_eventDeviceSelectorFragment"
+                app:destination="@id/eventDeviceSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_eventTriggerSelectorFragment"
+                app:destination="@id/eventTriggerSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_eventActionSelectorFragment"
+                app:destination="@id/eventActionSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_timeConditionFragment"
+                app:destination="@id/timeConditionFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_timeoutFragment"
+                app:destination="@id/timeoutFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_doorSensorEventFragment_to_eventDaySelectorFragment"
+                app:destination="@id/eventDaySelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/doorSensorDetailFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorDetailFragment"
+            android:label="DoorSensorDetailFragment"
+            tools:layout="@layout/fragment_device_detail">
+            <action
+                android:id="@+id/action_doorSensorDetailFragment_to_doorSensorEventFragment"
+                app:destination="@id/doorSensorEventFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+    </navigation>
+    <navigation
+        android:id="@+id/motionSensorDetails"
+        app:startDestination="@id/motionSensorDetailFragment">
+        <fragment
+            android:id="@+id/motionSensorDetailFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.MotionSensorDetailFragment"
+            android:label="MotionSensorDetailFragment"
+            tools:layout="@layout/fragment_device_detail">
+            <action
+                android:id="@+id/action_motionSensorDetailFragment_to_motionSensorEventFragment"
+                app:destination="@id/motionSensorEventFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_motionSensorDetailFragment_to_motionSensorEventFragment2"
+                app:destination="@id/motionSensorEventFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_motionSensorDetailFragment_to_editMotionSensorEventFragment2"
+                app:destination="@id/editMotionSensorEventFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/motionSensorEventFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.MotionSensorEventFragment"
+            android:label="fragment_motion_sensor_event"
+            tools:layout="@layout/fragment_motion_sensor_event">
+            <action
+                android:id="@+id/action_motionSensorEventFragment_to_motionSensorGroupSelectorFragment"
+                app:destination="@id/motionSensorGroupSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_motionSensorEventFragment_to_timeConditionFragment"
+                app:destination="@id/timeConditionFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_motionSensorEventFragment_to_daylightSensitivityFragment"
+                app:destination="@id/daylightSensitivityFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_motionSensorEventFragment_to_scheduleTimeTriggerFragment"
+                app:destination="@id/scheduleTimeTriggerFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/daylightSensitivityFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.DaylightSensitivityFragment"
+            android:label="fragment_daylight_sensitivity"
+            tools:layout="@layout/fragment_daylight_sensitivity" />
+        <fragment
+            android:id="@+id/editMotionSensorEventFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.EditMotionSensorEventFragment"
+            android:label="EditMotionSensorEventFragment"
+            tools:layout="@layout/fragment_motion_sensor_event">
+            <action
+                android:id="@+id/action_editMotionSensorEventFragment_to_daylightSensitivityFragment"
+                app:destination="@id/daylightSensitivityFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_editMotionSensorEventFragment_to_motionSensorGroupSelectorFragment"
+                app:destination="@id/motionSensorGroupSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_editMotionSensorEventFragment_to_timeConditionFragment"
+                app:destination="@id/timeConditionFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_editMotionSensorEventFragment_to_scheduleTimeTriggerFragment"
+                app:destination="@id/scheduleTimeTriggerFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+    </navigation>
+    <fragment
+        android:id="@+id/motionSensorGroupSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.MotionSensorGroupSelectorFragment"
+        android:label="MotionSensorGroupSelectorFragment"
+        tools:layout="@layout/fragment_group_selector" />
+    <fragment
+        android:id="@+id/timeConditionFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.TimeConditionFragment"
+        android:label="fragment_time_condition"
+        tools:layout="@layout/fragment_time_condition">
+        <argument
+            android:name="sender"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_timeConditionFragment_to_scheduleTimeTriggerFragment"
+            app:destination="@id/scheduleTimeTriggerFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_timeConditionFragment_to_offsetFragment"
+            app:destination="@id/offsetFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventTargetSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.schedules.eventselectors.EventTargetSelectorFragment"
+        android:label="fragment_selector"
+        tools:layout="@layout/fragment_selector">
+        <argument
+            android:name="sender"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_eventTargetSelectorFragment"
+        app:destination="@id/eventTargetSelectorFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/eventDeviceSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.schedules.eventselectors.EventDeviceSelectorFragment"
+        android:label="EventDeviceSelectorFragment"
+        tools:layout="@layout/fragment_selector">
+        <argument
+            android:name="sender"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_eventDeviceSelectorFragment"
+        app:destination="@id/eventDeviceSelectorFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/eventSceneSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.schedules.eventselectors.EventSceneSelectorFragment"
+        android:label="EventSceneSelectorFragment"
+        tools:layout="@layout/fragment_selector">
+        <argument
+            android:name="sender"
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="group"
+            android:defaultValue="@null"
+            app:argType="com.aurora.aonev3.data.groups.Group"
+            app:nullable="true" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_eventSceneSelectorFragment"
+        app:destination="@id/eventSceneSelectorFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/eventDaySelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.schedules.eventselectors.EventDaySelectorFragment"
+        android:label="EventDaySelectorFragment"
+        tools:layout="@layout/fragment_selector">
+        <argument
+            android:name="sender"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/timeoutFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.TimeoutFragment"
+        android:label="fragment_timeout"
+        tools:layout="@layout/fragment_timeout">
+        <argument
+            android:name="sender"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_timeoutFragment"
+        app:destination="@id/timeoutFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_eventDaySelectorFragment"
+        app:destination="@id/eventDaySelectorFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <navigation
+        android:id="@+id/remoteDetails"
+        app:startDestination="@id/remoteDetailFragment">
+        <fragment
+            android:id="@+id/remoteDetailFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.remotes.RemoteDetailFragment"
+            android:label="RemoteDetailFragment"
+            tools:layout="@layout/fragment_device_detail">
+            <action
+                android:id="@+id/action_remoteDetailFragment_to_remoteDeviceSelectorFragment"
+                app:destination="@id/remoteDeviceSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_remoteDetailFragment_to_remoteRecallSelectorFragment"
+                app:destination="@id/remoteRecallSelectorFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/remoteDeviceSelectorFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.remotes.RemoteDeviceSelectorFragment"
+            android:label="RemoteDeviceSelectorFragment"
+            tools:layout="@layout/fragment_selector" />
+        <fragment
+            android:id="@+id/remoteRecallSelectorFragment"
+            android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.remotes.RemoteRecallSelectorFragment"
+            android:label="RemoteRecallSelectorFragment"
+            tools:layout="@layout/fragment_selector" />
+    </navigation>
+    <navigation
+        android:id="@+id/acquiringFlow"
+        app:startDestination="@id/acquireGatewayFragment">
+        <fragment
+            android:id="@+id/acquiringFragment"
+            android:name="com.aurora.aonev3.ui.fragments.gateways.acquiregateway.AcquiringFragment"
+            android:label="AcquiringFragment"
+            tools:layout="@layout/fragment_acquiring">
+            <action
+                android:id="@+id/action_acquiringFragment_to_nameGatewayFragment"
+                app:destination="@id/nameGatewayFragment"
+                app:popUpTo="@id/nameGatewayFragment" />
+            <action
+                android:id="@+id/action_acquiringFragment_to_acquireGatewayFragment"
+                app:destination="@id/acquireGatewayFragment"
+                app:popUpTo="@id/acquireGatewayFragment"
+                app:popUpToInclusive="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/acquireGatewayFragment"
+            android:name="com.aurora.aonev3.ui.fragments.gateways.acquiregateway.AcquireGatewayFragment"
+            android:label="AcquireGatewayFragment"
+            tools:layout="@layout/fragment_acquire_gateway">
+            <action
+                android:id="@+id/action_acquireGatewayFragment_to_acquiringFragment"
+                app:destination="@id/acquiringFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/nameGatewayFragment"
+            android:name="com.aurora.aonev3.ui.fragments.gateways.acquiregateway.NameGatewayFragment"
+            android:label="fragment_name_gateway"
+            tools:layout="@layout/fragment_name_gateway">
+            <action
+                android:id="@+id/action_nameGatewayFragment_to_noGroupsFragment"
+                app:destination="@id/noGroupsFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+    </navigation>
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="com.aurora.aonev3.ui.fragments.schedules.ScheduleFragment"
+        android:label="fragment_schedule"
+        tools:layout="@layout/fragment_schedule">
+        <action
+            android:id="@+id/action_scheduleFragment_to_scheduleEventFragment"
+            app:destination="@id/scheduleEventFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="logicCollection"
+            app:argType="com.aurora.aonev3.data.logic.LogicCollection" />
+        <argument
+            android:name="group"
+            app:argType="com.aurora.aonev3.data.groups.Group" />
+        <action
+            android:id="@+id/action_scheduleFragment_to_dynamicEventFragment"
+            app:destination="@id/dynamicEventFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/newSceneFragment"
+        android:name="com.aurora.aonev3.ui.fragments.scenes.NewSceneFragment"
+        android:label="fragment_new_scene"
+        tools:layout="@layout/fragment_new_scene">
+        <argument
+            android:name="groupId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="sceneId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="isRgb"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isCt"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="ctMax"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="ctMin"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_newSceneFragment_to_sceneIconSelectorFragment"
+            app:destination="@id/sceneIconSelectorFragment"
+            app:enterAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_up" />
+        <action
+            android:id="@+id/action_newSceneFragment_to_groupFragment"
+            app:destination="@id/groupFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+    </fragment>
+    <fragment
+        android:id="@+id/addDevicesFragment"
+        android:name="com.aurora.aonev3.ui.fragments.group.adddevices.AddDevicesFragment"
+        android:label="fragment_add_devices"
+        tools:layout="@layout/fragment_add_devices">
+        <action
+            android:id="@+id/action_addDevicesFragment_to_pairingFragment"
+            app:destination="@id/pairingFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleEventFragment"
+        android:name="com.aurora.aonev3.ui.fragments.schedules.ScheduleEventFragment"
+        android:label="fragment_schedule_event"
+        tools:layout="@layout/fragment_schedule_event">
+        <action
+            android:id="@+id/action_scheduleEventFragment_to_eventActionSelectorFragment"
+            app:destination="@id/eventActionSelectorFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_scheduleEventFragment_to_scheduleTimeTriggerFragment"
+            app:destination="@id/scheduleTimeTriggerFragment" />
+        <action
+            android:id="@+id/action_scheduleEventFragment_to_offsetFragment"
+            app:destination="@id/offsetFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="group"
+            app:argType="com.aurora.aonev3.data.groups.Group" />
+        <argument
+            android:name="logicCollection"
+            app:argType="com.aurora.aonev3.data.logic.LogicCollection" />
+        <argument
+            android:name="logicRule"
+            android:defaultValue="@null"
+            app:argType="com.aurora.aonev3.data.logic.rules.LogicRule"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/sceneIconSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.scenes.SceneIconSelectorFragment"
+        android:label="fragment_scene_icon_selector"
+        tools:layout="@layout/fragment_scene_icon_selector">
+        <argument
+            android:name="colour"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="icon"
+            app:argType="com.aurora.aonev3.ui.IconsScenes" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventActionSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.schedules.eventselectors.EventActionSelectorFragment"
+        android:label="EventActionSelectorFragment"
+        tools:layout="@layout/fragment_selector">
+        <argument
+            android:name="isLock"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="sender"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/noGroupsFragment"
+        android:name="com.aurora.aonev3.ui.fragments.groups.creategroups.NoGroupsFragment"
+        android:label="fragment_no_groups"
+        tools:layout="@layout/fragment_no_groups" />
+    <fragment
+        android:id="@+id/addNestedGroupsFragment"
+        android:name="com.aurora.aonev3.ui.fragments.group.nestedgroups.AddNestedGroupsFragment"
+        android:label="fragment_add_nested_groups"
+        tools:layout="@layout/fragment_add_nested_groups">
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_addNestedGroupsFragment_to_createGroupFragment"
+            app:destination="@id/createGroupFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <dialog
+        android:id="@+id/gatewaySwitchFragment"
+        android:name="com.aurora.aonev3.ui.fragments.gateways.GatewaySwitchFragment"
+        android:label="fragment_gateway_switch_dialog"
+        tools:layout="@layout/fragment_gateway_switch_dialog">
+        <action
+            android:id="@+id/action_gatewaySwitchFragment_to_acquiringFlow"
+            app:destination="@id/acquiringFlow" />
+    </dialog>
+    <fragment
+        android:id="@+id/wallDimmerInlineFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.walldimmer.WallDimmerInlineFragment"
+        android:label="WallDimmerInlineFragment"
+        tools:layout="@layout/fragment_device_detail" />
+    <fragment
+        android:id="@+id/wallDimmerControlFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.walldimmer.WallDimmerControlFragment"
+        android:label="WallDimmerControlFragment"
+        tools:layout="@layout/fragment_device_detail">
+        <action
+            android:id="@+id/action_wallDimmerControlFragment_to_wallDimmerControlTargetFragment"
+            app:destination="@id/wallDimmerControlTargetFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/wallDimmerControlTargetFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.walldimmer.WallDimmerControlTargetFragment"
+        android:label="WallDimmerControlTargetFragment"
+        tools:layout="@layout/fragment_selector">
+        <argument
+            android:name="targetId"
+            app:argType="integer" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_groupSelectorFragment"
+        app:destination="@id/groupSelectorFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/batteryDimmerSecondaryModeFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.BatteryDimmerSecondaryModeFragment"
+        android:label="BatteryDimmerSecondaryModeFragment"
+        tools:layout="@layout/fragment_selector">
+        <argument
+            android:name="returnKey"
+            app:argType="string" />
+        <argument
+            android:name="mode"
+            app:argType="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.batterydimmer1g.BatteryDimmerMode" />
+        <action
+            android:id="@+id/action_batteryDimmerSecondaryModeFragment_to_secondaryModeInstructionsFragment"
+            app:destination="@id/secondaryModeInstructionsFragment"
+            app:enterAnim="@anim/slide_in_down"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_up" />
+    </fragment>
+    <fragment
+        android:id="@+id/batteryDimmer1GFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.batterydimmer1g.BatteryDimmer1GFragment"
+        android:label="BatteryDimmer1GFragment"
+        tools:layout="@layout/fragment_device_detail">
+        <action
+            android:id="@+id/action_batteryDimmer1GFragment_to_batteryDimmerSecondaryModeFragment"
+            app:destination="@id/batteryDimmerSecondaryModeFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/batteryDimmer2GFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.batterydimmer2g.BatteryDimmer2GFragment"
+        android:label="battery_dimmer2_g_fragment"
+        tools:layout="@layout/fragment_device_detail">
+        <action
+            android:id="@+id/action_batteryDimmer2GFragment_to_batteryDimmerSecondaryModeFragment"
+            app:destination="@id/batteryDimmerSecondaryModeFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_batteryDimmer2GFragment_to_batteryDimmerTargetGroupSelectorFragment"
+            app:destination="@id/batteryDimmerTargetGroupSelectorFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/batteryDimmerTargetGroupSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.batterydimmer2g.BatteryDimmerTargetGroupSelectorFragment"
+        android:label="BatteryDimmerTargetGroupSelectorFragment"
+        tools:layout="@layout/fragment_selector">
+        <argument
+            android:name="returnKey"
+            app:argType="string" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+    </fragment>
+    <navigation
+        android:id="@+id/help"
+        app:startDestination="@id/helpFragment">
+        <fragment
+            android:id="@+id/accountFragment"
+            android:name="com.aurora.aonev3.ui.fragments.help.account.AccountFragment"
+            android:label="fragment_account"
+            tools:layout="@layout/fragment_account" >
+            <action
+                android:id="@+id/action_accountFragment_to_accountDeleteFragment"
+                app:destination="@id/accountDeleteFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/termsFragment"
+            android:name="com.aurora.aonev3.ui.fragments.help.TermsFragment"
+            android:label="fragment_terms"
+            tools:layout="@layout/fragment_terms" />
+        <fragment
+            android:id="@+id/privacyFragment"
+            android:name="com.aurora.aonev3.ui.fragments.help.PrivacyFragment"
+            android:label="fragment_privacy"
+            tools:layout="@layout/fragment_privacy" />
+        <fragment
+            android:id="@+id/helpFragment"
+            android:name="com.aurora.aonev3.ui.fragments.help.HelpFragment"
+            android:label="fragment_help"
+            tools:layout="@layout/fragment_help">
+            <action
+                android:id="@+id/action_helpFragment_to_aboutFragment"
+                app:destination="@id/aboutFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_helpFragment_to_accountFragment"
+                app:destination="@id/accountFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/aboutFragment"
+            android:name="com.aurora.aonev3.ui.fragments.help.AboutFragment"
+            android:label="fragment_about"
+            tools:layout="@layout/fragment_about">
+            <action
+                android:id="@+id/action_aboutFragment_to_termsFragment"
+                app:destination="@id/termsFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/action_aboutFragment_to_privacyFragment"
+                app:destination="@id/privacyFragment"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/accountDeleteFragment"
+            android:name="com.aurora.aonev3.ui.fragments.help.account.AccountDeleteFragment"
+            android:label="fragment_account_delete"
+            tools:layout="@layout/fragment_account_delete" />
+    </navigation>
+    <fragment
+        android:id="@+id/pairingFragment"
+        android:name="com.aurora.aonev3.ui.fragments.pairing.PairingFragment"
+        android:label="fragment_pairing"
+        tools:layout="@layout/fragment_pairing">
+        <action
+            android:id="@+id/action_pairingFragment_to_pairingInstructions"
+            app:destination="@id/pairingInstructions"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_pairingFragment_to_kineticDetails"
+            app:destination="@id/kineticDetails"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_motionSensorDetails"
+            app:destination="@id/motionSensorDetails"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_doorSensorDetails"
+            app:destination="@id/doorSensorDetails"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_wallDimmerInlineFragment"
+            app:destination="@id/wallDimmerInlineFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_batteryDimmer1GFragment"
+            app:destination="@id/batteryDimmer1GFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_batteryDimmer2GFragment"
+            app:destination="@id/batteryDimmer2GFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_gatewayDetailFragment"
+            app:destination="@id/gatewayDetailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_wallDimmerControlFragment"
+            app:destination="@id/wallDimmerControlFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_deviceDetailFragment2"
+            app:destination="@id/deviceDetailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_remoteDetails"
+            app:destination="@id/remoteDetails"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pairingFragment_to_doubleSocketDetailFragment"
+            app:destination="@id/doubleSocketDetailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <navigation
+        android:id="@+id/pairingInstructions"
+        app:startDestination="@id/pairingInstructionsFragment">
+        <fragment
+            android:id="@+id/pairingInstructionsFragment"
+            android:name="com.aurora.aonev3.ui.fragments.pairing.PairingInstructionsFragment"
+            android:label="fragment_pairing_instructions"
+            tools:layout="@layout/fragment_pairing_instructions">
+            <action
+                android:id="@+id/action_pairingInstructionsFragment_to_instructionsFragment"
+                app:destination="@id/instructionsFragment"
+                app:enterAnim="@anim/slide_in_up"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_down" />
+        </fragment>
+        <fragment
+            android:id="@+id/instructionsFragment"
+            android:name="com.aurora.aonev3.ui.fragments.pairing.InstructionsFragment"
+            android:label="InstructionsFragment"
+            tools:layout="@layout/fragment_aone_instructions">
+            <argument
+                android:name="instructions"
+                app:argType="com.aurora.aonev3.ui.fragments.pairing.PairingInstructionsFragment$PairingInstruction" />
+            <action
+                android:id="@+id/action_instructionsFragment_to_kineticStopFragment"
+                app:destination="@id/kineticStopFragment"
+                app:popUpTo="@id/pairingInstructionsFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/kineticStopFragment"
+            android:name="com.aurora.aonev3.ui.fragments.pairing.kinetic.KineticStopPressingFragment"
+            android:label="KineticStopPressingFragment"
+            tools:layout="@layout/fragment_kinetic_stop_pressing">
+            <action
+                android:id="@+id/action_kineticStopFragment_to_kineticStoreChannelFragment"
+                app:destination="@id/kineticStoreChannelFragment"
+                app:popUpTo="@id/pairingFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/kineticStoreChannelFragment"
+            android:name="com.aurora.aonev3.ui.fragments.pairing.kinetic.KineticStoreChannelFragment"
+            android:label="KineticStoreChannelFragment"
+            tools:layout="@layout/fragment_kinetic_store_channel"></fragment>
+    </navigation>
+    <fragment
+        android:id="@+id/legacyScheduleFragment"
+        android:name="com.aurora.aonev3.ui.fragments.legacyschedule.LegacyScheduleFragment"
+        android:label="fragment_legacy_schedule"
+        tools:layout="@layout/fragment_legacy_schedule">
+        <argument
+            android:name="collectionId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondaryModeInstructionsFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.SecondaryModeInstructionsFragment"
+        android:label="fragment_secondary_mode_instructions"
+        tools:layout="@layout/fragment_secondary_mode_instructions" />
+    <action
+        android:id="@+id/action_global_motionSensorGroupSelectorFragment"
+        app:destination="@id/motionSensorGroupSelectorFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_timeConditionFragment"
+        app:destination="@id/timeConditionFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/doubleSocketDetailFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doublesocket.DoubleSocketDetailFragment"
+        android:label="DoubleSocketDetailFragment"
+        tools:layout="@layout/fragment_device_detail" />
+    <fragment
+        android:id="@+id/renameGroupFragment"
+        android:name="com.aurora.aonev3.ui.fragments.group.renamegroup.RenameGroupFragment"
+        android:label="fragment_rename_group"
+        tools:layout="@layout/fragment_rename_group">
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleTimeTriggerFragment"
+        android:name="com.aurora.aonev3.ui.fragments.schedules.eventselectors.ScheduleTimeTriggerFragment"
+        android:label="ScheduleTimeTriggerFragment"
+        tools:layout="@layout/fragment_time_trigger">
+        <argument
+            android:name="sender"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupHelpFragment"
+        android:name="com.aurora.aonev3.ui.fragments.groups.creategroups.GroupHelpFragment"
+        android:label="fragment_group_help"
+        tools:layout="@layout/fragment_group_help" />
+    <action
+        android:id="@+id/action_global_gatewaySwitchFragment"
+        app:destination="@id/gatewaySwitchFragment"
+        app:enterAnim="@anim/slide_in_up"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_down" />
+    <fragment
+        android:id="@+id/powerFragment"
+        android:name="com.aurora.aonev3.ui.fragments.controls.PowerFragment"
+        android:label="fragment_power"
+        tools:layout="@layout/fragment_power">
+        <argument
+            android:name="deviceId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/doubleSocketPowerFragment"
+        android:name="com.aurora.aonev3.DoubleSocketPowerFragment"
+        android:label="fragment_double_socket_power"
+        tools:layout="@layout/fragment_double_socket_power">
+        <argument
+            android:name="deviceId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/shareGatewayFragment"
+        android:name="com.aurora.aonev3.ui.fragments.gateways.sharing.gateway.ShareGatewayFragment"
+        android:label="fragment_share_gateway"
+        tools:layout="@layout/fragment_share_gateway">
+        <argument
+            android:name="gatewaySerial"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_shareGatewayFragment_to_sharedUserFragment"
+            app:destination="@id/sharedUserFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_in"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/sharedUserFragment"
+        android:name="com.aurora.aonev3.ui.fragments.gateways.sharing.user.SharedUserFragment"
+        android:label="fragment_shared_user"
+        tools:layout="@layout/fragment_shared_user">
+        <argument
+            android:name="share"
+            app:argType="string" />
+        <argument
+            android:name="gatewaySerial"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventGroupSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.groups.eventgroupselector.EventGroupSelectorFragment"
+        android:label="fragment_event_group_selector"
+        tools:layout="@layout/fragment_event_group_selector">
+        <argument
+            android:name="sender"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventTriggerSelectorFragment"
+        android:name="com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.EventTriggerSelectorFragment"
+        android:label="EventTriggerSelectorFragment"
+        tools:layout="@layout/fragment_selector">
+        <argument
+            android:name="sender"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/offsetFragment"
+        android:name="com.aurora.aonev3.ui.fragments.schedules.eventselectors.OffsetFragment"
+        android:label="OffsetFragment"
+        tools:layout="@layout/fragment_offset">
+        <argument
+            android:name="sender"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/dynamicEventFragment"
+        android:name="com.aurora.aonev3.ui.fragments.dynamicevents.DynamicEventFragment"
+        android:label="DynamicEventFragment"
+        tools:layout="@layout/fragment_dynamic_event">
+        <argument
+            android:name="group"
+            app:argType="com.aurora.aonev3.data.groups.Group" />
+        <argument
+            android:name="logicCollection"
+            app:argType="com.aurora.aonev3.data.logic.LogicCollection" />
+        <argument
+            android:name="logicRule"
+            android:defaultValue="@null"
+            app:argType="com.aurora.aonev3.data.logic.rules.LogicRule"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_dynamicEventFragment_to_timeConditionFragment"
+            app:destination="@id/timeConditionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+</navigation>

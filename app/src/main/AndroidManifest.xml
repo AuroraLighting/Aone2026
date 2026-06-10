@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.aurora.aonev3">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+
+    <application
+        android:name=".App"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        android:allowBackup="true"
+        android:fullBackupContent="true">
+
+        <activity android:name=".ui.activities.PrivacyPolicyActivity" />
+        <activity android:name=".ui.activities.TourActivity" />
+        <activity android:name=".ui.activities.login.ForgotPasswordActivity" />
+        <activity android:name=".ui.activities.createaccount.ActivateAccountActivity" />
+        <activity android:name=".ui.activities.createaccount.CreateAccountActivity" />
+        <activity
+            android:name=".ui.activities.login.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".ui.activities.SplashscreenActivity"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.MainActivity" />
+        <activity android:name=".ui.activities.BarcodeActivity" />
+        <activity android:name=".ui.activities.IntroActivity" />
+        <activity android:name=".ui.activities.TermsActivity" />
+
+        <!-- ConnectionService: keeps WebSocket alive while app is open -->
+        <service
+            android:name=".service.ConnectionService"
+            android:foregroundServiceType="connectedDevice"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

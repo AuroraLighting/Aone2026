@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../layout/compose-model-1652971536464.xml" value="0.29011824324324326" />
+        <entry key="../../../layout/compose-model-1652971806286.xml" value="0.4101851851851852" />
+        <entry key="../../../layout/compose-model-1652972112047.xml" value="0.4101851851851852" />
+        <entry key="../../../layout/compose-model-1653297410306.xml" value="0.5" />
+        <entry key="../../../layout/compose-model-1653297626523.xml" value="0.4462962962962963" />
+        <entry key="../../../layout/compose-model-1653314202809.xml" value="0.3952819332566168" />
+        <entry key="../../../layout/compose-model-1653314436343.xml" value="0.21574074074074073" />
+        <entry key="../../../layout/compose-model-1653320713995.xml" value="0.29096283783783783" />
+        <entry key="../../../layout/compose-model-1653384910201.xml" value="0.26221374045801527" />
+        <entry key="../../../layout/compose-model-1653388896151.xml" value="0.21574074074074073" />
+        <entry key="../../../layout/compose-model-1653397236805.xml" value="0.4462962962962963" />
+        <entry key="../../../layout/compose-model-1653398858676.xml" value="0.26259541984732826" />
+        <entry key="../../../layout/compose-model-1653402278772.xml" value="0.4462962962962963" />
+        <entry key="../../../layout/compose-model-1653488321501.xml" value="0.29011824324324326" />
+        <entry key="../../../layout/compose-model-1653489442787.xml" value="0.14339464882943143" />
+        <entry key="../../../layout/compose-model-1653489454101.xml" value="0.4462962962962963" />
+        <entry key="../../../layout/compose-model-1653489626841.xml" value="0.4462962962962963" />
+        <entry key="../../../layout/compose-model-1653558712641.xml" value="0.26183206106870227" />
+        <entry key="../../../layout/compose-model-1653640505067.xml" value="0.29096283783783783" />
+        <entry key="../../../layout/compose-model-1653640716771.xml" value="0.29096283783783783" />
+        <entry key="../../../layout/compose-model-1653641079298.xml" value="0.21574074074074073" />
+        <entry key="../../../layout/custom_preview.xml" value="0.34375" />
+        <entry key="app/src/main/res/drawable/dotted_line.xml" value="0.1165" />
+        <entry key="app/src/main/res/drawable/ic_power_active.xml" value="0.2215" />
+        <entry key="app/src/main/res/drawable/power_button_active.xml" value="0.2215" />
+        <entry key="app/src/main/res/drawable/power_button_inactive.xml" value="0.2215" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.36277173913043476" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.4782608695652174" />
+        <entry key="app/src/main/res/layout/controls_fragment_rgbw.xml" value="0.6479166666666667" />
+        <entry key="app/src/main/res/layout/fragment_about.xml" value="0.3328804347826087" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/fragment_account_delete.xml" value="0.4696557971014493" />
+        <entry key="app/src/main/res/layout/fragment_all_devices.xml" value="0.1983695652173913" />
+        <entry key="app/src/main/res/layout/fragment_device_detail.xml" value="0.3328804347826087" />
+        <entry key="app/src/main/res/layout/fragment_device_selector.xml" value="0.597372929754426" />
+        <entry key="app/src/main/res/layout/fragment_door_sensor_event.xml" value="0.33242753623188404" />
+        <entry key="app/src/main/res/layout/fragment_double_socket_power.xml" value="0.182518115942029" />
+        <entry key="app/src/main/res/layout/fragment_dynamic_event.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/fragment_groups.xml" value="0.18070652173913043" />
+        <entry key="app/src/main/res/layout/fragment_help.xml" value="0.33559782608695654" />
+        <entry key="app/src/main/res/layout/fragment_integrations.xml" value="0.4750905797101449" />
+        <entry key="app/src/main/res/layout/fragment_motion_sensor_event.xml" value="0.46603260869565216" />
+        <entry key="app/src/main/res/layout/fragment_offset.xml" value="0.48007246376811596" />
+        <entry key="app/src/main/res/layout/fragment_schedule.xml" value="0.3446557971014493" />
+        <entry key="app/src/main/res/layout/fragment_schedule_event.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/fragment_terms.xml" value="0.473731884057971" />
+        <entry key="app/src/main/res/layout/fragment_time_condition.xml" value="0.48641304347826086" />
+        <entry key="app/src/main/res/layout/fragment_timeout.xml" value="0.32864583333333336" />
+        <entry key="app/src/main/res/layout/layout_add_nested_group_tile.xml" value="0.32395833333333335" />
+        <entry key="app/src/main/res/layout/layout_all_device_tile.xml" value="0.33106884057971014" />
+        <entry key="app/src/main/res/layout/layout_group_tile.xml" value="0.33106884057971014" />
+        <entry key="app/src/main/res/layout/layout_hub_tile.xml" value="0.33106884057971014" />
+        <entry key="app/src/main/res/layout/layout_section_header.xml" value="0.33106884057971014" />
+        <entry key="app/src/main/res/layout/manage_control4_fragment.xml" value="0.3351449275362319" />
+        <entry key="app/src/main/res/menu/group_menu.xml" value="0.5442708333333334" />
+        <entry key="app/src/main/res/menu/groups_menu.xml" value="0.5442708333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
