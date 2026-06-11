@@ -7,8 +7,8 @@ import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.gson
 import com.google.gson.*
 import com.google.gson.internal.LinkedTreeMap
-import kotlinx.android.parcel.Parceler
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parceler
+import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
