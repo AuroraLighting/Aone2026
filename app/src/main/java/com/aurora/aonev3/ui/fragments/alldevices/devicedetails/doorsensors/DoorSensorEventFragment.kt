@@ -70,10 +70,10 @@ open class DoorSensorEventFragment : Fragment() {
         viewModel.targetGroup.observe(viewLifecycleOwner) { group ->
             if (group != null) {
                 setButtonActive(btnGroup, group.name)
-                viewModel.eventTargbinding.et.value = viewModel.eventTargbinding.et.value
+                viewModel.eventTarget.value = viewModel.eventTarget.value
             } else {
                 setButtonClickable(btnGroup, getString(R.string.select_a_target_space))
-                viewModel.eventTargbinding.et.value = null
+                viewModel.eventTarget.value = null
             }
 
             if (mGroup != null && mGroup != group) {
@@ -84,12 +84,12 @@ open class DoorSensorEventFragment : Fragment() {
             mGroup = group
         }
 
-        viewModel.eventTargbinding.et.observe(viewLifecycleOwner) { target ->
+        viewModel.eventTarget.observe(viewLifecycleOwner) { target ->
             if (target != null) {
-                setButtonActive(btnTarget, targbinding.et.displayName)
+                setButtonActive(btnTarget, target.displayName)
 
                 when (target) {
-                    EventTargbinding.et.SCENE -> {
+                    EventTarget.SCENE -> {
                         layoutSceneDeviceOuter.visibility = View.VISIBLE
                         layoutScene.visibility = View.VISIBLE
                         layoutDevice.visibility = View.GONE
@@ -97,7 +97,7 @@ open class DoorSensorEventFragment : Fragment() {
                         viewModel.device.value = null
                         viewModel.scene.value = viewModel.scene.value
                     }
-                    EventTargbinding.et.SPACE -> {
+                    EventTarget.SPACE -> {
                         layoutSceneDeviceOuter.visibility = View.GONE
                         layoutScene.visibility = View.GONE
                         layoutDevice.visibility = View.GONE
@@ -107,7 +107,7 @@ open class DoorSensorEventFragment : Fragment() {
 
                         viewModel.trigger.value = viewModel.trigger.value
                     }
-                    EventTargbinding.et.DEVICE -> {
+                    EventTarget.DEVICE -> {
                         layoutSceneDeviceOuter.visibility = View.VISIBLE
                         layoutScene.visibility = View.GONE
                         layoutDevice.visibility = View.VISIBLE
@@ -137,7 +137,7 @@ open class DoorSensorEventFragment : Fragment() {
 
                 viewModel.trigger.value = viewModel.trigger.value
             } else {
-                if (viewModel.eventTargbinding.et.value == EventTargbinding.et.SCENE) {
+                if (viewModel.eventTarget.value == EventTarget.SCENE) {
                     setButtonClickable(btnScene, getString(R.string.scene))
 
                     viewModel.trigger.value = null
@@ -153,7 +153,7 @@ open class DoorSensorEventFragment : Fragment() {
 
                 viewModel.trigger.value = viewModel.trigger.value
             } else {
-                if (viewModel.eventTargbinding.et.value == EventTargbinding.et.DEVICE) {
+                if (viewModel.eventTarget.value == EventTarget.DEVICE) {
                     setButtonClickable(btnDevice, getString(R.string.device))
 
                     viewModel.trigger.value = null
@@ -167,15 +167,15 @@ open class DoorSensorEventFragment : Fragment() {
             if (trigger != null) {
                 setButtonActive(btnTrigger, trigger.name.toCapitalisedLowerCase())
 
-                if (viewModel.eventTargbinding.et.value != EventTargbinding.et.SCENE) {
+                if (viewModel.eventTarget.value != EventTarget.SCENE) {
                     viewModel.eventAction.value = viewModel.eventAction.value
                 } else {
                     viewModel.eventAction.value = EventAction.ON
                 }
             } else {
-                if (viewModel.eventTargbinding.et.value == EventTargbinding.et.SPACE ||
-                    (viewModel.eventTargbinding.et.value == EventTargbinding.et.SCENE && viewModel.scene.value != null) ||
-                    (viewModel.eventTargbinding.et.value == EventTargbinding.et.DEVICE && viewModel.device.value != null)) {
+                if (viewModel.eventTarget.value == EventTarget.SPACE ||
+                    (viewModel.eventTarget.value == EventTarget.SCENE && viewModel.scene.value != null) ||
+                    (viewModel.eventTarget.value == EventTarget.DEVICE && viewModel.device.value != null)) {
                     setButtonClickable(btnTrigger, getString(R.string.open_close))
                 } else {
                     setButtonNotClickable(btnTrigger, getString(R.string.open_close))
@@ -187,7 +187,7 @@ open class DoorSensorEventFragment : Fragment() {
 
         viewModel.eventAction.observe(viewLifecycleOwner) { action ->
             if (action != null) {
-                if (viewModel.eventTargbinding.et.value != EventTargbinding.et.SCENE) {
+                if (viewModel.eventTarget.value != EventTarget.SCENE) {
                     setButtonActive(btnEvent, action.displayName)
                 } else {
                     setButtonActive(btnEvent, getString(R.string.activate_scene))
@@ -267,7 +267,7 @@ open class DoorSensorEventFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        btnTargbinding.et.setOnClickListener {
+        btnTarget.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventTargetSelectorFragment(sender)
             findNavController().navigate(action)
         }
@@ -307,7 +307,7 @@ open class DoorSensorEventFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        btnTargbinding.et.isClickable = false
+        btnTarget.isClickable = false
         btnScene.isClickable = false
         btnDevice.isClickable = false
         btnTrigger.isClickable = false

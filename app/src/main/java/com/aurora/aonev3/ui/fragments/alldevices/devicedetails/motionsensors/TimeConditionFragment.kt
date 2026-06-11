@@ -124,21 +124,21 @@ class TimeConditionFragment : Fragment() {
 
                 when {
                     trigger.offset > 0 -> {
-                        tvStartOffsbinding.et.text = getString(
+                        tvStartOffset.text = getString(
                             R.string.offset_after_time,
                             trigger.offset,
                             trigger.trigger.displayName
                         )
                     }
                     trigger.offset < 0 -> {
-                        tvStartOffsbinding.et.text = getString(
+                        tvStartOffset.text = getString(
                             R.string.offset_before_time,
                             abs(trigger.offset),
                             trigger.trigger.displayName
                         )
                     }
                     else -> {
-                        tvStartOffsbinding.et.text = getString(R.string.no_offset)
+                        tvStartOffset.text = getString(R.string.no_offset)
                     }
                 }
             }
@@ -170,21 +170,21 @@ class TimeConditionFragment : Fragment() {
 
                 when {
                     trigger.offset > 0 -> {
-                        tvEndOffsbinding.et.text = getString(
+                        tvEndOffset.text = getString(
                             R.string.offset_after_time,
                             trigger.offset,
                             trigger.trigger.displayName
                         )
                     }
                     trigger.offset < 0 -> {
-                        tvEndOffsbinding.et.text = getString(
+                        tvEndOffset.text = getString(
                             R.string.offset_before_time,
                             abs(trigger.offset),
                             trigger.trigger.displayName
                         )
                     }
                     else -> {
-                        tvEndOffsbinding.et.text = getString(R.string.no_offset)
+                        tvEndOffset.text = getString(R.string.no_offset)
                     }
                 }
             }

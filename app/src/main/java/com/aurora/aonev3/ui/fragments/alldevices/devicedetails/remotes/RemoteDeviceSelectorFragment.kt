@@ -86,8 +86,8 @@ class RemoteDeviceSelectorFragment : Fragment() {
         btnSave.setOnClickListener {
             val target = lightsAdapter.getSelected() ?: return@setOnClickListener
 
-            if (targbinding.et.type != DeviceTargetRecyclerViewType.GROUP) {
-                val device = targbinding.et.device ?: return@setOnClickListener
+            if (target.type != DeviceTargetRecyclerViewType.GROUP) {
+                val device = target.device ?: return@setOnClickListener
 
                 val ldev = device.ldevs.first()
                 viewModel.targetDevice.postValue(Pair(device, ldev))

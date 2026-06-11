@@ -133,7 +133,7 @@ class ScheduleTimeTriggerFragment : Fragment() {
                     SunriseSunsetType.SUNRISE -> {
                         binding.btnSunrise.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileActive)
-                        binding.btnSunsbinding.et.backgroundTintList =
+                        binding.btnSunset.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
                         binding.btnTime.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
@@ -141,7 +141,7 @@ class ScheduleTimeTriggerFragment : Fragment() {
                     SunriseSunsetType.SUNSET -> {
                         binding.btnSunrise.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        binding.btnSunsbinding.et.backgroundTintList =
+                        binding.btnSunset.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileActive)
                         binding.btnTime.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
@@ -149,7 +149,7 @@ class ScheduleTimeTriggerFragment : Fragment() {
                     SunriseSunsetType.TIME -> {
                         binding.btnSunrise.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        binding.btnSunsbinding.et.backgroundTintList =
+                        binding.btnSunset.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
                         binding.btnTime.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileActive)
@@ -166,7 +166,7 @@ class ScheduleTimeTriggerFragment : Fragment() {
             viewModel.updateTrigger(triggerType = SunriseSunsetType.SUNRISE)
         }
 
-        binding.btnSunsbinding.et.setOnClickListener {
+        binding.btnSunset.setOnClickListener {
             viewModel.updateTrigger(triggerType = SunriseSunsetType.SUNSET)
         }
 

@@ -318,11 +318,11 @@ class EventDeviceSelectorFragment : Fragment() {
             private val ibLock: ImageButton = itemView.findViewById(R.id.ibLock)
 
             init {
-                ibLeftSockbinding.et.setOnClickListener {
+                ibLeftSocket.setOnClickListener {
                     val device = getItem(adapterPosition)?.device ?: return@setOnClickListener
                     selectDevice(device, "socket1")
                 }
-                ibRightSockbinding.et.setOnClickListener {
+                ibRightSocket.setOnClickListener {
                     val device = getItem(adapterPosition)?.device ?: return@setOnClickListener
                     selectDevice(device, "socket2")
                 }
@@ -336,32 +336,32 @@ class EventDeviceSelectorFragment : Fragment() {
                 nameTv.text = device.name
 
                 if (viewModel.selectedDevice == device && viewModel.selectedLdev == "socket1") {
-                    ibLeftSockbinding.et.background = ContextCompat
+                    ibLeftSocket.background = ContextCompat
                         .getDrawable(requireContext(), R.drawable.left_socket_background_on)
-                    ibLeftSockbinding.et.setImageDrawable(
+                    ibLeftSocket.setImageDrawable(
                         ContextCompat
                             .getDrawable(requireContext(), R.drawable.socket_on_left)
                     )
                 } else {
-                    ibLeftSockbinding.et.background = ContextCompat
+                    ibLeftSocket.background = ContextCompat
                         .getDrawable(requireContext(), R.drawable.left_socket_background_off)
-                    ibLeftSockbinding.et.setImageDrawable(
+                    ibLeftSocket.setImageDrawable(
                         ContextCompat
                             .getDrawable(requireContext(), R.drawable.socket_off_left)
                     )
                 }
 
                 if (viewModel.selectedDevice == device && viewModel.selectedLdev == "socket2") {
-                    ibRightSockbinding.et.background = ContextCompat
+                    ibRightSocket.background = ContextCompat
                         .getDrawable(requireContext(), R.drawable.right_socket_background_on)
-                    ibRightSockbinding.et.setImageDrawable(
+                    ibRightSocket.setImageDrawable(
                         ContextCompat
                             .getDrawable(requireContext(), R.drawable.socket_on_right)
                     )
                 } else {
-                    ibRightSockbinding.et.background = ContextCompat
+                    ibRightSocket.background = ContextCompat
                         .getDrawable(requireContext(), R.drawable.right_socket_background_off)
-                    ibRightSockbinding.et.setImageDrawable(
+                    ibRightSocket.setImageDrawable(
                         ContextCompat
                             .getDrawable(requireContext(), R.drawable.socket_off_right)
                     )

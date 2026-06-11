@@ -84,7 +84,7 @@ class GroupSelectorFragment : Fragment() {
         with(rvGroups) {
             adapter = listAdapter
             setHasFixedSize(true)
-            layoutManager = androidx.recyclerview.widgbinding.et.GridLayoutManager(
+            layoutManager = androidx.recyclerview.widget.GridLayoutManager(
                 context,
                 1,
                 RecyclerView.VERTICAL,

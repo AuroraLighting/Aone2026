@@ -163,7 +163,7 @@ class LegacyScheduleFragment : Fragment() {
             }
 
             activity.runOnUiThread {
-                btnTargbinding.et.text = name
+                btnTarget.text = name
                 btnDays.text = daysString
 
                 if (onTime.isNotBlank()) {

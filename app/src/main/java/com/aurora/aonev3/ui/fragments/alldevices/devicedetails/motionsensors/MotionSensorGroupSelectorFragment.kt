@@ -64,10 +64,10 @@ class MotionSensorGroupSelectorFragment : Fragment() {
         with(rvGroups) {
             adapter = listAdapter
             setHasFixedSize(true)
-            layoutManager = androidx.recyclerview.widgbinding.et.GridLayoutManager(
+            layoutManager = androidx.recyclerview.widget.GridLayoutManager(
                 context,
                 1,
-                androidx.recyclerview.widgbinding.et.RecyclerView.VERTICAL,
+                androidx.recyclerview.widget.RecyclerView.VERTICAL,
                 false
             )
 

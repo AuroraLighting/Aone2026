@@ -98,7 +98,7 @@ class EventTargetSelectorFragment : Fragment() {
 
         btnSave.setOnClickListener {
             val target = eventTargetAdapter.getSelected()?.first ?: return@setOnClickListener
-            viewModel.eventTargbinding.et.postValue(target)
+            viewModel.eventTarget.postValue(target)
 
             findNavController().popBackStack()
         }
@@ -107,7 +107,7 @@ class EventTargetSelectorFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        viewModel.eventTargbinding.et.observe(viewLifecycleOwner, { eventTarget ->
+        viewModel.eventTarget.observe(viewLifecycleOwner, { eventTarget ->
             eventTarget?.let {
                 val items = eventTargetAdapter.getItems().map { item ->
                     if (item.first == eventTarget) {
@@ -132,7 +132,7 @@ class EventTargetSelectorFragment : Fragment() {
 
     class EventTargetViewAdapter internal constructor(val context: Context) : RecyclerView.Adapter<EventTargetViewAdapter.EventTargetCardViewHolder>() {
 
-        private var targetList = EventTargbinding.et.values().map { Pair(it, false) }.toList()
+        private var targetList = EventTarget.values().map { Pair(it, false) }.toList()
         var onItemClickListener: ItemClickListener? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventTargetCardViewHolder {
@@ -144,9 +144,9 @@ class EventTargetSelectorFragment : Fragment() {
             if (position < targetList.size) {
                 val target = targetList[position]
 
-                holder.name.text = targbinding.et.first.displayName
+                holder.name.text = target.first.displayName
 
-                if (targbinding.et.second) {
+                if (target.second) {
                     holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     holder.name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
