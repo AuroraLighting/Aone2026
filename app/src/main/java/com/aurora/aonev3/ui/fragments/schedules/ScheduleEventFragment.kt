@@ -636,6 +636,11 @@ class ScheduleEventFragment : Fragment() {
 
         super.onDetach()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 enum class SunriseSunsetType {
@@ -742,10 +747,4 @@ enum class EventDay(val displayName: String, val days: JSONArray) {
         JSONArray()
             .put("SUNDAY")
     )
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
