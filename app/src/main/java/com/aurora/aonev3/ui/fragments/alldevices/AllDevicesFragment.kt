@@ -258,6 +258,11 @@ class AllDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             false
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 data class AllDevicesData(val device: Device? = null, val gateway: NabtoHandler.NabtoGateway? = null, val collection: LogicCollection? = null, val section: String? = null, val type: AllDevicesDataType)
@@ -267,10 +272,4 @@ enum class AllDevicesDataType {
     DEVICE,
     LEGACY_SCHEDULE,
     SECTION
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
