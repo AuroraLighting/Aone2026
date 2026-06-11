@@ -2,8 +2,8 @@ package com.aurora.aonev3.data.groups
 
 import android.os.Parcel
 import android.os.Parcelable
-import kotlinx.android.parcel.Parceler
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parceler
+import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
 @Parcelize
