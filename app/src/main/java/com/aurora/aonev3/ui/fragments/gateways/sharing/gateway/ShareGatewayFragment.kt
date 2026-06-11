@@ -211,7 +211,7 @@ class ShareGatewayFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserShareViewHolder {
             val layoutView = LayoutInflater.from(parent.context)
-                .inflate(R.binding.layout.layout_share_item, parent, false)
+                .inflate(R.layout.layout_share_item, parent, false)
             return UserShareViewHolder(layoutView)
         }
 

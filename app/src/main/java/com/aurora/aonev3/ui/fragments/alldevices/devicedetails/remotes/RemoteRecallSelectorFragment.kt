@@ -116,7 +116,7 @@ class RemoteRecallSelectorFragment : Fragment() {
         var onItemClickListener: ItemClickListener? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RemoteRecallCardViewHolder {
-            val layoutView = LayoutInflater.from(parent.context).inflate(R.binding.layout.layout_group_selector_tile, parent, false)
+            val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_group_selector_tile, parent, false)
             return RemoteRecallCardViewHolder(layoutView)
         }
 
@@ -127,10 +127,10 @@ class RemoteRecallSelectorFragment : Fragment() {
                 holder.name.text = mode.first.displayName
 
                 if (mode.second) {
-                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     holder.name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     holder.name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }

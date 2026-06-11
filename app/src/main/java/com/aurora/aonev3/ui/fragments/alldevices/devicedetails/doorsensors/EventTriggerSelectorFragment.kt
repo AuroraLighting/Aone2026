@@ -123,7 +123,7 @@ class EventTriggerSelectorFragment : Fragment() {
             }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TriggerCardViewHolder {
-            val layoutView = LayoutInflater.from(parent.context).inflate(R.binding.layout.layout_group_selector_tile, parent, false)
+            val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_group_selector_tile, parent, false)
             return TriggerCardViewHolder(layoutView)
         }
 

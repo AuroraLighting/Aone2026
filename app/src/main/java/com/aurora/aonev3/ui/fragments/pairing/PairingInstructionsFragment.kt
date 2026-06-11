@@ -57,7 +57,7 @@ class PairingInstructionsFragment : Fragment() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val layoutView = LayoutInflater
                 .from(parent.context)
-                .inflate(R.binding.layout.layout_pairing_instruction_tile, parent, false)
+                .inflate(R.layout.layout_pairing_instruction_tile, parent, false)
             return PairingInstructionsViewHolder(layoutView)
         }
 

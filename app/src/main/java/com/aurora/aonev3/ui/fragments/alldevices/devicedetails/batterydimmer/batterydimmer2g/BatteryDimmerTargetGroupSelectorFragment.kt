@@ -110,11 +110,11 @@ class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return if (viewType == NestedGroupDataType.GROUP.ordinal) {
                 val layoutView = LayoutInflater.from(parent.context)
-                    .inflate(R.binding.layout.layout_add_nested_group_tile, parent, false)
+                    .inflate(R.layout.layout_add_nested_group_tile, parent, false)
                 SecondaryModeViewHolder(layoutView)
             } else {
                 val layoutView = LayoutInflater.from(parent.context)
-                    .inflate(R.binding.layout.layout_section_header, parent, false)
+                    .inflate(R.layout.layout_section_header, parent, false)
                 SectionHeaderViewHolder(layoutView)
             }
         }

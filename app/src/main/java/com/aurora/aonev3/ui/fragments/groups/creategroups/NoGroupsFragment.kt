@@ -152,7 +152,7 @@ class NoGroupsFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupCardViewHolder {
             val layoutView = LayoutInflater.from(parent.context)
-                .inflate(R.binding.layout.layout_create_group_tile, parent, false)
+                .inflate(R.layout.layout_create_group_tile, parent, false)
             return GroupCardViewHolder(layoutView)
         }
 
@@ -166,13 +166,13 @@ class NoGroupsFragment : Fragment() {
             holder.icon.visibility = View.GONE
             if (selectedGroups.contains(group)) {
                 context?.getColor(R.color.colorTileActive)?.let {
-                    holder.binding.cardView.setCardBackgroundColor(
+                    holder.cardView.setCardBackgroundColor(
                         it
                     )
                 }
             } else {
                 context?.getColor(R.color.colorTileInactive)?.let {
-                    holder.binding.cardView.setCardBackgroundColor(
+                    holder.cardView.setCardBackgroundColor(
                         it
                     )
                 }

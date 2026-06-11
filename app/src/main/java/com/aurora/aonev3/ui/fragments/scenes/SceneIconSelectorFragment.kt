@@ -121,15 +121,15 @@ class SceneIconSelectorFragment : Fragment() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return when (viewType) {
                 SceneIconDataType.ICON.ordinal -> {
-                    val layoutView = LayoutInflater.from(parent.context).inflate(R.binding.layout.layout_scene_icon, parent, false)
+                    val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_scene_icon, parent, false)
                     IconViewHolder(layoutView)
                 }
                 SceneIconDataType.COLOUR.ordinal -> {
-                    val layoutView = LayoutInflater.from(parent.context).inflate(R.binding.layout.layout_scene_colour, parent, false)
+                    val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_scene_colour, parent, false)
                     ColourViewHolder(layoutView)
                 }
                 else -> {
-                    val layoutView = LayoutInflater.from(parent.context).inflate(R.binding.layout.layout_section_header, parent, false)
+                    val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_section_header, parent, false)
                     SectionHeaderViewHolder(layoutView)
                 }
             }

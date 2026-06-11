@@ -184,7 +184,7 @@ class EventSceneSelectorFragment : Fragment() {
             viewType: Int
         ): EventSceneCardViewHolder {
             val layoutView = LayoutInflater.from(parent.context)
-                .inflate(R.binding.layout.layout_scene_selector_tile, parent, false)
+                .inflate(R.layout.layout_scene_selector_tile, parent, false)
             return EventSceneCardViewHolder(layoutView)
         }
 
@@ -210,13 +210,13 @@ class EventSceneSelectorFragment : Fragment() {
                 holder.icon.setImageDrawable(
                     ContextCompat.getDrawable(context, icon.resourceValue)
                 )
-                holder.binding.iconLayout.backgroundTintList = colourStateList
+                holder.iconLayout.backgroundTintList = colourStateList
 
                 if (scene.second) {
-                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     holder.name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     holder.name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }

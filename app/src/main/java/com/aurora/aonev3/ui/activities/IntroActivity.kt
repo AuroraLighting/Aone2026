@@ -21,7 +21,7 @@ class IntroActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.binding.layout.activity_tour)
+        setContentView(R.layout.activity_tour)
 
         target = intent.getStringExtra("target") ?: ""
 

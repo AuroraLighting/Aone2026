@@ -138,7 +138,7 @@ class HelpFragment : Fragment() {
             } else {
                 if (activity?.isFinishing == false) {
                     val dialog = AlertDialog.Builder(activity)
-                    val dialogView = layoutInflater.inflate(R.binding.layout.disable_office_mode_dialog_layout, null)
+                    val dialogView = layoutInflater.inflate(R.layout.disable_office_mode_dialog_layout, null)
                     dialog
                         .setView(dialogView)
                         .setMessage(getString(R.string.disable_office_mode_dialog))

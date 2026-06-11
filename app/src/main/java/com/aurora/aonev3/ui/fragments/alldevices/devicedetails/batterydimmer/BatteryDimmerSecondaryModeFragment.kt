@@ -97,7 +97,7 @@ class BatteryDimmerSecondaryModeFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SecondaryModeViewHolder {
             val layoutView = LayoutInflater.from(parent.context)
-                .inflate(R.binding.layout.layout_add_nested_group_tile, parent, false)
+                .inflate(R.layout.layout_add_nested_group_tile, parent, false)
             return SecondaryModeViewHolder(layoutView)
         }
 

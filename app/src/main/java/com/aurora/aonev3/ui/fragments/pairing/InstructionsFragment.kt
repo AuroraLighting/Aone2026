@@ -30,17 +30,17 @@ class InstructionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return when (args.instructions) {
-            AONE -> inflater.inflate(R.binding.layout.fragment_aone_instructions, container, false)
-            BATTERY_DIMMER -> inflater.inflate(R.binding.layout.fragment_battery_dimmer_instructions, container, false)
-            REMOTE -> inflater.inflate(R.binding.layout.fragment_remote_instructions, container, false)
-            PLUG -> inflater.inflate(R.binding.layout.fragment_plug_instructions, container, false)
+            AONE -> inflater.inflate(R.layout.fragment_aone_instructions, container, false)
+            BATTERY_DIMMER -> inflater.inflate(R.layout.fragment_battery_dimmer_instructions, container, false)
+            REMOTE -> inflater.inflate(R.layout.fragment_remote_instructions, container, false)
+            PLUG -> inflater.inflate(R.layout.fragment_plug_instructions, container, false)
             DOOR,
             SOCKET,
             LAMP,
             MOTION,
             RELAY,
-            WALLDIMMER -> inflater.inflate(R.binding.layout.fragment_generic_instructions, container, false)
-            KINETIC -> inflater.inflate(R.binding.layout.fragment_kinetic_instructions, container, false)
+            WALLDIMMER -> inflater.inflate(R.layout.fragment_generic_instructions, container, false)
+            KINETIC -> inflater.inflate(R.layout.fragment_kinetic_instructions, container, false)
         }
     }
 

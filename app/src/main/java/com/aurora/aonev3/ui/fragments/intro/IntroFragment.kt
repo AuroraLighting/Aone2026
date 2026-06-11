@@ -42,9 +42,9 @@ class IntroFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return if (index?.toInt() != 4) {
-            inflater.inflate(R.binding.layout.fragment_intro, container, false)
+            inflater.inflate(R.layout.fragment_intro, container, false)
         } else {
-            inflater.inflate(R.binding.layout.fragment_intro_end, container, false)
+            inflater.inflate(R.layout.fragment_intro_end, container, false)
         }
     }
 

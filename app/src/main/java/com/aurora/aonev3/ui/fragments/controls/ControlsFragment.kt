@@ -97,22 +97,22 @@ class ControlsFragment : Fragment() {
         return if (device == null) {
             when {
                 isGroupRgb -> {
-                    inflater.inflate(R.binding.layout.controls_fragment_rgbw, container, false)
+                    inflater.inflate(R.layout.controls_fragment_rgbw, container, false)
                 }
                 isGroupCt -> {
-                    inflater.inflate(R.binding.layout.controls_fragment_tw, container, false)
+                    inflater.inflate(R.layout.controls_fragment_tw, container, false)
                 }
                 else -> {
-                    inflater.inflate(R.binding.layout.controls_fragment_fw, container, false)
+                    inflater.inflate(R.layout.controls_fragment_fw, container, false)
                 }
             }
         } else {
             if (device.deviceClass == Device.DeviceClass.AURORABULB || device.deviceClass == Device.DeviceClass.AURORAWALLDIMMER) {
-                inflater.inflate(R.binding.layout.controls_fragment_fw, container, false)
+                inflater.inflate(R.layout.controls_fragment_fw, container, false)
             } else if (device.deviceClass == Device.DeviceClass.AURORATWBULB) {
-                inflater.inflate(R.binding.layout.controls_fragment_tw, container, false)
+                inflater.inflate(R.layout.controls_fragment_tw, container, false)
             } else {
-                inflater.inflate(R.binding.layout.controls_fragment_rgbw, container, false)
+                inflater.inflate(R.layout.controls_fragment_rgbw, container, false)
             }
         }
     }

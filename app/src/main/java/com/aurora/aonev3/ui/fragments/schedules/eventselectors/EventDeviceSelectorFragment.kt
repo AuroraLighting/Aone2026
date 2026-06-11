@@ -195,17 +195,17 @@ class EventDeviceSelectorFragment : Fragment() {
             return when (viewType) {
                 EventDevicesDataType.DEVICE.ordinal -> {
                     val layoutView = LayoutInflater.from(parent.context)
-                        .inflate(R.binding.layout.layout_group_selector_tile, parent, false)
+                        .inflate(R.layout.layout_group_selector_tile, parent, false)
                     EventDeviceCardViewHolder(layoutView)
                 }
                 EventDevicesDataType.SOCKET.ordinal -> {
                     val layoutView = LayoutInflater.from(parent.context)
-                        .inflate(R.binding.layout.layout_double_socket_schedule_tile, parent, false)
+                        .inflate(R.layout.layout_double_socket_schedule_tile, parent, false)
                     SocketCardViewHolder(layoutView)
                 }
                 else -> {
                     val layoutView = LayoutInflater.from(parent.context)
-                        .inflate(R.binding.layout.layout_section_header, parent, false)
+                        .inflate(R.layout.layout_section_header, parent, false)
                     SectionHeaderViewHolder(layoutView)
                 }
             }
