@@ -14,6 +14,7 @@ import com.aurora.aonev3.data.devices.Device
 import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.data.groups.groupmembers.GroupMember
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.layout_all_device_tile.view.*
 
 class AddDevicesRecyclerViewAdapter internal constructor(val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -99,10 +100,10 @@ class AddDevicesRecyclerViewAdapter internal constructor(val context: Context) :
 
     inner class GroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-        private val name: TextView = itemView.findViewById(R.id.tvName)
-        private val groupTv: TextView = itemView.findViewById(R.id.tvGroup)
-        private val updating: TextView = itemView.findViewById(R.id.tvUpdating)
+        private val cardView: MaterialCardView = itemView.cardView
+        private val name: TextView = itemView.tvName
+        private val groupTv: TextView = itemView.tvGroup
+        private val updating: TextView = itemView.tvUpdating
 
         init {
             updating.visibility = View.GONE

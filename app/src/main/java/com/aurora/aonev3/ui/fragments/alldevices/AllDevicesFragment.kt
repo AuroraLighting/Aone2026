@@ -14,19 +14,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentAllDevicesBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.logic.CollectionType
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.data.devices.Device
 import com.aurora.aonev3.data.logic.LogicCollection
 import com.aurora.aonev3.ui.activities.TourActivity
+import kotlinx.android.synthetic.main.fragment_all_devices.*
 
 class AllDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
-
-    private var _binding: FragmentAllDevicesBinding? = null
-    private val binding get() = _binding!!
-
 
     companion object {
         private const val TAG = "AllDevicesFragment"
@@ -39,10 +35,7 @@ class AllDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return run {
-            _binding = FragmentAllDevicesBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_all_devices, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -267,10 +260,4 @@ enum class AllDevicesDataType {
     DEVICE,
     LEGACY_SCHEDULE,
     SECTION
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

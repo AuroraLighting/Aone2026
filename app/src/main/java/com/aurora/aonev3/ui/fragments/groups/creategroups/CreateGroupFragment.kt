@@ -16,18 +16,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentCreateGroupBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.data.groups.Group
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.android.synthetic.main.fragment_create_group.*
 
 class CreateGroupFragment : Fragment() {
-
-    private var _binding: FragmentCreateGroupBinding? = null
-    private val binding get() = _binding!!
-
 
     companion object {
         fun newInstance() = CreateGroupFragment()
@@ -45,10 +41,7 @@ class CreateGroupFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return run {
-            _binding = FragmentCreateGroupBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_create_group, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -169,10 +162,4 @@ class CreateGroupFragment : Fragment() {
         }
     }
 
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

@@ -20,6 +20,7 @@ import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.MotionSensorDetailFragment
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.MotionSensorDetailFragmentDirections
 import com.aurora.aonev3.ui.fragments.schedules.*
+import kotlinx.android.synthetic.main.fragment_device_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject

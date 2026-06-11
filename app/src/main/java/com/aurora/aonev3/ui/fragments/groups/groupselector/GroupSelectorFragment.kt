@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentGroupSelectorBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
@@ -26,16 +25,14 @@ import com.aurora.aonev3.data.groups.groupmembers.GroupMember
 import com.aurora.aonev3.ui.fragments.alldevices.AllDevicesViewModel
 import com.aurora.aonev3.ui.fragments.groups.GroupsViewModel
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_group_selector.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 
 class GroupSelectorFragment : Fragment() {
-
-    private var _binding: FragmentGroupSelectorBinding? = null
-    private val binding get() = _binding!!
-
 
     companion object {
         private const val TAG = "GroupSelectorFragment"
@@ -57,10 +54,7 @@ class GroupSelectorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return run {
-            _binding = FragmentGroupSelectorBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_group_selector, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -350,11 +344,5 @@ class GroupSelectorFragment : Fragment() {
         }
 
         return error
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

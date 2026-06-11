@@ -10,20 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.aurora.aonev3.databinding.FragmentDaylightSensitivityBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.data.devices.Device
 import com.aurora.aonev3.ui.fragments.alldevices.AllDevicesViewModel
+import kotlinx.android.synthetic.main.fragment_daylight_sensitivity.*
 import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 class DaylightSensitivityFragment : Fragment() {
-
-    private var _binding: FragmentDaylightSensitivityBinding? = null
-    private val binding get() = _binding!!
-
 
     companion object {
         fun newInstance() = DaylightSensitivityFragment()
@@ -45,10 +41,7 @@ class DaylightSensitivityFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return run {
-            _binding = FragmentDaylightSensitivityBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_daylight_sensitivity, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -165,10 +158,4 @@ class DaylightSensitivityFragment : Fragment() {
         return pow10.toInt()
     }
 
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

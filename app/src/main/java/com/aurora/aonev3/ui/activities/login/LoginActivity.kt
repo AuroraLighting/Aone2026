@@ -1,4 +1,4 @@
-package com.aurora.aonev3.ui.activities.binding.login
+package com.aurora.aonev3.ui.activities.login
 
 import android.content.Intent
 import android.net.Uri
@@ -12,41 +12,37 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.aurora.aonev3.databinding.ActivityLoginBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.activities.createaccount.ActivateAccountActivity
 import com.aurora.aonev3.ui.activities.createaccount.CreateAccountActivity
+import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONException
 import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityLoginBinding
-
 
     private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_login)
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
 
             if (loginState.usernameError.isNotEmpty()) {
-                binding.etEmail.error = loginState.usernameError
+                etEmail.error = loginState.usernameError
             }
             if (loginState.passwordError.isNotEmpty()) {
-                binding.etPassword.error = loginState.passwordError
+                etPassword.error = loginState.passwordError
             }
         })
 
         loginViewModel.loginSuccess.observe(this@LoginActivity, Observer {
             val loginSuccess = it ?: return@Observer
-            binding.loading.visibility = View.GONE
+            loading.visibility = View.GONE
 
             if (loginSuccess) {
                 if (loginViewModel.response.optJSONObject("body")?.optString("status") == "PE") {
@@ -58,23 +54,23 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        binding.etEmail.afterTextChanged {
-            binding.login.isEnabled = binding.etEmail.text.toString().isNotBlank() && binding.etPassword.text.toString().isNotBlank()
+        etEmail.afterTextChanged {
+            login.isEnabled = etEmail.text.toString().isNotBlank() && etPassword.text.toString().isNotBlank()
         }
 
-        binding.etPassword.apply {
+        etPassword.apply {
             afterTextChanged {
-                binding.login.isEnabled = binding.etEmail.text.toString().isNotBlank() && binding.etPassword.text.toString().isNotBlank()
+                login.isEnabled = etEmail.text.toString().isNotBlank() && etPassword.text.toString().isNotBlank()
             }
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE -> {
-                        val username = binding.etEmail.text.toString()
-                        val password = binding.etPassword.text.toString()
+                        val username = etEmail.text.toString()
+                        val password = etPassword.text.toString()
                         if (loginViewModel.isUserNameValid(username) &&
                             loginViewModel.isPasswordValid(password)) {
-                            binding.loading.visibility = View.VISIBLE
-                            loginViewModel.binding.login(
+                            loading.visibility = View.VISIBLE
+                            loginViewModel.login(
                                 username,
                                 password
                             )
@@ -84,23 +80,23 @@ class LoginActivity : AppCompatActivity() {
                 false
             }
 
-            binding.login.setOnClickListener {
-                val username = binding.etEmail.text.toString()
-                val password = binding.etPassword.text.toString()
-                binding.loading.visibility = View.VISIBLE
-                loginViewModel.binding.login(username, password)
+            login.setOnClickListener {
+                val username = etEmail.text.toString()
+                val password = etPassword.text.toString()
+                loading.visibility = View.VISIBLE
+                loginViewModel.login(username, password)
             }
         }
 
-        binding.btnRegister.setOnClickListener {
+        btnRegister.setOnClickListener {
             startActivity(Intent(this, CreateAccountActivity::class.java))
         }
 
-        binding.tvForgotPassword.setOnClickListener {
+        tvForgotPassword.setOnClickListener {
             startActivity(Intent(this@LoginActivity, ForgotPasswordActivity::class.java))
         }
 
-        binding.tvHelp.setOnClickListener {
+        tvHelp.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://auroralightinghelp.zendesk.com"))
             startActivity(browserIntent)
         }
@@ -129,4 +125,5 @@ fun String.toJSONObject(): JSONObject? {
         null
     }
 }
+
 

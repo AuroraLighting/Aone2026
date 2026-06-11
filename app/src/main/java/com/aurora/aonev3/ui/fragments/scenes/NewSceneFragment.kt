@@ -17,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentNewSceneBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
@@ -26,14 +25,11 @@ import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.ui.IconsScenes
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.android.synthetic.main.fragment_new_scene.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NewSceneFragment : Fragment() {
-
-    private var _binding: FragmentNewSceneBinding? = null
-    private val binding get() = _binding!!
-
 
     companion object {
         const val TAG = "NewSceneFragment"
@@ -51,10 +47,7 @@ class NewSceneFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return run {
-            _binding = FragmentNewSceneBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_new_scene, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -439,10 +432,6 @@ class NewSceneFragment : Fragment() {
             }
         }
     }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
+
+

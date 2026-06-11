@@ -14,6 +14,7 @@ import com.aurora.aonev3.ItemClickListener
 import com.aurora.aonev3.R
 import com.aurora.aonev3.data.devices.Device
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.layout_pairing_device_tile.view.*
 
 class PairingViewAdapter internal constructor(val context: Context) : RecyclerView.Adapter<PairingViewAdapter.DeviceCardViewHolder>() {
 

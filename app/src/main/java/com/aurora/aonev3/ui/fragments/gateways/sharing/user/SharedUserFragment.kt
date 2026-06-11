@@ -12,13 +12,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.android.volley.VolleyError
-import com.aurora.aonev3.databinding.FragmentSharedUserBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.R
 import com.aurora.aonev3.indices
 import com.aurora.aonev3.network.handlers.AccessTemplate
 import com.aurora.aonev3.network.handlers.Share
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.android.synthetic.main.fragment_shared_user.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -27,10 +27,6 @@ import org.json.JSONObject
 import java.util.*
 
 class SharedUserFragment : Fragment() {
-
-    private var _binding: FragmentSharedUserBinding? = null
-    private val binding get() = _binding!!
-
 
     private val args: SharedUserFragmentArgs by navArgs()
     private val mShare: String by lazy { args.share }
@@ -43,10 +39,7 @@ class SharedUserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentSharedUserBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_shared_user, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,11 +129,5 @@ class SharedUserFragment : Fragment() {
     companion object {
         fun newInstance() =
             SharedUserFragment()
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.android.volley.VolleyError
-import com.aurora.aonev3.databinding.ActivityActivateAccountBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.network.handlers.CloudHandler
@@ -15,30 +14,29 @@ import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.activities.login.LoginActivity
 import com.aurora.aonev3.ui.activities.login.afterTextChanged
 import com.aurora.aonev3.ui.activities.login.toJSONObject
+import kotlinx.android.synthetic.main.activity_activate_account.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ActivateAccountActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityActivateAccountBinding
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityActivateAccountBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_activate_account)
 
-        binding.etCode.afterTextChanged {
-            binding.btnActivate.isEnabled = binding.etCode.text.toString().isNotBlank()
+
+        etCode.afterTextChanged {
+            btnActivate.isEnabled = etCode.text.toString().isNotBlank()
         }
 
-        binding.btnActivate.setOnClickListener {
+        btnActivate.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val credentials = CloudHandler.getCredentials()
                     CloudHandler.login(credentials.first, credentials.second)
-                    CloudHandler.activate(binding.etCode.text?.toString() ?: "")
+                    CloudHandler.activate(etCode.text?.toString() ?: "")
+
 
                     NabtoHandler.openSession(credentials.first)
                     val fingerprint = NabtoHandler.getFingerprint(credentials.first) ?: ""
@@ -92,7 +90,7 @@ class ActivateAccountActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnSignOut.setOnClickListener {
+        btnSignOut.setOnClickListener {
             SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                 remove("abc012")
             }

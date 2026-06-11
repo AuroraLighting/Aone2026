@@ -13,19 +13,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentAddNestedGroupsBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_add_nested_groups.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
-
-    private var _binding: FragmentAddNestedGroupsBinding? = null
-    private val binding get() = _binding!!
-
 
     private val args: AddNestedGroupsFragmentArgs by navArgs()
     private val viewModel: AddNestedGroupsViewModel by viewModels()
@@ -47,10 +44,7 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentAddNestedGroupsBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_add_nested_groups, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -135,11 +129,5 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     companion object {
         fun newInstance() =
             AddNestedGroupsFragment()
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

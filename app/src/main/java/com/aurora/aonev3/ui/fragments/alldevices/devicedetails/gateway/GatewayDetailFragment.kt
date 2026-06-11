@@ -11,22 +11,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.android.volley.VolleyError
-import com.aurora.aonev3.databinding.FragmentGatewayDetailBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.allowEditing
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.android.synthetic.main.fragment_gateway_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 open class GatewayDetailFragment : Fragment() {
-
-    private var _binding: FragmentGatewayDetailBinding? = null
-    private val binding get() = _binding!!
-
 
     private val viewModel: GatewayDetailViewModel by viewModels()
     private var metadataTemplateVersion: Int? = null
@@ -40,10 +36,7 @@ open class GatewayDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentGatewayDetailBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_gateway_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -183,11 +176,5 @@ open class GatewayDetailFragment : Fragment() {
 
         fun newInstance() =
             GatewayDetailFragment()
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

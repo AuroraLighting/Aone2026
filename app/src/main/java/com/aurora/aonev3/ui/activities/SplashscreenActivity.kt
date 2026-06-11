@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.ClientError
 import com.android.volley.VolleyError
-import com.aurora.aonev3.databinding.ActivitySplashscreenBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.network.handlers.CloudHandler
@@ -24,17 +23,13 @@ import kotlinx.coroutines.launch
 
 class SplashscreenActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySplashscreenBinding
-
-
     companion object {
         const val TAG = "SplashscreenActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySplashscreenBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_splashscreen)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(statusBars())
         } else {

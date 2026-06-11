@@ -9,17 +9,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.aurora.aonev3.databinding.FragmentPowerBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.SyncHandler
+import kotlinx.android.synthetic.main.fragment_power.*
 import java.text.DecimalFormat
 import kotlin.math.ln
 
 class PowerFragment : Fragment() {
-
-    private var _binding: FragmentPowerBinding? = null
-    private val binding get() = _binding!!
-
 
     private val args: PowerFragmentArgs by navArgs()
     private val deviceId: Int by lazy { args.deviceId }
@@ -29,10 +25,7 @@ class PowerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentPowerBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_power, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,11 +67,5 @@ class PowerFragment : Fragment() {
     companion object {
         fun newInstance() =
             PowerFragment()
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

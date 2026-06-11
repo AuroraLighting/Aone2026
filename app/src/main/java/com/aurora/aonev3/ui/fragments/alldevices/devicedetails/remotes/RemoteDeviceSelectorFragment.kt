@@ -13,7 +13,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentDeviceSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SectionHeaderViewHolder
@@ -24,12 +23,10 @@ import com.aurora.aonev3.data.groups.groupmembers.GroupMember
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.ui.fragments.group.GroupRecyclerViewAdapter
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.fragment_device_selector.*
+import kotlinx.android.synthetic.main.layout_group_selector_tile.view.*
 
 class RemoteDeviceSelectorFragment : Fragment() {
-
-    private var _binding: FragmentDeviceSelectorBinding? = null
-    private val binding get() = _binding!!
-
 
     private val viewModel: RemoteDetailViewModel by activityViewModels()
     private var mGroup: Group? = null
@@ -49,10 +46,7 @@ class RemoteDeviceSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentDeviceSelectorBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_device_selector, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -309,6 +303,7 @@ class RemoteDeviceSelectorFragment : Fragment() {
         }
     }
 
+
     enum class DeviceTargetRecyclerViewType {
         GROUP,
         SECTION,
@@ -321,11 +316,5 @@ class RemoteDeviceSelectorFragment : Fragment() {
         LIGHTS("Lights"),
         POWER("Power"),
         SWITCHES("Switches")
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

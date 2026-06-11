@@ -14,7 +14,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
-import com.aurora.aonev3.databinding.FragmentMotionSensorEventBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.data.devices.Device
 import com.aurora.aonev3.data.groups.Group
@@ -33,6 +32,8 @@ import com.aurora.aonev3.ui.fragments.schedules.EventDay
 import com.aurora.aonev3.ui.fragments.schedules.EventTarget
 import com.aurora.aonev3.ui.fragments.schedules.SunriseSunsetType
 import com.aurora.aonev3.ui.fragments.schedules.TriggerTime
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_motion_sensor_event.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -41,10 +42,6 @@ import java.util.*
 import kotlin.math.abs
 
 open class MotionSensorEventFragment : Fragment() {
-
-    private var _binding: FragmentMotionSensorEventBinding? = null
-    private val binding get() = _binding!!
-
 
     protected val viewModel: MotionSensorEventViewModel by activityViewModels()
     protected val allDeviceViewModel: AllDevicesViewModel by activityViewModels()
@@ -66,10 +63,7 @@ open class MotionSensorEventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentMotionSensorEventBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_motion_sensor_event, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -942,6 +936,7 @@ open class MotionSensorEventFragment : Fragment() {
             SunriseSunsetHandler.addSunriseSunsetAction(sunriseSunsetActions.toTypedArray())
         }
 
+
     }
 
     protected open suspend fun createTimerRule(
@@ -1403,11 +1398,5 @@ open class MotionSensorEventFragment : Fragment() {
         private const val TAG = "MotionSensorEventFragm…"
         fun newInstance() =
             MotionSensorEventFragment()
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

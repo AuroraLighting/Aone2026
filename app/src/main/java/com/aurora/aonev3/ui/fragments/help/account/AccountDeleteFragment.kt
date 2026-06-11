@@ -10,18 +10,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
-import com.aurora.aonev3.databinding.FragmentAccountDeleteBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.signOut
 import com.aurora.aonev3.ui.activities.login.LoginActivity
+import kotlinx.android.synthetic.main.fragment_account_delete.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AccountDeleteFragment : Fragment() {
-
-    private var _binding: FragmentAccountDeleteBinding? = null
-    private val binding get() = _binding!!
-
 
     companion object {
         fun newInstance() = AccountDeleteFragment()
@@ -33,10 +29,7 @@ class AccountDeleteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return run {
-            _binding = FragmentAccountDeleteBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_account_delete, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,10 +80,4 @@ class AccountDeleteFragment : Fragment() {
         }
     }
 
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
