@@ -6,7 +6,7 @@ import com.aurora.aonev3.logic.Action
 import com.aurora.aonev3.logic.Condition
 import com.aurora.aonev3.logic.RuleMetadata
 import com.aurora.aonev3.logic.Trigger
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
 import org.json.JSONObject
 
