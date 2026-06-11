@@ -138,12 +138,12 @@ class EventTriggerSelectorFragment : Fragment() {
         fun getItem(position: Int): TriggerEnum? = triggers.getOrNull(position)
 
         inner class TriggerCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private var binding.cardView: MaterialCardView = itemView.binding.cardView
-            private var name: TextView = itemView.binding.tvName
+            private var cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+            private var name: TextView = itemView.findViewById(R.id.tvName)
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.binding.ivIcon.visibility = View.GONE
+                itemView.findViewById(R.id.ivIcon).visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {

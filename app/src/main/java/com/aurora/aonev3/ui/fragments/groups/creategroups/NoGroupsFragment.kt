@@ -191,9 +191,9 @@ class NoGroupsFragment : Fragment() {
 
         inner class GroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
             View.OnClickListener {
-            var binding.cardView: MaterialCardView = itemView.binding.cardView
-            var name: TextView = itemView.binding.tvName
-            var icon: ImageView = itemView.binding.ivIcon
+            var cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+            var name: TextView = itemView.findViewById(R.id.tvName)
+            var icon: ImageView = itemView.findViewById(R.id.ivIcon)
 
             init {
                 binding.cardView.setOnClickListener(this)

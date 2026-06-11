@@ -238,10 +238,10 @@ class EventSceneSelectorFragment : Fragment() {
 
         inner class EventSceneCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
             View.OnClickListener {
-            var binding.cardView: MaterialCardView = itemView.binding.cardView
-            var name: TextView = itemView.binding.tvName
-            var icon: ImageView = itemView.binding.sceneIconIv
-            var binding.iconLayout: ConstraintLayout = itemView.binding.iconLayout
+            var cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+            var name: TextView = itemView.findViewById(R.id.tvName)
+            var icon: ImageView = itemView.findViewById(R.id.sceneIconIv)
+            var iconLayout: ConstraintLayout = itemView.findViewById(R.id.iconLayout)
 
             init {
                 itemView.setOnClickListener(this)
@@ -257,9 +257,4 @@ class EventSceneSelectorFragment : Fragment() {
 interface IEventSceneSelectorViewModel: IEventGroupSelectorViewModel {
     var scene: MutableLiveData<Scene?>
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

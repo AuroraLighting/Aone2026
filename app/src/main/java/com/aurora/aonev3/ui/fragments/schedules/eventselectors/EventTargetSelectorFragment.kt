@@ -170,16 +170,16 @@ class EventTargetSelectorFragment : Fragment() {
         }
 
         inner class EventTargetCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            var binding.cardView: MaterialCardView = itemView.binding.cardView
-            var name: TextView = itemView.binding.tvName
+            var cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+            var name: TextView = itemView.findViewById(R.id.tvName)
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.binding.ivIcon.visibility = View.GONE
+                itemView.findViewById<android.widget.ImageView>(R.id.ivIcon).visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
+                onItemClickListener?.onItemClick(cardView, adapterPosition)
             }
         }
     }
@@ -187,10 +187,4 @@ class EventTargetSelectorFragment : Fragment() {
 
 interface IEventTargetSelectorViewModel {
     var eventTarget: MutableLiveData<EventTarget?>
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

@@ -54,10 +54,10 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
     }
 
     inner class ScheduleEventCardViewHolder(itemView: View) : EventCardViewHolder(itemView) {
-        var binding.cardView: MaterialCardView = itemView.cardView
+        var cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
         var name: TextView = itemView.tvName
         var days: TextView = itemView.tvDays
-        var binding.menu: ImageView = itemView.menu
+        var menu: ImageView = itemView.findViewById(R.id.menu)
 
         init {
             if (allowEditing()) {
@@ -216,10 +216,10 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
     }
 
     inner class DynamicEventCardViewHolder(itemView: View) : EventCardViewHolder(itemView) {
-        var binding.cardView: MaterialCardView = itemView.cardView
+        var cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
         var name: TextView = itemView.tvName
         var days: TextView = itemView.tvDays
-        var binding.menu: ImageView = itemView.menu
+        var menu: ImageView = itemView.findViewById(R.id.menu)
 
         init {
             if (allowEditing()) {

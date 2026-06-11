@@ -231,8 +231,8 @@ class ShareGatewayFragment : Fragment() {
         }
 
         inner class UserShareViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val binding.tvName = itemView.binding.tvName
-            private val binding.tvEmail = itemView.binding.tvEmail
+            private val binding.tvName = itemView.findViewById(R.id.tvName)
+            private val binding.tvEmail = itemView.findViewById(R.id.tvEmail)
 
             init {
                 itemView.setOnClickListener(this)
