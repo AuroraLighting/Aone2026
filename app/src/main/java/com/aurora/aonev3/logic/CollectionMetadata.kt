@@ -4,7 +4,7 @@ import android.os.Parcelable
 import com.aurora.aonev3.ui.fragments.schedules.SunriseSunsetType
 import com.google.gson.*
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.lang.reflect.Type
 import java.util.*
 

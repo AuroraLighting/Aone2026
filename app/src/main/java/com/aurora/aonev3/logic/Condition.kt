@@ -6,8 +6,8 @@ import android.os.Parcelable
 import com.aurora.aonev3.gson
 import com.aurora.aonev3.ui.fragments.schedules.EventDay
 import com.google.gson.*
-import kotlinx.android.parcel.Parceler
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parceler
+import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
