@@ -1,139 +1,32 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: "androidx.navigation.safeargs.kotlin"
-apply plugin: "com.google.android.gms.oss-licenses-plugin"
-
-android {
-    namespace "com.aurora.aonev3"
-    signingConfigs {
-        release {
-            storeFile file('android.jks')
-            def keyPropsFile = file('key.properties')
-            if (keyPropsFile.canRead()) {
-                Properties keyProps = new Properties()
-                keyProps.load(new FileInputStream(keyPropsFile))
-                storePassword keyProps['STORE_PASSWORD']
-                keyAlias keyProps['KEY_ALIAS']
-                keyPassword keyProps['KEY_PASSWORD']
-            } else {
-                throw new GradleException("Could not read key.properties!")
-            }
-        }
+buildscript {
+    ext {
+        kotlin_version = '1.8.22'
+        room_version = "2.5.2"
+        arch_lifecycle_version = "2.2.0"
+        coroutine_version = '1.6.4'
+        nav_version = "2.6.0"
     }
-
-    compileSdkVersion 34
-
-    buildFeatures {
-        viewBinding true
+    repositories {
+        google()
+        mavenCentral()
     }
-    buildToolsVersion '34.0.0'
-
-    defaultConfig {
-        applicationId "com.aurora.aonev3"
-        minSdkVersion 23
-        targetSdkVersion 34
-        versionCode 4
-        versionName "1.6.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = '17'
-    }
-
-    ndkVersion "22.1.7171670"
-
-    buildTypes {
-        debug {
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
-            minifyEnabled false
-            ndk {
-                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64', 'x86'
-            }
-        }
-        release {
-            def runTasks = gradle.startParameter.taskNames
-            def versionPropsFile = file('version.properties')
-            if (versionPropsFile.canRead()) {
-                Properties versionProps = new Properties()
-                versionProps.load(new FileInputStream(versionPropsFile))
-                def code = versionProps['VERSION_CODE'].toInteger()
-                if (':app:bundleRelease' in runTasks) {
-                    code = versionProps['VERSION_CODE'].toInteger() + 1
-                    versionProps['VERSION_CODE'] = code.toString()
-                    versionProps.store(versionPropsFile.newWriter(), null)
-                }
-                defaultConfig.versionCode code
-            } else {
-                throw new GradleException("Could not read version.properties!")
-            }
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-            ndk {
-                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64', 'x86'
-                debugSymbolLevel = 'full'
-            }
-        }
-    }
-
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.15'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.6'
     }
 }
 
-android.buildTypes.release.ndk.debugSymbolLevel = 'full'
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation 'com.google.android.material:material:1.11.0'
-    implementation 'androidx.annotation:annotation:1.7.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
-    implementation 'androidx.fragment:fragment-ktx:1.6.2'
-    implementation 'com.google.android.gms:play-services-vision:20.1.3'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.json:json:20210307'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    implementation 'com.android.volley:volley:1.2.1'
-    implementation files('nabto-lib/nabto-api-release.aar')
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-extensions:$arch_lifecycle_version"
-    kapt "androidx.lifecycle:lifecycle-common-java8:$arch_lifecycle_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
-    implementation 'com.google.firebase:firebase-analytics:21.5.1'
-    implementation 'com.google.firebase:firebase-crashlytics:18.6.2'
-    implementation "androidx.room:room-runtime:$rootProject.room_version"
-    implementation "androidx.room:room-ktx:$rootProject.room_version"
-    kapt "androidx.room:room-compiler:$rootProject.room_version"
-    implementation 'org.java-websocket:Java-WebSocket:1.5.2'
-    implementation 'com.airbnb.android:lottie:6.3.0'
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation project(":queue-release")
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-    implementation "com.google.android.gms:play-services-location:21.2.0"
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
