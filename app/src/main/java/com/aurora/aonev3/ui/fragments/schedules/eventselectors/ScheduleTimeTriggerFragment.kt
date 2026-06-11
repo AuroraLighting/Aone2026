@@ -127,31 +127,31 @@ class ScheduleTimeTriggerFragment : Fragment() {
         viewModel.trigger.observe(viewLifecycleOwner) { trigger ->
             trigger?.let {
                 val string = String.format("%02d:%02d", trigger.hour, trigger.minute)
-                btnTime.text = string
+                binding.btnTime.text = string
 
                 when (it.trigger) {
                     SunriseSunsetType.SUNRISE -> {
-                        btnSunrise.backgroundTintList =
+                        binding.btnSunrise.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileActive)
-                        btnSunset.backgroundTintList =
+                        binding.btnSunset.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        btnTime.backgroundTintList =
+                        binding.btnTime.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
                     }
                     SunriseSunsetType.SUNSET -> {
-                        btnSunrise.backgroundTintList =
+                        binding.btnSunrise.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        btnSunset.backgroundTintList =
+                        binding.btnSunset.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileActive)
-                        btnTime.backgroundTintList =
+                        binding.btnTime.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
                     }
                     SunriseSunsetType.TIME -> {
-                        btnSunrise.backgroundTintList =
+                        binding.btnSunrise.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        btnSunset.backgroundTintList =
+                        binding.btnSunset.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        btnTime.backgroundTintList =
+                        binding.btnTime.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileActive)
                     }
                 }
@@ -162,15 +162,15 @@ class ScheduleTimeTriggerFragment : Fragment() {
             viewModel.updateTrigger(hour = it.hour, minute = it.minute, triggerType = it.trigger, offset = it.offset)
         }
 
-        btnSunrise.setOnClickListener {
+        binding.btnSunrise.setOnClickListener {
             viewModel.updateTrigger(triggerType = SunriseSunsetType.SUNRISE)
         }
 
-        btnSunset.setOnClickListener {
+        binding.btnSunset.setOnClickListener {
             viewModel.updateTrigger(triggerType = SunriseSunsetType.SUNSET)
         }
 
-        btnTime.setOnClickListener {
+        binding.btnTime.setOnClickListener {
             val trigger = viewModel.trigger.value
             val triggerHour = trigger?.hour ?: 0
             val triggerMinute = trigger?.minute ?: 0
@@ -185,11 +185,11 @@ class ScheduleTimeTriggerFragment : Fragment() {
             ).show()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             if (viewModel.trigger.value?.trigger == SunriseSunsetType.SUNRISE ||
                     viewModel.trigger.value?.trigger == SunriseSunsetType.SUNSET) {
                 if (sunriseSunsetViewModel.sunriseSunsetLogicCollection == null) {
