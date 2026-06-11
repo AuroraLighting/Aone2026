@@ -3,8 +3,8 @@ package com.aurora.aonev3.data.logic
 import android.os.Parcelable
 import com.aurora.aonev3.gson
 import com.aurora.aonev3.logic.CollectionMetadata
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import org.json.JSONObject
 
 @Parcelize
