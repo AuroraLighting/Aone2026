@@ -332,7 +332,7 @@ class ControlsFragment : Fragment() {
 
         binding.colourPicker?.setOnColourPickerChangeListener(object :
             SegmentedColourPicker.OnColourPickerChangeListener {
-            override fun onStopTrackingTouch(binding.colourPicker: SegmentedColourPicker?) {
+            override fun onStopTrackingTouch(picker: SegmentedColourPicker?) {
                 val hueSat = binding.colourPicker?.selectedSegment?.hueSat ?: return
 
                 viewModel.setColour(hueSat)
