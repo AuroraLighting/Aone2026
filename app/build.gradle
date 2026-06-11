@@ -8,6 +8,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: "com.google.android.gms.oss-licenses-plugin"
 
 android {
+    namespace "com.aurora.aonev3"
     signingConfigs {
         release {
             storeFile file('android.jks')
