@@ -57,7 +57,7 @@ class CreateGroupFragment : Fragment() {
 
         val groupsAdapter = CreateGroupsViewAdapter(context)
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             adapter = groupsAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)

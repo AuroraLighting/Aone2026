@@ -70,7 +70,7 @@ class EventTriggerSelectorFragment : Fragment() {
 
         binding.tvTitle.text = getString(R.string.select_a_trigger)
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             adapter = eventTriggerAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)

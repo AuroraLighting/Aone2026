@@ -130,7 +130,7 @@ class EventSceneSelectorFragment : Fragment() {
 
         binding.tvTitle.text = getString(R.string.select_scene)
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             adapter = eventSceneAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)
@@ -248,7 +248,7 @@ class EventSceneSelectorFragment : Fragment() {
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
+                onItemClickListener?.onItemClick(cardView, adapterPosition)
             }
         }
     }

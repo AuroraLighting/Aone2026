@@ -35,7 +35,7 @@ class PairingInstructionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             adapter = PairingInstructionRecyclerViewAdapter()
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)

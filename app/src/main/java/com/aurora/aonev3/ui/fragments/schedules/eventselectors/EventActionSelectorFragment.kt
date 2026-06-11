@@ -76,7 +76,7 @@ class EventActionSelectorFragment : Fragment() {
 
         binding.tvTitle.text = getString(R.string.set_event)
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             adapter = eventActionAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)
@@ -162,7 +162,7 @@ class EventActionSelectorFragment : Fragment() {
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
+                onItemClickListener?.onItemClick(cardView, adapterPosition)
             }
         }
     }

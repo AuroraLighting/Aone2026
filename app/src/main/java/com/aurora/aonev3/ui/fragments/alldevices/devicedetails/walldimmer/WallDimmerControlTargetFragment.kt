@@ -62,7 +62,7 @@ class WallDimmerControlTargetFragment : Fragment() {
         val adapter = WallDimmerControlTargetRecyclerViewAdapter()
         adapter.setDevices(inlineDimmers)
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             this.adapter = adapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)

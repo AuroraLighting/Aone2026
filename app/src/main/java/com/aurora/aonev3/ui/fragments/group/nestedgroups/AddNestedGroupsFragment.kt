@@ -63,7 +63,7 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
         val adapter = AddNestedGroupsRecyclerViewAdapter(requireContext(), viewModel.group)
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             this.adapter = adapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)

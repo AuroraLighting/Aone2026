@@ -154,7 +154,7 @@ class EventDeviceSelectorFragment : Fragment() {
 
         binding.tvTitle.text = getString(R.string.select_device)
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             adapter = eventLightAdapter
             setHasFixedSize(false)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)

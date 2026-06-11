@@ -69,7 +69,7 @@ class NoGroupsFragment : Fragment() {
             .map { it.name.toLowerCase() }
         listAdapter.setGroups(DefaultGroups.values().toList().filterNot { it.name.toLowerCase() in existingGroupNames })
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             adapter = listAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
@@ -200,7 +200,7 @@ class NoGroupsFragment : Fragment() {
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
+                onItemClickListener?.onItemClick(cardView, adapterPosition)
             }
         }
     }

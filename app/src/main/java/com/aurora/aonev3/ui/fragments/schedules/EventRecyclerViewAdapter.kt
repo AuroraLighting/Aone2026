@@ -73,7 +73,7 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
         }
 
         override fun onClick(p0: View?) {
-            onItemClickListener?.onItemClick(binding.cardView, bindingAdapterPosition)
+            onItemClickListener?.onItemClick(cardView, bindingAdapterPosition)
         }
 
         override fun onLongClick(v: View?): Boolean {
@@ -235,7 +235,7 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
         }
 
         override fun onClick(p0: View?) {
-            onItemClickListener?.onItemClick(binding.cardView, bindingAdapterPosition)
+            onItemClickListener?.onItemClick(cardView, bindingAdapterPosition)
         }
 
         override fun onLongClick(v: View?): Boolean {

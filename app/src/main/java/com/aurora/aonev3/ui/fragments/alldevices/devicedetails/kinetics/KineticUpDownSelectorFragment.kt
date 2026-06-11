@@ -73,7 +73,7 @@ class KineticUpDownSelectorFragment : Fragment() {
 
         binding.tvTitle.text = getString(R.string.assign_functionality_of_the_up_down_buttons)
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             adapter = eventDayAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)
@@ -179,7 +179,7 @@ class KineticUpDownSelectorFragment : Fragment() {
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
+                onItemClickListener?.onItemClick(cardView, adapterPosition)
             }
         }
     }

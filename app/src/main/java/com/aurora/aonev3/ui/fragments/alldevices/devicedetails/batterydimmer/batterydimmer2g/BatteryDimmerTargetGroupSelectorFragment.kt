@@ -72,7 +72,7 @@ class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
                 }
         )
 
-        with(recyclerView) {
+        with(binding.recyclerView) {
             this.adapter = adapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)
