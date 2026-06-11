@@ -1,34 +1,23 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+cat > /etc/systemd/system/monitor-web.service << 'EOF'
+[Unit]
+Description=Aurora Monitoring Web UI
+After=network.target mysql.service
+Wants=mysql.service
 
-buildscript {
-    ext {
-        kotlin_version = '1.6.21'
-        room_version = "2.5.2"
-        arch_lifecycle_version = "2.2.0"
-        coroutine_version = '1.6.4'
-        nav_version = "2.5.3"
-    }
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.15'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
-        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.6'
-    }
-}
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/monitoring
+EnvironmentFile=/etc/aurora/env
+ExecStart=/opt/monitoring/venv/bin/python -u /opt/monitoring/app.py
+Restart=always
+RestartSec=3
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+[Install]
+WantedBy=multi-user.target
+EOF
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+systemctl daemon-reload
+systemctl restart monitor-web
+sleep 5
+curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:5000/ --max-time 5
