@@ -11,11 +11,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.aurora.aonev3.databinding.FragmentTimeoutBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.debug
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventFragment
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventViewModel
-import kotlinx.android.synthetic.main.fragment_timeout.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val SENDER = "param1"
@@ -27,10 +27,13 @@ private const val SENDER = "param1"
  */
 class TimeoutFragment : Fragment() {
 
+    private var _binding: FragmentTimeoutBinding? = null
+    private val binding get() = _binding!!
+
+
     private lateinit var viewModel: ITimeoutViewModel
     private val args: TimeoutFragmentArgs by navArgs()
     private val sender: String by lazy { args.sender }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +51,10 @@ class TimeoutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timeout, container, false)
+        return run {
+            _binding = FragmentTimeoutBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,7 +82,6 @@ class TimeoutFragment : Fragment() {
                 secondPicker.value = seconds
             }
         })
-
 
         minutePicker.maxValue = 60
         secondPicker.maxValue = 59
@@ -144,4 +149,10 @@ class TimeoutFragment : Fragment() {
 
 interface ITimeoutViewModel {
     var timeout: MutableLiveData<Int?>
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

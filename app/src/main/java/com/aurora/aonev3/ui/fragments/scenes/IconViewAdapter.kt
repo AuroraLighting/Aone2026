@@ -43,9 +43,9 @@ package com.aurora.aonev3.ui.fragments.scenes
 //
 //    inner class ColourViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
 //        View.OnClickListener {
-//        val fill: ConstraintLayout = itemView.fill
-//        val icon: ImageView = itemView.iconIv
-//        val selectedView: ConstraintLayout = itemView.selected
+//        val fill: ConstraintLayout = itemView.findViewById(R.id.fill)
+//        val icon: ImageView = itemView.findViewById(R.id.iconIv)
+//        val selectedView: ConstraintLayout = itemView.findViewById(R.id.selected)
 //
 //        init {
 //            itemView.setOnClickListener(this)

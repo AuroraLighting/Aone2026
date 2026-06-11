@@ -8,10 +8,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import com.aurora.aonev3.databinding.FragmentTourBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
-import kotlinx.android.synthetic.main.activity_tour.*
-import kotlinx.android.synthetic.main.fragment_tour.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,6 +23,10 @@ private const val ARG_INDEX = "index"
  * create an instance of this fragment.
  */
 class TourFragment : Fragment() {
+
+    private var _binding: FragmentTourBinding? = null
+    private val binding get() = _binding!!
+
     // TODO: Rename and change types of parameters
     private var screen: String? = null
     private var index: String? = null
@@ -41,7 +44,10 @@ class TourFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tour, container, false)
+        return run {
+            _binding = FragmentTourBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -177,7 +183,6 @@ class TourFragment : Fragment() {
 
                         activity?.tabLayout?.visibility = View.INVISIBLE
 
-
                         btnDone.visibility = View.VISIBLE
                     }
                 }
@@ -266,7 +271,6 @@ class TourFragment : Fragment() {
 
                         activity?.tabLayout?.visibility = View.INVISIBLE
 
-
                         btnDone.visibility = View.VISIBLE
                     }
                 }
@@ -301,5 +305,11 @@ class TourFragment : Fragment() {
                     putString(ARG_INDEX, index)
                 }
             }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

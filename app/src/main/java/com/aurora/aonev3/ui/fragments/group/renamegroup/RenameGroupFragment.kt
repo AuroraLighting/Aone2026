@@ -9,14 +9,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.aurora.aonev3.databinding.FragmentRenameGroupBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
-import kotlinx.android.synthetic.main.fragment_rename_group.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RenameGroupFragment : Fragment() {
+
+    private var _binding: FragmentRenameGroupBinding? = null
+    private val binding get() = _binding!!
+
 
     private val viewModel by viewModels<RenameGroupViewModel>()
     private val args: RenameGroupFragmentArgs by navArgs()
@@ -36,7 +40,10 @@ class RenameGroupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rename_group, container, false)
+        return run {
+            _binding = FragmentRenameGroupBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,5 +76,11 @@ class RenameGroupFragment : Fragment() {
 
     companion object {
         fun newInstance() = RenameGroupFragment()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

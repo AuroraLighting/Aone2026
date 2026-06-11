@@ -16,17 +16,19 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentHelpBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.aurora.aonev3.ui.fragments.gateways.GatewaySwitchFragment
-import kotlinx.android.synthetic.main.disable_office_mode_dialog_layout.view.*
-import kotlinx.android.synthetic.main.fragment_help.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class HelpFragment : Fragment() {
+
+    private var _binding: FragmentHelpBinding? = null
+    private val binding get() = _binding!!
+
     val viewModel: HelpViewModel by viewModels()
 
     override fun onCreateView(
@@ -34,7 +36,10 @@ class HelpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_help, container, false)
+        return run {
+            _binding = FragmentHelpBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -140,7 +145,7 @@ class HelpFragment : Fragment() {
                         .setPositiveButton(R.string.ok) { _, _ ->
                             val credentials = CloudHandler.getCredentials()
 
-                            if (dialogView.etPassword.text?.toString() == credentials.second) {
+                            if (dialogView.binding.etPassword.text?.toString() == credentials.second) {
                                 SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                                     putBoolean("office_mode", false)
                                 }
@@ -160,5 +165,11 @@ class HelpFragment : Fragment() {
     companion object {
         private const val TAG = "HelpFragment"
         fun newInstance() = HelpFragment()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

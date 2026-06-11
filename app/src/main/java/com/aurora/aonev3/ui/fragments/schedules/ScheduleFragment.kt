@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentScheduleBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.logic.TimeOfDayTrigger
@@ -29,17 +30,15 @@ import com.aurora.aonev3.logic.CollectionType
 import com.aurora.aonev3.logic.TriggerEnum
 import com.aurora.aonev3.ui.activities.SplashscreenActivity
 import com.aurora.aonev3.ui.fragments.group.adddevices.AddDevicesFragmentArgs
-import kotlinx.android.synthetic.main.fragment_schedule.*
-import kotlinx.android.synthetic.main.fragment_schedule.btnCancel
-import kotlinx.android.synthetic.main.fragment_schedule.btnSave
-import kotlinx.android.synthetic.main.fragment_schedule.layoutEvent
-import kotlinx.android.synthetic.main.fragment_schedule.tvTitle
-import kotlinx.android.synthetic.main.fragment_schedule_event.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class ScheduleFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
+
+    private var _binding: FragmentScheduleBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         private const val TAG = "ScheduleFragment"
@@ -66,7 +65,10 @@ class ScheduleFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_schedule, container, false)
+        return run {
+            _binding = FragmentScheduleBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -331,4 +333,10 @@ class ScheduleFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         }
     }
 
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

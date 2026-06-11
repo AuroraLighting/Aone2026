@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.aurora.aonev3.databinding.FragmentScheduleEventBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.R
 import com.aurora.aonev3.logic.DayOfWeekCondition
@@ -26,18 +27,16 @@ import com.aurora.aonev3.data.logic.LogicCollection
 import com.aurora.aonev3.data.logic.rules.LogicRule
 import com.aurora.aonev3.logic.TriggerEnum
 import com.aurora.aonev3.toCapitalisedLowerCase
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_tour.view.*
-import kotlinx.android.synthetic.main.fragment_legacy_schedule.*
-import kotlinx.android.synthetic.main.fragment_schedule_event.*
-import kotlinx.android.synthetic.main.fragment_schedule_event.btnDelete
-import kotlinx.android.synthetic.main.fragment_schedule_event.tvDays
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import kotlin.math.abs
 
 class ScheduleEventFragment : Fragment() {
+
+    private var _binding: FragmentScheduleEventBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         fun newInstance() = ScheduleEventFragment()
@@ -67,7 +66,10 @@ class ScheduleEventFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_schedule_event, container, false)
+        return run {
+            _binding = FragmentScheduleEventBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -740,4 +742,10 @@ enum class EventDay(val displayName: String, val days: JSONArray) {
         JSONArray()
             .put("SUNDAY")
     )
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

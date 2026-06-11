@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.ActivityMainBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.data.devices.Device
@@ -20,15 +21,16 @@ import com.aurora.aonev3.hideSoftKeyboard
 import com.aurora.aonev3.network.handlers.*
 import com.aurora.aonev3.network.volley.RequestQueue
 import com.aurora.aonev3.service.ConnectionService
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
 
     private var latestFirmwareVersion: String? = null
     private var latestFirmwareIncrement: Int = -1
@@ -46,7 +48,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val loggedInObserver = Observer<Boolean?> { loggedIn ->
             if (loggedIn != false) return@Observer
@@ -180,16 +183,16 @@ class MainActivity : AppCompatActivity() {
             hasCheckedMqttCerts = false
             firmwareVerified = false
             runOnUiThread {
-                connectingLayout.visibility = if (gateway.isConnecting) View.VISIBLE else View.GONE
+                binding.connectingLayout.visibility = if (gateway.isConnecting) View.VISIBLE else View.GONE
             }
         })
 
         NabtoHandler.gatewaysConnecting.observe(this) {
             runOnUiThread {
                 if (NabtoHandler.selectedGateway?.isConnected != true && NabtoHandler.selectedGateway?.isConnecting == true) {
-                    connectingLayout.visibility = View.VISIBLE
+                    binding.connectingLayout.visibility = View.VISIBLE
                 } else {
-                    connectingLayout.visibility = View.GONE
+                    binding.connectingLayout.visibility = View.GONE
                 }
             }
         }

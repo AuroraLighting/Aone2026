@@ -1,6 +1,5 @@
 package com.aurora.aonev3.ui.fragments.gateways.acquiregateway
 
-
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -17,12 +16,12 @@ import androidx.navigation.fragment.findNavController
 import com.android.volley.NoConnectionError
 import com.android.volley.TimeoutError
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentAcquiringBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.indices
 import com.aurora.aonev3.network.handlers.*
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.fragment_acquiring.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,6 +33,10 @@ import org.json.JSONObject
  */
 class AcquiringFragment : Fragment() {
 
+    private var _binding: FragmentAcquiringBinding? = null
+    private val binding get() = _binding!!
+
+
     private val viewModel: AcquireGatewayViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -41,7 +44,10 @@ class AcquiringFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_acquiring, container, false)
+        return run {
+            _binding = FragmentAcquiringBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -265,4 +271,10 @@ class AcquiringFragment : Fragment() {
         fun newInstance() = AcquiringFragment()
     }
 
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

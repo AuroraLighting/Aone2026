@@ -34,9 +34,6 @@ import com.aurora.aonev3.ui.fragments.schedules.EventTarget
 import com.aurora.aonev3.ui.fragments.schedules.SunriseSunsetType
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_device_detail.*
-import kotlinx.android.synthetic.main.layout_motion_event_selector_tile.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray

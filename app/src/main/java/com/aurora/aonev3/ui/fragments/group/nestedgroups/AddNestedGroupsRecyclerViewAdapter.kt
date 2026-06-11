@@ -11,7 +11,6 @@ import com.aurora.aonev3.SectionHeaderViewHolder
 import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.toCapitalisedLowerCase
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.layout_add_nested_group_tile.view.*
 
 class AddNestedGroupsRecyclerViewAdapter internal constructor(val context: Context, val group: Group?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -108,8 +107,8 @@ class AddNestedGroupsRecyclerViewAdapter internal constructor(val context: Conte
 
     inner class GroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        private val cardView: MaterialCardView = itemView.cardView
-        private val name: TextView = itemView.tvName
+        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+        private val name: TextView = itemView.findViewById(R.id.tvName)
 
         init {
             itemView.setOnClickListener(this)

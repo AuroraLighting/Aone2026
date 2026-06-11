@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SectionHeaderViewHolder
@@ -22,10 +23,12 @@ import com.aurora.aonev3.toCapitalisedLowerCase
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.BatteryDimmerSecondaryModeFragment
 import com.aurora.aonev3.ui.fragments.group.nestedgroups.AddNestedGroupsRecyclerViewAdapter.*
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.fragment_selector.*
-import kotlinx.android.synthetic.main.layout_add_nested_group_tile.view.*
 
 class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
+
+    private var _binding: FragmentSelectorBinding? = null
+    private val binding get() = _binding!!
+
 
     private val viewModel: BatteryDimmerTargetGroupSelectorViewModel by viewModels()
     private val args: BatteryDimmerTargetGroupSelectorFragmentArgs by navArgs()
@@ -48,7 +51,10 @@ class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_selector, container, false)
+        return run {
+            _binding = FragmentSelectorBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -164,8 +170,8 @@ class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
 
         private inner class SecondaryModeViewHolder(itemView: View):
             RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
+            var binding.cardView: MaterialCardView = itemView.binding.cardView
+            var name: TextView = itemView.binding.tvName
 
             init {
                 itemView.setOnClickListener(this)
@@ -181,12 +187,18 @@ class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
 
                 if (group == viewModel.selectedGroup) {
                     name.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-                    cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileActive))
+                    binding.cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileActive))
                 } else {
                     name.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextPrimary))
-                    cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileInactive))
+                    binding.cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileInactive))
                 }
             }
         }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

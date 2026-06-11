@@ -17,8 +17,6 @@ import com.aurora.aonev3.logic.*
 import com.aurora.aonev3.network.handlers.*
 import com.aurora.aonev3.network.logicRule
 import com.aurora.aonev3.ui.fragments.schedules.eventselectors.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_schedule_event.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray

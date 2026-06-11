@@ -12,26 +12,22 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import com.aurora.aonev3.databinding.FragmentDynamicEventBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.R
 import com.aurora.aonev3.ui.fragments.schedules.EventDay
 import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventFragment
 import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventFragmentDirections
 import com.aurora.aonev3.ui.fragments.schedules.SunriseSunsetType
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_tour.view.*
-import kotlinx.android.synthetic.main.fragment_door_sensor_event.*
-import kotlinx.android.synthetic.main.fragment_dynamic_event.*
-import kotlinx.android.synthetic.main.fragment_dynamic_event.btnCancel
-import kotlinx.android.synthetic.main.fragment_dynamic_event.btnDays
-import kotlinx.android.synthetic.main.fragment_dynamic_event.btnSave
-import kotlinx.android.synthetic.main.fragment_dynamic_event.btnScene
-import kotlinx.android.synthetic.main.fragment_dynamic_event.btnTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class DynamicEventFragment : Fragment() {
+
+    private var _binding: FragmentDynamicEventBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         fun newInstance() = DynamicEventFragment()
@@ -48,7 +44,10 @@ class DynamicEventFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_dynamic_event, container, false)
+        return run {
+            _binding = FragmentDynamicEventBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -249,5 +248,11 @@ class DynamicEventFragment : Fragment() {
         button.text = text
         button.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
         button.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

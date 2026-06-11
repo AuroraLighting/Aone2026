@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.aurora.aonev3.databinding.FragmentLegacyScheduleBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.logic.DayOfWeek
 import com.aurora.aonev3.logic.DayOfWeekCondition
@@ -20,11 +21,14 @@ import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
 import com.aurora.aonev3.data.logic.rules.LogicRule
 import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.fragment_legacy_schedule.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LegacyScheduleFragment : Fragment() {
+
+    private var _binding: FragmentLegacyScheduleBinding? = null
+    private val binding get() = _binding!!
+
 
     private val viewModel: LegacyScheduleViewModel by viewModels()
     private val args: LegacyScheduleFragmentArgs by navArgs()
@@ -35,7 +39,10 @@ class LegacyScheduleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_legacy_schedule, container, false)
+        return run {
+            _binding = FragmentLegacyScheduleBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -208,5 +215,11 @@ class LegacyScheduleFragment : Fragment() {
 
     companion object {
         fun newInstance() = LegacyScheduleFragment()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

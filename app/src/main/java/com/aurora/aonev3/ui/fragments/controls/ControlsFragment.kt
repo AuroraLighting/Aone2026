@@ -11,6 +11,7 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
+import com.aurora.aonev3.databinding.ControlsFragmentRgbwBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.MutableLiveDataArrayList
 import com.aurora.aonev3.R
@@ -21,8 +22,6 @@ import com.aurora.aonev3.data.datapoints.GroupDatapoint
 import com.aurora.aonev3.data.devices.Device
 import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.ui.views.SegmentedColourPicker
-import kotlinx.android.synthetic.main.controls_fragment_rgbw.*
-import kotlinx.android.synthetic.main.controls_fragment_tw.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -35,6 +34,10 @@ private const val ARG_CT_MIN = "ctMin"
 
 @SuppressLint("SetTextI18n")
 class ControlsFragment : Fragment() {
+
+    private var _binding: ControlsFragmentRgbwBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         const val TAG = "ControlsFragment"
@@ -162,15 +165,15 @@ class ControlsFragment : Fragment() {
                 }
 
                 activity?.runOnUiThread {
-                    tvLevel?.text = "$level%"
-                    level_seekbar?.progress = 100 - level
+                    binding.tvLevel?.text = "$level%"
+                    binding.level_seekbar?.progress = 100 - level
                 }
             }
             datapoints.find { dp -> dp.key == "colourtempmin" }?.also { miredMin ->
                 val value = miredMin.value as? Int ?: 154
                 colourTemperatureMin = value
                 activity?.runOnUiThread {
-                    colour_temperature_seekbar?.max =
+                    binding.colour_temperature_seekbar?.max =
                         colourTemperatureMax - colourTemperatureMin + (0.05 * (colourTemperatureMax - colourTemperatureMin)).toInt()
                 }
             }
@@ -183,7 +186,7 @@ class ControlsFragment : Fragment() {
 
                 colourTemperatureMax = value
                 activity?.runOnUiThread {
-                    colour_temperature_seekbar?.max =
+                    binding.colour_temperature_seekbar?.max =
                         colourTemperatureMax - colourTemperatureMin + (0.05 * (colourTemperatureMax - colourTemperatureMin)).toInt()
                 }
             }
@@ -195,8 +198,8 @@ class ControlsFragment : Fragment() {
                 }
 
                 activity?.runOnUiThread {
-                    tvColourTemperature?.text = "${((1000000 / value) / 100) * 100}K"
-                    colour_temperature_seekbar?.progress =
+                    binding.tvColourTemperature?.text = "${((1000000 / value) / 100) * 100}K"
+                    binding.colour_temperature_seekbar?.progress =
                         (value as? Int ?: 220) - colourTemperatureMin
                 }
             }
@@ -206,7 +209,7 @@ class ControlsFragment : Fragment() {
                 val value = sat.value as? Int ?: 0
                 hsv[1] = value.toFloat() / 254f
 
-//                colourPicker?.color = Color.HSVToColor(hsv)
+//                binding.colourPicker?.color = Color.HSVToColor(hsv)
             }
             datapoints.find { dp -> dp.key == "hue" }?.also { hue ->
                 if (hsv[0] != 361f) return@also
@@ -214,12 +217,12 @@ class ControlsFragment : Fragment() {
                 val value = hue.value as? Int ?: 0
                 hsv[0] = value.toFloat()
 
-//                colourPicker?.color = Color.HSVToColor(hsv)
+//                binding.colourPicker?.color = Color.HSVToColor(hsv)
             }
         })
 
         if (group != null) {
-            colour_temperature_seekbar?.max =
+            binding.colour_temperature_seekbar?.max =
                 colourTemperatureMax - colourTemperatureMin + (0.05 * (colourTemperatureMax - colourTemperatureMin)).toInt()
         }
 
@@ -244,8 +247,8 @@ class ControlsFragment : Fragment() {
                 }
 
                 activity?.runOnUiThread {
-                    tvLevel?.text = "$level%"
-                    level_seekbar?.progress = 100 - level
+                    binding.tvLevel?.text = "$level%"
+                    binding.level_seekbar?.progress = 100 - level
                 }
             }
             datapoints.find { dp -> dp.key == "mired" }?.also { mired ->
@@ -254,8 +257,8 @@ class ControlsFragment : Fragment() {
                     value = 454
                 }
                 activity?.runOnUiThread {
-                    tvColourTemperature?.text = "${((1000000 / value) / 100) * 100}K"
-                    colour_temperature_seekbar?.progress =
+                    binding.tvColourTemperature?.text = "${((1000000 / value) / 100) * 100}K"
+                    binding.colour_temperature_seekbar?.progress =
                         (value as? Int ?: 220) - colourTemperatureMin
                 }
             }
@@ -265,7 +268,7 @@ class ControlsFragment : Fragment() {
                 val value = sat.value as? Int ?: 0
                 hsv[1] = value.toFloat() / 254f
 
-//                colourPicker?.color = Color.HSVToColor(hsv)
+//                binding.colourPicker?.color = Color.HSVToColor(hsv)
             }
             datapoints.find { dp -> dp.key == "hue" }?.also { hue ->
                 if (hsv[0] != 361f) return@also
@@ -273,19 +276,19 @@ class ControlsFragment : Fragment() {
                 val value = hue.value as? Int ?: 0
                 hsv[0] = value.toFloat()
 
-//                colourPicker?.color = Color.HSVToColor(hsv)
+//                binding.colourPicker?.color = Color.HSVToColor(hsv)
             }
         })
 
-        level_seekbar?.max = 105
-        level_seekbar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.level_seekbar?.max = 105
+        binding.level_seekbar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 p0 ?: return
                 if (p1 > 100) {
                     p0.progress = 100
                 }
                 activity?.runOnUiThread {
-                    tvLevel?.text = "${100 - p0.progress}%"
+                    binding.tvLevel?.text = "${100 - p0.progress}%"
                 }
             }
 
@@ -299,7 +302,7 @@ class ControlsFragment : Fragment() {
             }
         })
 
-        colour_temperature_seekbar?.setOnSeekBarChangeListener(object :
+        binding.colour_temperature_seekbar?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             var tracking = false
 
@@ -310,7 +313,7 @@ class ControlsFragment : Fragment() {
                     p0.progress = colourTemperatureMax - colourTemperatureMin
                 }
                 activity?.runOnUiThread {
-                    view.tvColourTemperature?.text =
+                    view.binding.tvColourTemperature?.text =
                         "${((1000000 / (p0.progress + colourTemperatureMin)) / 100) * 100}K"
                 }
             }
@@ -327,16 +330,16 @@ class ControlsFragment : Fragment() {
             }
         })
 
-        colourPicker?.setOnColourPickerChangeListener(object :
+        binding.colourPicker?.setOnColourPickerChangeListener(object :
             SegmentedColourPicker.OnColourPickerChangeListener {
-            override fun onStopTrackingTouch(colourPicker: SegmentedColourPicker?) {
-                val hueSat = colourPicker?.selectedSegment?.hueSat ?: return
+            override fun onStopTrackingTouch(binding.colourPicker: SegmentedColourPicker?) {
+                val hueSat = binding.colourPicker?.selectedSegment?.hueSat ?: return
 
                 viewModel.setColour(hueSat)
             }
         })
 
-        btnStop?.setOnClickListener {
+        binding.btnStop?.setOnClickListener {
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 viewModel.setHueMove(false)
 
@@ -348,7 +351,7 @@ class ControlsFragment : Fragment() {
             }
         }
 
-        btnSlow?.setOnClickListener {
+        binding.btnSlow?.setOnClickListener {
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 viewModel.setHueMoveRate(1)
                 viewModel.setHueMove(true)
@@ -361,7 +364,7 @@ class ControlsFragment : Fragment() {
             }
         }
 
-        btnFast?.setOnClickListener {
+        binding.btnFast?.setOnClickListener {
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 viewModel.setHueMoveRate(16)
                 viewModel.setHueMove(true)
@@ -381,4 +384,10 @@ class ControlsFragment : Fragment() {
         super.onDetach()
     }
 
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

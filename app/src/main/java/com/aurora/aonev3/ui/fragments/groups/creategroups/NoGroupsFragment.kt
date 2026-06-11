@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentNoGroupsBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.aurora.aonev3.network.handlers.DevelcoHandler
@@ -22,9 +23,6 @@ import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
 import com.aurora.aonev3.ui.activities.SplashscreenActivity
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_no_groups.*
-import kotlinx.android.synthetic.main.layout_create_group_tile.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,12 +30,19 @@ import org.json.JSONObject
 
 class NoGroupsFragment : Fragment() {
 
+    private var _binding: FragmentNoGroupsBinding? = null
+    private val binding get() = _binding!!
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_no_groups, container, false)
+        return run {
+            _binding = FragmentNoGroupsBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -161,13 +166,13 @@ class NoGroupsFragment : Fragment() {
             holder.icon.visibility = View.GONE
             if (selectedGroups.contains(group)) {
                 context?.getColor(R.color.colorTileActive)?.let {
-                    holder.cardView.setCardBackgroundColor(
+                    holder.binding.cardView.setCardBackgroundColor(
                         it
                     )
                 }
             } else {
                 context?.getColor(R.color.colorTileInactive)?.let {
-                    holder.cardView.setCardBackgroundColor(
+                    holder.binding.cardView.setCardBackgroundColor(
                         it
                     )
                 }
@@ -186,17 +191,23 @@ class NoGroupsFragment : Fragment() {
 
         inner class GroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
             View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
-            var icon: ImageView = itemView.ivIcon
+            var binding.cardView: MaterialCardView = itemView.binding.cardView
+            var name: TextView = itemView.binding.tvName
+            var icon: ImageView = itemView.binding.ivIcon
 
             init {
-                cardView.setOnClickListener(this)
+                binding.cardView.setOnClickListener(this)
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(cardView, adapterPosition)
+                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
             }
         }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

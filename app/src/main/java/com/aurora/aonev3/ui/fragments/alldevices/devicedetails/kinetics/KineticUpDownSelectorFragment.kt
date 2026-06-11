@@ -12,16 +12,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.ItemClickListener
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.SyncHandler
 import com.aurora.aonev3.data.devices.Device
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.fragment_selector.*
-import kotlinx.android.synthetic.main.layout_group_selector_tile.view.*
 
 class KineticUpDownSelectorFragment : Fragment() {
+
+    private var _binding: FragmentSelectorBinding? = null
+    private val binding get() = _binding!!
+
 
     private val viewModel: KineticDetailViewModel by activityViewModels()
     private val navArgs: KineticUpDownSelectorFragmentArgs by navArgs()
@@ -33,7 +36,10 @@ class KineticUpDownSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_selector, container, false)
+        return run {
+            _binding = FragmentSelectorBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -141,10 +147,10 @@ class KineticUpDownSelectorFragment : Fragment() {
                 holder.name.text = mode.first.displayName
 
                 if (mode.second) {
-                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     holder.name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     holder.name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }
@@ -164,17 +170,23 @@ class KineticUpDownSelectorFragment : Fragment() {
         }
 
         inner class RemoteRecallCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
+            var binding.cardView: MaterialCardView = itemView.binding.cardView
+            var name: TextView = itemView.binding.tvName
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.ivIcon.visibility = View.GONE
+                itemView.binding.ivIcon.visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(cardView, adapterPosition)
+                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
             }
         }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
