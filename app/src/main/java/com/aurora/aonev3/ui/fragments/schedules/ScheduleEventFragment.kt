@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.aurora.aonev3.databinding.FragmentScheduleEventBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.R
 import com.aurora.aonev3.logic.DayOfWeekCondition
@@ -26,18 +27,16 @@ import com.aurora.aonev3.data.logic.LogicCollection
 import com.aurora.aonev3.data.logic.rules.LogicRule
 import com.aurora.aonev3.logic.TriggerEnum
 import com.aurora.aonev3.toCapitalisedLowerCase
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_tour.view.*
-import kotlinx.android.synthetic.main.fragment_legacy_schedule.*
-import kotlinx.android.synthetic.main.fragment_schedule_event.*
-import kotlinx.android.synthetic.main.fragment_schedule_event.btnDelete
-import kotlinx.android.synthetic.main.fragment_schedule_event.tvDays
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import kotlin.math.abs
 
 class ScheduleEventFragment : Fragment() {
+
+    private var _binding: FragmentScheduleEventBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         fun newInstance() = ScheduleEventFragment()
@@ -67,7 +66,10 @@ class ScheduleEventFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_schedule_event, container, false)
+        return run {
+            _binding = FragmentScheduleEventBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,14 +92,14 @@ class ScheduleEventFragment : Fragment() {
             val conditions = logicRule.conditions ?: emptyArray()
 
             when {
-                metadataEvent.group != null -> viewModel.eventTarget.postValue(EventTarget.SPACE)
+                metadataEvent.group != null -> viewModel.eventTargbinding.et.postValue(EventTargbinding.et.SPACE)
                 metadataEvent.device != null -> {
                     val group = viewModel.targetGroup.value ?: return@Observer
                     val deviceMeta = metadataEvent.device ?: return@Observer
                     val device = SyncHandler
                         .devicesList
                         .find { device -> device.parentGateway == group.parentGateway && device.id == deviceMeta.id } ?: return@Observer
-                    viewModel.eventTarget.postValue(EventTarget.DEVICE)
+                    viewModel.eventTargbinding.et.postValue(EventTargbinding.et.DEVICE)
                     viewModel.device.postValue(Pair(device, deviceMeta.ldev ?: ""))
                 }
                 metadataEvent.scene != null -> {
@@ -107,7 +109,7 @@ class ScheduleEventFragment : Fragment() {
                         .scenesList
                         .find { scene -> scene.parentGateway == group.parentGateway && scene.id == sceneMeta.id && scene.groupId == group.id }
                         ?: return@Observer
-                    viewModel.eventTarget.postValue(EventTarget.SCENE)
+                    viewModel.eventTargbinding.et.postValue(EventTargbinding.et.SCENE)
                     viewModel.scene.postValue(scene)
                 }
             }
@@ -174,34 +176,34 @@ class ScheduleEventFragment : Fragment() {
             edit = true
         })
 
-        viewModel.eventTarget.observe(viewLifecycleOwner) { eventTarget ->
+        viewModel.eventTargbinding.et.observe(viewLifecycleOwner) { eventTarget ->
             mEventTarget = eventTarget
 
             activity?.runOnUiThread {
                 val activity = activity ?: return@runOnUiThread
                 if (eventTarget != null) {
-                    cardTarget.backgroundTintList =
+                    cardTargbinding.et.backgroundTintList =
                         ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                    tvSelectTarget.setTextColor(activity.getColor(R.color.colorPrimary))
+                    tvSelectTargbinding.et.setTextColor(activity.getColor(R.color.colorPrimary))
                 } else {
-                    cardTarget.backgroundTintList =
+                    cardTargbinding.et.backgroundTintList =
                         ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                    tvSelectTarget.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                    tvSelectTargbinding.et.setTextColor(activity.getColor(R.color.colorTextPrimary))
                 }
                 if (eventTarget == null) {
                     cardEvent.isClickable = false
                     cardDevice.isClickable = false
                     cardScene.isClickable = false
-                    tvSelectTarget.text = getString(R.string.scene_space_or_device)
+                    tvSelectTargbinding.et.text = getString(R.string.scene_space_or_device)
                 }
 
                 eventTarget?.let {
                     when (eventTarget) {
-                        EventTarget.SPACE -> {
+                        EventTargbinding.et.SPACE -> {
                             viewModel.device.postValue(null)
                             viewModel.scene.postValue(null)
 
-                            tvSelectTarget.text = getString(R.string.this_space)
+                            tvSelectTargbinding.et.text = getString(R.string.this_space)
                             layoutScene.visibility = View.GONE
                             layoutDevice.visibility = View.GONE
 
@@ -216,10 +218,10 @@ class ScheduleEventFragment : Fragment() {
                                 tvEvent.setTextColor(activity.getColor(R.color.colorTextPrimary))
                             }
                         }
-                        EventTarget.DEVICE -> {
+                        EventTargbinding.et.DEVICE -> {
                             viewModel.scene.postValue(null)
 
-                            tvSelectTarget.text = getString(R.string.device_in_space)
+                            tvSelectTargbinding.et.text = getString(R.string.device_in_space)
 
                             layoutDevice.visibility = View.VISIBLE
                             cardDevice.isClickable = true
@@ -261,9 +263,9 @@ class ScheduleEventFragment : Fragment() {
                                 tvDevice.setTextColor(activity.getColor(R.color.colorPrimary))
                             }
                         }
-                        EventTarget.SCENE -> {
+                        EventTargbinding.et.SCENE -> {
                             viewModel.device.postValue(null)
-                            tvSelectTarget.text = getString(R.string.scene)
+                            tvSelectTargbinding.et.text = getString(R.string.scene)
 
                             layoutScene.visibility = View.VISIBLE
 
@@ -319,7 +321,7 @@ class ScheduleEventFragment : Fragment() {
             val activity = activity ?: return@Observer
             mDevice = device
 
-            if (viewModel.eventTarget.value != EventTarget.DEVICE) return@Observer
+            if (viewModel.eventTargbinding.et.value != EventTargbinding.et.DEVICE) return@Observer
 
             if (device != null) {
                 cardDevice.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
@@ -394,7 +396,7 @@ class ScheduleEventFragment : Fragment() {
         viewModel.scene.observe(viewLifecycleOwner, Observer { scene ->
             mScene = scene
 
-            if (viewModel.eventTarget.value != EventTarget.SCENE) return@Observer
+            if (viewModel.eventTargbinding.et.value != EventTargbinding.et.SCENE) return@Observer
 
             scene?.let {
                 activity?.runOnUiThread {
@@ -416,7 +418,7 @@ class ScheduleEventFragment : Fragment() {
                 } else {
                     cardEvent.backgroundTintList =
                         ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                    if (mEventTarget == EventTarget.SPACE || mDevice != null || mScene != null) {
+                    if (mEventTarget == EventTargbinding.et.SPACE || mDevice != null || mScene != null) {
                         tvEvent.setTextColor(activity.getColor(R.color.colorTextPrimary))
                     } else {
                         tvEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
@@ -443,9 +445,9 @@ class ScheduleEventFragment : Fragment() {
                             }
                         }
 
-                        if ((viewModel.eventTarget.value == EventTarget.SCENE && viewModel.scene.value != null)
-                            || (viewModel.eventTarget.value == EventTarget.DEVICE && viewModel.device.value != null)
-                            || viewModel.eventTarget.value == EventTarget.SPACE
+                        if ((viewModel.eventTargbinding.et.value == EventTargbinding.et.SCENE && viewModel.scene.value != null)
+                            || (viewModel.eventTargbinding.et.value == EventTargbinding.et.DEVICE && viewModel.device.value != null)
+                            || viewModel.eventTargbinding.et.value == EventTargbinding.et.SPACE
                         ) {
                             cardTime.isClickable = true
                             cardTime.backgroundTintList =
@@ -488,11 +490,11 @@ class ScheduleEventFragment : Fragment() {
                 when (trigger.trigger) {
                     SunriseSunsetType.SUNRISE,
                     SunriseSunsetType.SUNSET -> {
-                        offsetOuterLayout.visibility = View.VISIBLE
+                        binding.offsetOuterLayout.visibility = View.VISIBLE
                         tvTime.text = trigger.trigger.displayName.toCapitalisedLowerCase()
                     }
                     else -> {
-                        offsetOuterLayout.visibility = View.GONE
+                        binding.offsetOuterLayout.visibility = View.GONE
                         val hour = viewModel.trigger.value?.hour ?: 0
                         val minute = viewModel.trigger.value?.minute ?: 0
                         tvTime.text = String.format("%02d:%02d", hour, minute)
@@ -501,21 +503,21 @@ class ScheduleEventFragment : Fragment() {
 
                 when {
                     trigger.offset > 0 -> {
-                        tvOffset.text = getString(
+                        tvOffsbinding.et.text = getString(
                             R.string.offset_after_time,
                             trigger.offset,
                             trigger.trigger.displayName
                         )
                     }
                     trigger.offset < 0 -> {
-                        tvOffset.text = getString(
+                        tvOffsbinding.et.text = getString(
                             R.string.offset_before_time,
                             abs(trigger.offset),
                             trigger.trigger.displayName
                         )
                     }
                     else -> {
-                        tvOffset.text = getString(R.string.no_offset)
+                        tvOffsbinding.et.text = getString(R.string.no_offset)
                     }
                 }
             }
@@ -530,7 +532,7 @@ class ScheduleEventFragment : Fragment() {
             }
         }
 
-        cardTarget.setOnClickListener(
+        cardTargbinding.et.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 ScheduleEventFragmentDirections
                     .actionGlobalEventTargetSelectorFragment(ScheduleEventFragment::class.simpleName)
@@ -561,7 +563,7 @@ class ScheduleEventFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        cardOffset.setOnClickListener {
+        cardOffsbinding.et.setOnClickListener {
             val action = ScheduleEventFragmentDirections.actionScheduleEventFragmentToOffsetFragment(ScheduleEventFragment::class.simpleName ?: "")
             findNavController().navigate(action)
         }

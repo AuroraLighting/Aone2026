@@ -11,16 +11,19 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.ItemClickListener
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.SyncHandler
 import com.aurora.aonev3.data.devices.Device
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.fragment_selector.*
-import kotlinx.android.synthetic.main.layout_group_selector_tile.view.*
 
 class RemoteRecallSelectorFragment : Fragment() {
+
+    private var _binding: FragmentSelectorBinding? = null
+    private val binding get() = _binding!!
+
 
     val viewModel: RemoteDetailViewModel by activityViewModels()
     private var recallValues: Array<RecallMode> = emptyArray()
@@ -30,7 +33,10 @@ class RemoteRecallSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_selector, container, false)
+        return run {
+            _binding = FragmentSelectorBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -110,7 +116,7 @@ class RemoteRecallSelectorFragment : Fragment() {
         var onItemClickListener: ItemClickListener? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RemoteRecallCardViewHolder {
-            val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_group_selector_tile, parent, false)
+            val layoutView = LayoutInflater.from(parent.context).inflate(R.binding.layout.layout_group_selector_tile, parent, false)
             return RemoteRecallCardViewHolder(layoutView)
         }
 
@@ -121,10 +127,10 @@ class RemoteRecallSelectorFragment : Fragment() {
                 holder.name.text = mode.first.displayName
 
                 if (mode.second) {
-                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     holder.name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     holder.name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }
@@ -144,17 +150,23 @@ class RemoteRecallSelectorFragment : Fragment() {
         }
 
         inner class RemoteRecallCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
+            var binding.cardView: MaterialCardView = itemView.binding.cardView
+            var name: TextView = itemView.binding.tvName
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.ivIcon.visibility = View.GONE
+                itemView.binding.ivIcon.visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(cardView, adapterPosition)
+                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
             }
         }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

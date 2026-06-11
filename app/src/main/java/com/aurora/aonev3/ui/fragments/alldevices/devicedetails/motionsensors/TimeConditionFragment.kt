@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import com.aurora.aonev3.databinding.FragmentTimeConditionBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.debug
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventViewModel
@@ -27,10 +28,13 @@ import com.aurora.aonev3.ui.fragments.schedules.eventselectors.ConditionEndTimeV
 import com.aurora.aonev3.ui.fragments.schedules.eventselectors.ConditionStartTimeViewModel
 import com.aurora.aonev3.ui.fragments.schedules.eventselectors.IScheduleTimeViewModel
 import com.aurora.aonev3.ui.fragments.schedules.eventselectors.ScheduleTimeViewModel
-import kotlinx.android.synthetic.main.fragment_time_condition.*
 import kotlin.math.abs
 
 class TimeConditionFragment : Fragment() {
+
+    private var _binding: FragmentTimeConditionBinding? = null
+    private val binding get() = _binding!!
+
 
     private lateinit var senderEventViewModel: ITimeConditionViewModel
     private val viewModel: ITimeConditionViewModel by viewModels<TimeConditionViewModel>()
@@ -65,7 +69,10 @@ class TimeConditionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_time_condition, container, false)
+        return run {
+            _binding = FragmentTimeConditionBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,38 +107,38 @@ class TimeConditionFragment : Fragment() {
             }
 
             mStartTime?.let { trigger ->
-                tvStartTime.text = when (trigger.trigger) {
+                binding.tvStartTime.text = when (trigger.trigger) {
                     SunriseSunsetType.SUNRISE -> {
-                        startOffsetLayout.visibility = View.VISIBLE
+                        binding.startOffsetLayout.visibility = View.VISIBLE
                         getString(R.string.sunrise)
                     }
                     SunriseSunsetType.SUNSET -> {
-                        startOffsetLayout.visibility = View.VISIBLE
+                        binding.startOffsetLayout.visibility = View.VISIBLE
                         getString(R.string.sunset)
                     }
                     SunriseSunsetType.TIME -> {
-                        startOffsetLayout.visibility = View.GONE
+                        binding.startOffsetLayout.visibility = View.GONE
                         getString(R.string.event_time, trigger.hour, trigger.minute)
                     }
                 }
 
                 when {
                     trigger.offset > 0 -> {
-                        tvStartOffset.text = getString(
+                        tvStartOffsbinding.et.text = getString(
                             R.string.offset_after_time,
                             trigger.offset,
                             trigger.trigger.displayName
                         )
                     }
                     trigger.offset < 0 -> {
-                        tvStartOffset.text = getString(
+                        tvStartOffsbinding.et.text = getString(
                             R.string.offset_before_time,
                             abs(trigger.offset),
                             trigger.trigger.displayName
                         )
                     }
                     else -> {
-                        tvStartOffset.text = getString(R.string.no_offset)
+                        tvStartOffsbinding.et.text = getString(R.string.no_offset)
                     }
                 }
             }
@@ -141,44 +148,43 @@ class TimeConditionFragment : Fragment() {
             it ?: return@observe
             mEndTime = it
 
-
             if (endConditionViewModel.trigger.value == null) {
                 endConditionViewModel.updateTrigger(it.hour, it.minute, it.trigger, it.offset)
             }
 
             mEndTime?.let { trigger ->
-                tvEndTime.text = when (trigger.trigger) {
+                binding.tvEndTime.text = when (trigger.trigger) {
                     SunriseSunsetType.SUNRISE -> {
-                        endOffsetLayout.visibility = View.VISIBLE
+                        binding.endOffsetLayout.visibility = View.VISIBLE
                         getString(R.string.sunrise)
                     }
                     SunriseSunsetType.SUNSET -> {
-                        endOffsetLayout.visibility = View.VISIBLE
+                        binding.endOffsetLayout.visibility = View.VISIBLE
                         getString(R.string.sunset)
                     }
                     SunriseSunsetType.TIME -> {
-                        endOffsetLayout.visibility = View.GONE
+                        binding.endOffsetLayout.visibility = View.GONE
                         getString(R.string.event_time, trigger.hour, trigger.minute)
                     }
                 }
 
                 when {
                     trigger.offset > 0 -> {
-                        tvEndOffset.text = getString(
+                        tvEndOffsbinding.et.text = getString(
                             R.string.offset_after_time,
                             trigger.offset,
                             trigger.trigger.displayName
                         )
                     }
                     trigger.offset < 0 -> {
-                        tvEndOffset.text = getString(
+                        tvEndOffsbinding.et.text = getString(
                             R.string.offset_before_time,
                             abs(trigger.offset),
                             trigger.trigger.displayName
                         )
                     }
                     else -> {
-                        tvEndOffset.text = getString(R.string.no_offset)
+                        tvEndOffsbinding.et.text = getString(R.string.no_offset)
                     }
                 }
             }
@@ -188,29 +194,29 @@ class TimeConditionFragment : Fragment() {
             mIsAllDay = it
 
             if (mIsAllDay != false) {
-                allDayCard.backgroundTintList =
+                binding.allDayCard.backgroundTintList =
                     activity.resources.getColorStateList(R.color.colorTileActive, null)
-                tvAllDay.setTextColor(activity.getColor(R.color.colorTileTextActive))
+                binding.tvAllDay.setTextColor(activity.getColor(R.color.colorTileTextActive))
 
-                startTimeCard.backgroundTintList =
+                binding.startTimeCard.backgroundTintList =
                     activity.resources.getColorStateList(R.color.colorTileTextActive, null)
-                tvStartTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                endTimeCard.backgroundTintList =
+                binding.tvStartTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                binding.endTimeCard.backgroundTintList =
                     activity.resources.getColorStateList(R.color.colorTileTextActive, null)
-                tvEndTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                startOffsetLayout.visibility = View.GONE
-                endOffsetLayout.visibility = View.GONE
+                binding.tvEndTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                binding.startOffsetLayout.visibility = View.GONE
+                binding.endOffsetLayout.visibility = View.GONE
             } else {
-                allDayCard.backgroundTintList =
+                binding.allDayCard.backgroundTintList =
                     activity.resources.getColorStateList(R.color.colorTileTextActive, null)
-                tvAllDay.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                binding.tvAllDay.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
 
-                startTimeCard.backgroundTintList =
+                binding.startTimeCard.backgroundTintList =
                     activity.resources.getColorStateList(R.color.colorTileActive, null)
-                tvStartTime.setTextColor(activity.getColor(R.color.colorTileTextActive))
-                endTimeCard.backgroundTintList =
+                binding.tvStartTime.setTextColor(activity.getColor(R.color.colorTileTextActive))
+                binding.endTimeCard.backgroundTintList =
                     activity.resources.getColorStateList(R.color.colorTileActive, null)
-                tvEndTime.setTextColor(activity.getColor(R.color.colorTileTextActive))
+                binding.tvEndTime.setTextColor(activity.getColor(R.color.colorTileTextActive))
             }
         }
 
@@ -222,30 +228,30 @@ class TimeConditionFragment : Fragment() {
             viewModel.updateEndTime(it.hour, it.minute, it.trigger, it.offset)
         }
 
-        allDayCard.setOnClickListener {
+        binding.allDayCard.setOnClickListener {
             viewModel.setIsAllDay(true)
         }
 
-        startTimeCard.setOnClickListener {
+        binding.startTimeCard.setOnClickListener {
             viewModel.setIsAllDay(false)
 
             val action = TimeConditionFragmentDirections.actionTimeConditionFragmentToScheduleTimeTriggerFragment("${TimeConditionFragment::class.simpleName}_start")
             findNavController().navigate(action)
         }
 
-        startOffsetLayout.setOnClickListener {
+        binding.startOffsetLayout.setOnClickListener {
             val action = TimeConditionFragmentDirections.actionTimeConditionFragmentToOffsetFragment("${TimeConditionFragment::class.simpleName}_start")
             findNavController().navigate(action)
         }
 
-        endTimeCard.setOnClickListener {
+        binding.endTimeCard.setOnClickListener {
             viewModel.setIsAllDay(false)
 
             val action = TimeConditionFragmentDirections.actionTimeConditionFragmentToScheduleTimeTriggerFragment("${TimeConditionFragment::class.simpleName}_end")
             findNavController().navigate(action)
         }
 
-        endOffsetLayout.setOnClickListener {
+        binding.endOffsetLayout.setOnClickListener {
             val action = TimeConditionFragmentDirections.actionTimeConditionFragmentToOffsetFragment("${TimeConditionFragment::class.simpleName}_end")
             findNavController().navigate(action)
         }
@@ -290,4 +296,10 @@ interface ITimeConditionViewModel {
     fun setIsAllDay(isAllDay: Boolean)
     fun updateStartTime(hour: Int = startTime.value?.hour ?: 0, minute: Int = startTime.value?.minute ?: 0, trigger: SunriseSunsetType = startTime.value?.trigger ?: SunriseSunsetType.TIME, offset: Int = startTime.value?.offset ?: 0)
     fun updateEndTime(hour: Int = endTime.value?.hour ?: 0, minute: Int = endTime.value?.minute ?: 0, trigger: SunriseSunsetType = endTime.value?.trigger ?: SunriseSunsetType.TIME, offset: Int = endTime.value?.offset ?: 0)
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

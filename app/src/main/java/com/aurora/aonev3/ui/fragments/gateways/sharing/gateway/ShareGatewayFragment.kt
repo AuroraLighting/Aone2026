@@ -18,15 +18,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentShareGatewayBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.network.handlers.AccessTemplate
 import com.aurora.aonev3.network.handlers.Share
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.fragment_share_gateway.*
-import kotlinx.android.synthetic.main.fragment_share_gateway.etEmail
-import kotlinx.android.synthetic.main.layout_share_item.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -36,6 +33,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ShareGatewayFragment : Fragment() {
+
+    private var _binding: FragmentShareGatewayBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         fun newInstance() = ShareGatewayFragment()
@@ -51,7 +52,10 @@ class ShareGatewayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_share_gateway, container, false)
+        return run {
+            _binding = FragmentShareGatewayBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -114,7 +118,7 @@ class ShareGatewayFragment : Fragment() {
                             JSONObject()
                                 .put(
                                     "TP",
-                                    if (isVirtualSwitch.isChecked) AccessTemplate.EDIT_ROOT.displayName else AccessTemplate.USE_ROOT.displayName
+                                    if (binding.isVirtualSwitch.isChecked) AccessTemplate.EDIT_ROOT.displayName else AccessTemplate.USE_ROOT.displayName
                                 )
                         )
                 )
@@ -192,10 +196,10 @@ class ShareGatewayFragment : Fragment() {
 
             if (shares.isNotEmpty()) {
                 tvSharedUsers.visibility = View.VISIBLE
-                rvUsers.visibility = View.VISIBLE
+                binding.rvUsers.visibility = View.VISIBLE
             } else {
                 tvSharedUsers.visibility = View.GONE
-                rvUsers.visibility = View.GONE
+                binding.rvUsers.visibility = View.GONE
             }
         }
     }
@@ -207,7 +211,7 @@ class ShareGatewayFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserShareViewHolder {
             val layoutView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.layout_share_item, parent, false)
+                .inflate(R.binding.layout.layout_share_item, parent, false)
             return UserShareViewHolder(layoutView)
         }
 
@@ -227,8 +231,8 @@ class ShareGatewayFragment : Fragment() {
         }
 
         inner class UserShareViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val tvName = itemView.tvName
-            private val tvEmail = itemView.tvEmail
+            private val binding.tvName = itemView.binding.tvName
+            private val binding.tvEmail = itemView.binding.tvEmail
 
             init {
                 itemView.setOnClickListener(this)
@@ -239,10 +243,16 @@ class ShareGatewayFragment : Fragment() {
             }
 
             fun setShare(share: Share) {
-                tvName.text = share.name
-                tvEmail.text = share.email
+                binding.tvName.text = share.name
+                binding.tvEmail.text = share.email
             }
         }
     }
 
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

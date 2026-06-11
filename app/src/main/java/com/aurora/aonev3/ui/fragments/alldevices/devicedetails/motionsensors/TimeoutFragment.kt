@@ -11,11 +11,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.aurora.aonev3.databinding.FragmentTimeoutBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.debug
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventFragment
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventViewModel
-import kotlinx.android.synthetic.main.fragment_timeout.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val SENDER = "param1"
@@ -27,10 +27,13 @@ private const val SENDER = "param1"
  */
 class TimeoutFragment : Fragment() {
 
+    private var _binding: FragmentTimeoutBinding? = null
+    private val binding get() = _binding!!
+
+
     private lateinit var viewModel: ITimeoutViewModel
     private val args: TimeoutFragmentArgs by navArgs()
     private val sender: String by lazy { args.sender }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +51,10 @@ class TimeoutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timeout, container, false)
+        return run {
+            _binding = FragmentTimeoutBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,9 +62,9 @@ class TimeoutFragment : Fragment() {
         debug(sender)
 
         if (sender != DoorSensorEventFragment::class.simpleName) {
-            infoIv.visibility = View.GONE
+            binding.infoIv.visibility = View.GONE
         } else {
-            infoIv.visibility = View.VISIBLE
+            binding.infoIv.visibility = View.VISIBLE
         }
 
         viewModel.timeout.observe(viewLifecycleOwner, { value ->
@@ -66,44 +72,43 @@ class TimeoutFragment : Fragment() {
                 val minutes = 0
                 val seconds = 0
 
-                minutePicker.value = minutes
-                secondPicker.value = seconds
+                binding.minutePicker.value = minutes
+                binding.secondPicker.value = seconds
             } else {
                 val minutes = value / 60
                 val seconds = value % 60
 
-                minutePicker.value = minutes
-                secondPicker.value = seconds
+                binding.minutePicker.value = minutes
+                binding.secondPicker.value = seconds
             }
         })
 
+        binding.minutePicker.maxValue = 60
+        binding.secondPicker.maxValue = 59
 
-        minutePicker.maxValue = 60
-        secondPicker.maxValue = 59
-
-        secondPicker.setOnValueChangedListener { _, oldVal, newVal ->
+        binding.secondPicker.setOnValueChangedListener { _, oldVal, newVal ->
             if (oldVal == 59 && newVal == 0) {
-                if (minutePicker.value != 60) {
-                    minutePicker.value++
+                if (binding.minutePicker.value != 60) {
+                    binding.minutePicker.value++
                 }
             }
             if (oldVal == 0 && newVal == 59) {
-                if (minutePicker.value != 0) {
-                    minutePicker.value--
+                if (binding.minutePicker.value != 0) {
+                    binding.minutePicker.value--
                 }
             }
         }
 
-        minutePicker.setOnValueChangedListener { _, oldVal, newVal ->
+        binding.minutePicker.setOnValueChangedListener { _, oldVal, newVal ->
             if (newVal == 60) {
-                secondPicker.maxValue = 0
+                binding.secondPicker.maxValue = 0
             } else if (oldVal == 60) {
-                secondPicker.maxValue = 59
+                binding.secondPicker.maxValue = 59
             }
         }
 
         btnSave.setOnClickListener {
-            viewModel.timeout.postValue(minutePicker.value * 60 + secondPicker.value)
+            viewModel.timeout.postValue(binding.minutePicker.value * 60 + binding.secondPicker.value)
 
             findNavController().popBackStack()
         }
@@ -112,7 +117,7 @@ class TimeoutFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        infoIv.setOnClickListener {
+        binding.infoIv.setOnClickListener {
             val activity = activity ?: return@setOnClickListener
 
             if (!activity.isFinishing) {
@@ -144,4 +149,10 @@ class TimeoutFragment : Fragment() {
 
 interface ITimeoutViewModel {
     var timeout: MutableLiveData<Int?>
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

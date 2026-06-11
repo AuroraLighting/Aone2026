@@ -12,16 +12,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
 import com.aurora.aonev3.data.devices.Device
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.fragment_selector.*
-import kotlinx.android.synthetic.main.layout_add_nested_group_tile.view.*
 
 class WallDimmerControlTargetFragment : Fragment() {
+
+    private var _binding: FragmentSelectorBinding? = null
+    private val binding get() = _binding!!
+
 
     private val viewModel: WallDimmerControlTargetViewModel by viewModels()
     private val args: WallDimmerControlTargetFragmentArgs by navArgs()
@@ -40,7 +43,10 @@ class WallDimmerControlTargetFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_selector, container, false)
+        return run {
+            _binding = FragmentSelectorBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,7 +97,7 @@ class WallDimmerControlTargetFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallDimmerControlTargetViewHolder {
             val layoutView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.layout_add_nested_group_tile, parent, false)
+                .inflate(R.binding.layout.layout_add_nested_group_tile, parent, false)
             return WallDimmerControlTargetViewHolder(layoutView)
         }
 
@@ -124,8 +130,8 @@ class WallDimmerControlTargetFragment : Fragment() {
 
         inner class WallDimmerControlTargetViewHolder(itemView: View):
             RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
+            var binding.cardView: MaterialCardView = itemView.binding.cardView
+            var name: TextView = itemView.binding.tvName
 
             init {
                 itemView.setOnClickListener(this)
@@ -143,12 +149,18 @@ class WallDimmerControlTargetFragment : Fragment() {
 
                 if (device == viewModel.target) {
                     name.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-                    cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileActive))
+                    binding.cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileActive))
                 } else {
                     name.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextPrimary))
-                    cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileInactive))
+                    binding.cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileInactive))
                 }
             }
         }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

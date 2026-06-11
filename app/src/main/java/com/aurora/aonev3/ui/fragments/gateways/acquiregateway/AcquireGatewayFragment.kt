@@ -11,14 +11,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.aurora.aonev3.databinding.FragmentAcquireGatewayBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.signOut
 import com.aurora.aonev3.ui.activities.BarcodeActivity
 import com.aurora.aonev3.ui.activities.login.LoginActivity
-import kotlinx.android.synthetic.main.fragment_acquire_gateway.*
-
 
 class AcquireGatewayFragment : Fragment() {
+
+    private var _binding: FragmentAcquireGatewayBinding? = null
+    private val binding get() = _binding!!
+
     private var TAG = this::class.simpleName
     private val SCAN_BARCODE_RQ = 0
 
@@ -29,7 +32,10 @@ class AcquireGatewayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_acquire_gateway, container, false)
+        return run {
+            _binding = FragmentAcquireGatewayBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,10 +102,14 @@ class AcquireGatewayFragment : Fragment() {
 
     }
 
-
-
     companion object {
         @JvmStatic
         fun newInstance() = AcquireGatewayFragment()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

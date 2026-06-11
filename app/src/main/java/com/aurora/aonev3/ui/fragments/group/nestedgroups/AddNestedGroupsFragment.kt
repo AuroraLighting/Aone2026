@@ -13,16 +13,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentAddNestedGroupsBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_add_nested_groups.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
+
+    private var _binding: FragmentAddNestedGroupsBinding? = null
+    private val binding get() = _binding!!
+
 
     private val args: AddNestedGroupsFragmentArgs by navArgs()
     private val viewModel: AddNestedGroupsViewModel by viewModels()
@@ -44,7 +47,10 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_nested_groups, container, false)
+        return run {
+            _binding = FragmentAddNestedGroupsBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,11 +109,11 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             findNavController().popBackStack()
         }
 
-        menu.setOnClickListener {
+        binding.menu.setOnClickListener {
             val popup = PopupMenu(requireContext(), it)
-            popup.menuInflater.inflate(R.menu.nested_groups_menu, popup.menu)
+            popup.menuInflater.inflate(R.binding.menu.nested_groups_menu, popup.menu)
             if (viewModel.group?.metadata?.optBoolean("is_virtual_group") == true) {
-                popup.menu.findItem(R.id.create).title =
+                popup.binding.menu.findItem(R.id.create).title =
                     getString(R.string.create_new_group)
             }
             popup.setOnMenuItemClickListener(this)
@@ -129,5 +135,11 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     companion object {
         fun newInstance() =
             AddNestedGroupsFragment()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

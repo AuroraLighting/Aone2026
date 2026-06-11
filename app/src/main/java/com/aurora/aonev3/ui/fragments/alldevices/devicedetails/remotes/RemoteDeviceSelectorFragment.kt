@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentDeviceSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SectionHeaderViewHolder
@@ -23,10 +24,12 @@ import com.aurora.aonev3.data.groups.groupmembers.GroupMember
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.ui.fragments.group.GroupRecyclerViewAdapter
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.fragment_device_selector.*
-import kotlinx.android.synthetic.main.layout_group_selector_tile.view.*
 
 class RemoteDeviceSelectorFragment : Fragment() {
+
+    private var _binding: FragmentDeviceSelectorBinding? = null
+    private val binding get() = _binding!!
+
 
     private val viewModel: RemoteDetailViewModel by activityViewModels()
     private var mGroup: Group? = null
@@ -46,7 +49,10 @@ class RemoteDeviceSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_device_selector, container, false)
+        return run {
+            _binding = FragmentDeviceSelectorBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,8 +86,8 @@ class RemoteDeviceSelectorFragment : Fragment() {
         btnSave.setOnClickListener {
             val target = lightsAdapter.getSelected() ?: return@setOnClickListener
 
-            if (target.type != DeviceTargetRecyclerViewType.GROUP) {
-                val device = target.device ?: return@setOnClickListener
+            if (targbinding.et.type != DeviceTargetRecyclerViewType.GROUP) {
+                val device = targbinding.et.device ?: return@setOnClickListener
 
                 val ldev = device.ldevs.first()
                 viewModel.targetDevice.postValue(Pair(device, ldev))
@@ -129,19 +135,19 @@ class RemoteDeviceSelectorFragment : Fragment() {
                 DeviceTargetRecyclerViewType.SECTION.ordinal -> {
                     val layoutView =
                         LayoutInflater.from(parent.context)
-                            .inflate(R.layout.layout_section_header, parent, false)
+                            .inflate(R.binding.layout.layout_section_header, parent, false)
                     SectionHeaderViewHolder(layoutView)
                 }
                 DeviceTargetRecyclerViewType.GROUP.ordinal -> {
                     val layoutView =
                         LayoutInflater.from(parent.context)
-                            .inflate(R.layout.layout_group_selector_tile, parent, false)
+                            .inflate(R.binding.layout.layout_group_selector_tile, parent, false)
                     RemoteGroupCardViewHolder(layoutView)
                 }
                 else -> {
                     val layoutView =
                         LayoutInflater.from(parent.context)
-                            .inflate(R.layout.layout_group_selector_tile, parent, false)
+                            .inflate(R.binding.layout.layout_group_selector_tile, parent, false)
                     RemoteDeviceCardViewHolder(layoutView)
                 }
             }
@@ -303,7 +309,6 @@ class RemoteDeviceSelectorFragment : Fragment() {
         }
     }
 
-
     enum class DeviceTargetRecyclerViewType {
         GROUP,
         SECTION,
@@ -316,5 +321,11 @@ class RemoteDeviceSelectorFragment : Fragment() {
         LIGHTS("Lights"),
         POWER("Power"),
         SWITCHES("Switches")
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -12,15 +12,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentAccountBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.aurora.aonev3.network.handlers.OtaHandler
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AccountFragment : Fragment() {
+
+    private var _binding: FragmentAccountBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         private const val TAG = "AccountFragment"
@@ -34,7 +38,10 @@ class AccountFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_account, container, false)
+        return run {
+            _binding = FragmentAccountBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -117,4 +124,10 @@ class AccountFragment : Fragment() {
         }
     }
 
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentSelectorBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.logic.TriggerEnum
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventFragment
@@ -23,13 +24,15 @@ import com.aurora.aonev3.ui.fragments.schedules.EventTarget
 import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventFragment
 import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventViewModel
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.fragment_selector.*
-import kotlinx.android.synthetic.main.layout_group_selector_tile.view.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val SENDER = "sender"
 
 class EventTriggerSelectorFragment : Fragment() {
+
+    private var _binding: FragmentSelectorBinding? = null
+    private val binding get() = _binding!!
+
     private var sender: String? = null
 
     private lateinit var viewModel: IEventTriggerSelectorViewModel
@@ -52,7 +55,10 @@ class EventTriggerSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_selector, container, false)
+        return run {
+            _binding = FragmentSelectorBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -117,7 +123,7 @@ class EventTriggerSelectorFragment : Fragment() {
             }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TriggerCardViewHolder {
-            val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_group_selector_tile, parent, false)
+            val layoutView = LayoutInflater.from(parent.context).inflate(R.binding.layout.layout_group_selector_tile, parent, false)
             return TriggerCardViewHolder(layoutView)
         }
 
@@ -132,12 +138,12 @@ class EventTriggerSelectorFragment : Fragment() {
         fun getItem(position: Int): TriggerEnum? = triggers.getOrNull(position)
 
         inner class TriggerCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private var cardView: MaterialCardView = itemView.cardView
-            private var name: TextView = itemView.tvName
+            private var binding.cardView: MaterialCardView = itemView.binding.cardView
+            private var name: TextView = itemView.binding.tvName
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.ivIcon.visibility = View.GONE
+                itemView.binding.ivIcon.visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {
@@ -150,10 +156,10 @@ class EventTriggerSelectorFragment : Fragment() {
                 name.text = trigger.name.toCapitalisedLowerCase()
 
                 if (trigger == selected) {
-                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }
@@ -163,4 +169,10 @@ class EventTriggerSelectorFragment : Fragment() {
 
 interface IEventTriggerSelectorViewModel {
     var trigger: MutableLiveData<TriggerEnum?>
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

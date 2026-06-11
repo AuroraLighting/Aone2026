@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.ActivityCreateAccountBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.network.handlers.CloudHandler
@@ -14,66 +15,69 @@ import com.aurora.aonev3.ui.activities.TermsActivity
 import com.aurora.aonev3.ui.activities.login.LoginActivity
 import com.aurora.aonev3.ui.activities.login.afterTextChanged
 import com.aurora.aonev3.ui.activities.login.toJSONObject
-import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CreateAccountActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityCreateAccountBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_account)
+        binding = ActivityCreateAccountBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        etName.afterTextChanged {
-            btnRegister.isEnabled = etName.text.toString().isNotBlank() &&
-                    etEmail.text.toString().isNotBlank() &&
-                    etPassword.text.toString().isNotBlank() &&
-                    termsSwitch.isChecked &&
-                    ppSwitch.isChecked
+        binding.etName.afterTextChanged {
+            binding.btnRegister.isEnabled = binding.etName.text.toString().isNotBlank() &&
+                    binding.etEmail.text.toString().isNotBlank() &&
+                    binding.etPassword.text.toString().isNotBlank() &&
+                    binding.termsSwitch.isChecked &&
+                    binding.ppSwitch.isChecked
         }
-        etEmail.afterTextChanged {
-            btnRegister.isEnabled = etName.text.toString().isNotBlank() &&
-                    etEmail.text.toString().isNotBlank() &&
-                    etPassword.text.toString().isNotBlank() &&
-                    termsSwitch.isChecked &&
-                    ppSwitch.isChecked
+        binding.etEmail.afterTextChanged {
+            binding.btnRegister.isEnabled = binding.etName.text.toString().isNotBlank() &&
+                    binding.etEmail.text.toString().isNotBlank() &&
+                    binding.etPassword.text.toString().isNotBlank() &&
+                    binding.termsSwitch.isChecked &&
+                    binding.ppSwitch.isChecked
         }
-        etPassword.afterTextChanged {
-            btnRegister.isEnabled = etName.text.toString().isNotBlank() &&
-                    etEmail.text.toString().isNotBlank() &&
-                    etPassword.text.toString().isNotBlank() &&
-                    termsSwitch.isChecked &&
-                    ppSwitch.isChecked
+        binding.etPassword.afterTextChanged {
+            binding.btnRegister.isEnabled = binding.etName.text.toString().isNotBlank() &&
+                    binding.etEmail.text.toString().isNotBlank() &&
+                    binding.etPassword.text.toString().isNotBlank() &&
+                    binding.termsSwitch.isChecked &&
+                    binding.ppSwitch.isChecked
         }
-        termsSwitch.setOnCheckedChangeListener { _, _ ->
-            btnRegister.isEnabled = etName.text.toString().isNotBlank() &&
-                    etEmail.text.toString().isNotBlank() &&
-                    etPassword.text.toString().isNotBlank() &&
-                    termsSwitch.isChecked &&
-                    ppSwitch.isChecked
+        binding.termsSwitch.setOnCheckedChangeListener { _, _ ->
+            binding.btnRegister.isEnabled = binding.etName.text.toString().isNotBlank() &&
+                    binding.etEmail.text.toString().isNotBlank() &&
+                    binding.etPassword.text.toString().isNotBlank() &&
+                    binding.termsSwitch.isChecked &&
+                    binding.ppSwitch.isChecked
         }
 
-        termsTv.setOnClickListener {
+        binding.termsTv.setOnClickListener {
             startActivity(Intent(this, TermsActivity::class.java))
         }
 
-        ppTv.setOnClickListener {
+        binding.ppTv.setOnClickListener {
             startActivity(Intent(this, PrivacyPolicyActivity::class.java))
         }
 
-        ppSwitch.setOnCheckedChangeListener { _, _ ->
-            btnRegister.isEnabled = etName.text.toString().isNotBlank() &&
-                    etEmail.text.toString().isNotBlank() &&
-                    etPassword.text.toString().isNotBlank() &&
-                    termsSwitch.isChecked &&
-                    ppSwitch.isChecked
+        binding.ppSwitch.setOnCheckedChangeListener { _, _ ->
+            binding.btnRegister.isEnabled = binding.etName.text.toString().isNotBlank() &&
+                    binding.etEmail.text.toString().isNotBlank() &&
+                    binding.etPassword.text.toString().isNotBlank() &&
+                    binding.termsSwitch.isChecked &&
+                    binding.ppSwitch.isChecked
         }
 
-        btnRegister.setOnClickListener {
-            val name: String = etName.text?.toString() ?: ""
-            val email: String = etEmail.text?.toString() ?: ""
-            val password: String = etPassword.text?.toString() ?: ""
+        binding.btnRegister.setOnClickListener {
+            val name: String = binding.etName.text?.toString() ?: ""
+            val email: String = binding.etEmail.text?.toString() ?: ""
+            val password: String = binding.etPassword.text?.toString() ?: ""
             val names = name.split(" ", limit = 2)
 
             val firstName = names.firstOrNull() ?: ""

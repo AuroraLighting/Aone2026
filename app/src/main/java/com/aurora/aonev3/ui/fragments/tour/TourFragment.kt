@@ -8,10 +8,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import com.aurora.aonev3.databinding.FragmentTourBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
-import kotlinx.android.synthetic.main.activity_tour.*
-import kotlinx.android.synthetic.main.fragment_tour.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,6 +23,10 @@ private const val ARG_INDEX = "index"
  * create an instance of this fragment.
  */
 class TourFragment : Fragment() {
+
+    private var _binding: FragmentTourBinding? = null
+    private val binding get() = _binding!!
+
     // TODO: Rename and change types of parameters
     private var screen: String? = null
     private var index: String? = null
@@ -41,7 +44,10 @@ class TourFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tour, container, false)
+        return run {
+            _binding = FragmentTourBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,8 +57,8 @@ class TourFragment : Fragment() {
             "home" -> {
                 when (index?.toInt()) {
                     1 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_home_1))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_home_1))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             80,
@@ -60,18 +66,18 @@ class TourFragment : Fragment() {
                             params.bottomMargin
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text = ""
+                        binding.textView.text = ""
 
-                        activity?.tabLayout?.visibility = View.VISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.VISIBLE
 
-                        btnDone.visibility = View.GONE
+                        binding.btnDone.visibility = View.GONE
                     }
                     2 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_home_2))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_home_2))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             80,
@@ -79,18 +85,18 @@ class TourFragment : Fragment() {
                             params.bottomMargin
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text = ""
+                        binding.textView.text = ""
 
-                        activity?.tabLayout?.visibility = View.VISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.VISIBLE
 
-                        btnDone.visibility = View.GONE
+                        binding.btnDone.visibility = View.GONE
                     }
                     3 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_home_3))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_home_3))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             0,
@@ -98,19 +104,19 @@ class TourFragment : Fragment() {
                             params.bottomMargin + 100
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text =
+                        binding.textView.text =
                             getString(R.string.tour_home_2)
 
-                        activity?.tabLayout?.visibility = View.VISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.VISIBLE
 
-                        btnDone.visibility = View.GONE
+                        binding.btnDone.visibility = View.GONE
                     }
                     4 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_home_4))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_home_4))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             0,
@@ -118,19 +124,19 @@ class TourFragment : Fragment() {
                             params.bottomMargin + 80
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text =
+                        binding.textView.text =
                             getString(R.string.tour_home_3)
 
-                        activity?.tabLayout?.visibility = View.INVISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.INVISIBLE
 
-                        btnDone.visibility = View.VISIBLE
+                        binding.btnDone.visibility = View.VISIBLE
                     }
                 }
 
-                btnDone.setOnClickListener {
+                binding.btnDone.setOnClickListener {
                     SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                         putBoolean("homeTourDone", true)
                     }
@@ -141,8 +147,8 @@ class TourFragment : Fragment() {
             "all_devices" -> {
                 when (index?.toInt()) {
                     1 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_all_devices_1))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_all_devices_1))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             0,
@@ -150,19 +156,19 @@ class TourFragment : Fragment() {
                             params.bottomMargin + 100
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text =
+                        binding.textView.text =
                             getString(R.string.tour_all_devices_1)
 
-                        activity?.tabLayout?.visibility = View.VISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.VISIBLE
 
-                        btnDone.visibility = View.GONE
+                        binding.btnDone.visibility = View.GONE
                     }
                     2 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_all_devices_2))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_all_devices_2))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             80,
@@ -170,19 +176,18 @@ class TourFragment : Fragment() {
                             params.bottomMargin
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text = ""
+                        binding.textView.text = ""
 
-                        activity?.tabLayout?.visibility = View.INVISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.INVISIBLE
 
-
-                        btnDone.visibility = View.VISIBLE
+                        binding.btnDone.visibility = View.VISIBLE
                     }
                 }
 
-                btnDone.setOnClickListener {
+                binding.btnDone.setOnClickListener {
                     SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                         putBoolean("allDevicesTourDone", true)
                     }
@@ -193,8 +198,8 @@ class TourFragment : Fragment() {
             "group" -> {
                 when (index?.toInt()) {
                     1 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_group_1))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_group_1))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             80,
@@ -202,18 +207,18 @@ class TourFragment : Fragment() {
                             params.bottomMargin
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text = ""
+                        binding.textView.text = ""
 
-                        activity?.tabLayout?.visibility = View.VISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.VISIBLE
 
-                        btnDone.visibility = View.GONE
+                        binding.btnDone.visibility = View.GONE
                     }
                     2 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_group_2))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_group_2))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             80,
@@ -221,18 +226,18 @@ class TourFragment : Fragment() {
                             params.bottomMargin
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text = ""
+                        binding.textView.text = ""
 
-                        activity?.tabLayout?.visibility = View.VISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.VISIBLE
 
-                        btnDone.visibility = View.GONE
+                        binding.btnDone.visibility = View.GONE
                     }
                     3 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_group_3))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_group_3))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             80,
@@ -240,18 +245,18 @@ class TourFragment : Fragment() {
                             params.bottomMargin
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text = ""
+                        binding.textView.text = ""
 
-                        activity?.tabLayout?.visibility = View.VISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.VISIBLE
 
-                        btnDone.visibility = View.GONE
+                        binding.btnDone.visibility = View.GONE
                     }
                     4 -> {
-                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_group_4))
-                        val params = imageView.layoutParams as? ConstraintLayout.LayoutParams
+                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.tour_group_4))
+                        val params = binding.imageView.layoutParams as? ConstraintLayout.LayoutParams
                         params?.setMargins(
                             params.leftMargin,
                             80,
@@ -259,19 +264,18 @@ class TourFragment : Fragment() {
                             params.bottomMargin
                         )
                         params?.let { p ->
-                            imageView.layoutParams = p
+                            binding.imageView.layoutParams = p
                         }
 
-                        textView.text = ""
+                        binding.textView.text = ""
 
-                        activity?.tabLayout?.visibility = View.INVISIBLE
+                        activity?.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)?.visibility = View.INVISIBLE
 
-
-                        btnDone.visibility = View.VISIBLE
+                        binding.btnDone.visibility = View.VISIBLE
                     }
                 }
 
-                btnDone.setOnClickListener {
+                binding.btnDone.setOnClickListener {
                     SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                         putBoolean("groupTourDone", true)
                     }
@@ -301,5 +305,11 @@ class TourFragment : Fragment() {
                     putString(ARG_INDEX, index)
                 }
             }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

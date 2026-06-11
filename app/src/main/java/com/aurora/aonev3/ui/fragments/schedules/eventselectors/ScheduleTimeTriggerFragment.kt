@@ -23,6 +23,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentTimeTriggerBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.R
 import com.aurora.aonev3.logic.CollectionType
@@ -33,8 +34,6 @@ import com.aurora.aonev3.ui.activities.SplashscreenActivity
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.TimeConditionFragment
 import com.aurora.aonev3.ui.fragments.schedules.*
 import com.google.android.gms.location.LocationServices
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_time_trigger.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,6 +42,10 @@ import javax.security.auth.login.LoginException
 const val LOCATION_PERMISSION_RC = 0
 
 class ScheduleTimeTriggerFragment : Fragment() {
+
+    private var _binding: FragmentTimeTriggerBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var eventTimeViewModel: IScheduleTimeViewModel
     private val viewModel: IScheduleTimeViewModel by viewModels<ScheduleTimeViewModel>()
     private val sunriseSunsetViewModel: SunriseSunsetViewModel by activityViewModels()
@@ -82,7 +85,10 @@ class ScheduleTimeTriggerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_time_trigger, container, false)
+        return run {
+            _binding = FragmentTimeTriggerBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -121,31 +127,31 @@ class ScheduleTimeTriggerFragment : Fragment() {
         viewModel.trigger.observe(viewLifecycleOwner) { trigger ->
             trigger?.let {
                 val string = String.format("%02d:%02d", trigger.hour, trigger.minute)
-                btnTime.text = string
+                binding.btnTime.text = string
 
                 when (it.trigger) {
                     SunriseSunsetType.SUNRISE -> {
-                        btnSunrise.backgroundTintList =
+                        binding.btnSunrise.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileActive)
-                        btnSunset.backgroundTintList =
+                        binding.btnSunsbinding.et.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        btnTime.backgroundTintList =
+                        binding.btnTime.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
                     }
                     SunriseSunsetType.SUNSET -> {
-                        btnSunrise.backgroundTintList =
+                        binding.btnSunrise.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        btnSunset.backgroundTintList =
+                        binding.btnSunsbinding.et.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileActive)
-                        btnTime.backgroundTintList =
+                        binding.btnTime.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
                     }
                     SunriseSunsetType.TIME -> {
-                        btnSunrise.backgroundTintList =
+                        binding.btnSunrise.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        btnSunset.backgroundTintList =
+                        binding.btnSunsbinding.et.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileInactive)
-                        btnTime.backgroundTintList =
+                        binding.btnTime.backgroundTintList =
                             activity.getColorStateList(R.color.colorTileActive)
                     }
                 }
@@ -156,15 +162,15 @@ class ScheduleTimeTriggerFragment : Fragment() {
             viewModel.updateTrigger(hour = it.hour, minute = it.minute, triggerType = it.trigger, offset = it.offset)
         }
 
-        btnSunrise.setOnClickListener {
+        binding.btnSunrise.setOnClickListener {
             viewModel.updateTrigger(triggerType = SunriseSunsetType.SUNRISE)
         }
 
-        btnSunset.setOnClickListener {
+        binding.btnSunsbinding.et.setOnClickListener {
             viewModel.updateTrigger(triggerType = SunriseSunsetType.SUNSET)
         }
 
-        btnTime.setOnClickListener {
+        binding.btnTime.setOnClickListener {
             val trigger = viewModel.trigger.value
             val triggerHour = trigger?.hour ?: 0
             val triggerMinute = trigger?.minute ?: 0
@@ -179,11 +185,11 @@ class ScheduleTimeTriggerFragment : Fragment() {
             ).show()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             if (viewModel.trigger.value?.trigger == SunriseSunsetType.SUNRISE ||
                     viewModel.trigger.value?.trigger == SunriseSunsetType.SUNSET) {
                 if (sunriseSunsetViewModel.sunriseSunsetLogicCollection == null) {
@@ -226,7 +232,7 @@ class ScheduleTimeTriggerFragment : Fragment() {
     private fun requestLocation() {
         activity ?: return
         requireActivity().runOnUiThread {
-            requireActivity().layoutGreyOut.visibility = View.VISIBLE
+            requireActivity().findViewById<android.view.View>(R.id.layoutGreyOut).visibility = View.VISIBLE
         }
         LocationServices.getFusedLocationProviderClient(requireActivity()).lastLocation.addOnSuccessListener { location ->
             if (location == null) {
@@ -260,7 +266,7 @@ class ScheduleTimeTriggerFragment : Fragment() {
                 activity ?: return@launch
                 requireActivity().runOnUiThread {
                     activity ?: return@runOnUiThread
-                    requireActivity().layoutGreyOut.visibility = View.GONE
+                    requireActivity().findViewById<android.view.View>(R.id.layoutGreyOut).visibility = View.GONE
 
                     findNavController().popBackStack()
                 }
@@ -294,5 +300,11 @@ class ScheduleTimeTriggerFragment : Fragment() {
                 // Ignore all other requests.
             }
         }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

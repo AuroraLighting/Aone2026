@@ -17,7 +17,6 @@ import com.aurora.aonev3.toCapitalisedLowerCase
 import com.aurora.aonev3.ui.activities.login.afterTextChanged
 import com.aurora.aonev3.ui.fragments.group.nestedgroups.AddNestedGroupsRecyclerViewAdapter.*
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.layout_group_selector_tile.view.*
 
 class GroupSelectorViewAdapter internal constructor(val context: Context, private val createSpace: Boolean = true) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -125,7 +124,6 @@ class GroupSelectorViewAdapter internal constructor(val context: Context, privat
         var icon: ImageView = standardLayout.ivIcon
         var newGroupLayout: ConstraintLayout = itemView.newGroupLayout
         var newGroupEt: EditText = newGroupLayout.etName
-
 
         init {
             itemView.setOnClickListener(this)

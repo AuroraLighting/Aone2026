@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.ItemClickListener
 import com.aurora.aonev3.R
@@ -24,13 +25,15 @@ import com.aurora.aonev3.ui.fragments.schedules.EventTarget
 import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventFragment
 import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventViewModel
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.fragment_selector.*
-import kotlinx.android.synthetic.main.layout_group_selector_tile.view.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val SENDER = "sender"
 
 class EventTargetSelectorFragment : Fragment() {
+
+    private var _binding: FragmentSelectorBinding? = null
+    private val binding get() = _binding!!
+
     private var sender: String? = null
 
     private lateinit var viewModel: IEventTargetSelectorViewModel
@@ -60,7 +63,10 @@ class EventTargetSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_selector, container, false)
+        return run {
+            _binding = FragmentSelectorBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,7 +98,7 @@ class EventTargetSelectorFragment : Fragment() {
 
         btnSave.setOnClickListener {
             val target = eventTargetAdapter.getSelected()?.first ?: return@setOnClickListener
-            viewModel.eventTarget.postValue(target)
+            viewModel.eventTargbinding.et.postValue(target)
 
             findNavController().popBackStack()
         }
@@ -101,7 +107,7 @@ class EventTargetSelectorFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        viewModel.eventTarget.observe(viewLifecycleOwner, { eventTarget ->
+        viewModel.eventTargbinding.et.observe(viewLifecycleOwner, { eventTarget ->
             eventTarget?.let {
                 val items = eventTargetAdapter.getItems().map { item ->
                     if (item.first == eventTarget) {
@@ -126,11 +132,11 @@ class EventTargetSelectorFragment : Fragment() {
 
     class EventTargetViewAdapter internal constructor(val context: Context) : RecyclerView.Adapter<EventTargetViewAdapter.EventTargetCardViewHolder>() {
 
-        private var targetList = EventTarget.values().map { Pair(it, false) }.toList()
+        private var targetList = EventTargbinding.et.values().map { Pair(it, false) }.toList()
         var onItemClickListener: ItemClickListener? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventTargetCardViewHolder {
-            val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_group_selector_tile, parent, false)
+            val layoutView = LayoutInflater.from(parent.context).inflate(R.binding.layout.layout_group_selector_tile, parent, false)
             return EventTargetCardViewHolder(layoutView)
         }
 
@@ -138,13 +144,13 @@ class EventTargetSelectorFragment : Fragment() {
             if (position < targetList.size) {
                 val target = targetList[position]
 
-                holder.name.text = target.first.displayName
+                holder.name.text = targbinding.et.first.displayName
 
-                if (target.second) {
-                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                if (targbinding.et.second) {
+                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     holder.name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     holder.name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }
@@ -164,16 +170,16 @@ class EventTargetSelectorFragment : Fragment() {
         }
 
         inner class EventTargetCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
+            var binding.cardView: MaterialCardView = itemView.binding.cardView
+            var name: TextView = itemView.binding.tvName
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.ivIcon.visibility = View.GONE
+                itemView.binding.ivIcon.visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(cardView, adapterPosition)
+                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
             }
         }
     }
@@ -181,4 +187,10 @@ class EventTargetSelectorFragment : Fragment() {
 
 interface IEventTargetSelectorViewModel {
     var eventTarget: MutableLiveData<EventTarget?>
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

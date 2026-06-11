@@ -27,11 +27,6 @@ import com.aurora.aonev3.logic.CollectionType
 import com.aurora.aonev3.ui.IconsDevices
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.layout_device_tile.view.*
-import kotlinx.android.synthetic.main.layout_device_tile.view.cardView
-import kotlinx.android.synthetic.main.layout_device_tile.view.tvName
-import kotlinx.android.synthetic.main.layout_double_socket_tile.view.*
-import kotlinx.android.synthetic.main.layout_schedule_tile.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -312,12 +307,12 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
 
     inner class LightCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener, View.OnLongClickListener {
-        private val cardView: MaterialCardView = itemView.cardView
-        private val nameTv: TextView = itemView.tvName
-        private val levelTv: TextView = itemView.tvLevel
-        private val colourTemperatureTv: TextView = itemView.tvColourTemperature
-        private val iconIv: ImageView = itemView.ivIcon
-        private val ivOfflineIv: ImageView = itemView.ivOffline
+        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+        private val nameTv: TextView = itemView.findViewById(R.id.tvName)
+        private val levelTv: TextView = itemView.findViewById(R.id.tvLevel)
+        private val colourTemperatureTv: TextView = itemView.findViewById(R.id.tvColourTemperature)
+        private val iconIv: ImageView = itemView.findViewById(R.id.ivIcon)
+        private val ivOfflineIv: ImageView = itemView.findViewById(R.id.ivOffline)
 
         init {
             itemView.setOnClickListener(this)
@@ -355,7 +350,6 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
             val icon = IconsDevices.fromDefaultName(device.defaultName)
 
             levelTv.visibility = View.VISIBLE
-
 
             ivOfflineIv.visibility = if (device.online) View.GONE else View.VISIBLE
 
@@ -409,9 +403,9 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
 
     inner class SensorCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        private val cardView: MaterialCardView = itemView.cardView
-        private val nameTv: TextView = itemView.tvName
-        private val iconIv: ImageView = itemView.ivIcon
+        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+        private val nameTv: TextView = itemView.findViewById(R.id.tvName)
+        private val iconIv: ImageView = itemView.findViewById(R.id.ivIcon)
 
         init {
             itemView.setOnClickListener(this)
@@ -433,11 +427,11 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
 
     inner class PowerCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener, View.OnLongClickListener {
-        private val cardView: MaterialCardView = itemView.cardView
-        private val nameTv: TextView = itemView.tvName
-        private val levelTv: TextView = itemView.tvLevel
-        private val iconIv: ImageView = itemView.ivIcon
-        private val ivOfflineIv: ImageView = itemView.ivOffline
+        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+        private val nameTv: TextView = itemView.findViewById(R.id.tvName)
+        private val levelTv: TextView = itemView.findViewById(R.id.tvLevel)
+        private val iconIv: ImageView = itemView.findViewById(R.id.ivIcon)
+        private val ivOfflineIv: ImageView = itemView.findViewById(R.id.ivOffline)
 
         init {
             itemView.setOnClickListener(this)
@@ -494,11 +488,11 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
     }
 
     inner class SocketCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnLongClickListener {
-        private val nameTv: TextView = itemView.tvName
-        private val ibLeftSocket: ImageButton = itemView.ibLeftSocket
-        private val ibRightSocket: ImageButton = itemView.ibRightSocket
-        private val ivLeftLock: ImageView = itemView.ivLeftLock
-        private val ivRightLock: ImageView = itemView.ivRightLock
+        private val nameTv: TextView = itemView.findViewById(R.id.tvName)
+        private val ibLeftSocket: ImageButton = itemView.findViewById(R.id.ibLeftSocket)
+        private val ibRightSocket: ImageButton = itemView.findViewById(R.id.ibRightSocket)
+        private val ivLeftLock: ImageView = itemView.findViewById(R.id.ivLeftLock)
+        private val ivRightLock: ImageView = itemView.findViewById(R.id.ivRightLock)
 
         init {
             itemView.setOnLongClickListener(this)
@@ -569,11 +563,11 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
 
     inner class GroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener, View.OnLongClickListener {
-        private val cardView: MaterialCardView = itemView.cardView
-        private val nameTv: TextView = itemView.tvName
-        private val levelTv: TextView = itemView.tvLevel
-        private val colourTemperatureTv: TextView = itemView.tvColourTemperature
-        private val offlineIv: ImageView = itemView.ivOffline
+        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+        private val nameTv: TextView = itemView.findViewById(R.id.tvName)
+        private val levelTv: TextView = itemView.findViewById(R.id.tvLevel)
+        private val colourTemperatureTv: TextView = itemView.findViewById(R.id.tvColourTemperature)
+        private val offlineIv: ImageView = itemView.findViewById(R.id.ivOffline)
 
         init {
             itemView.setOnClickListener(this)
@@ -679,8 +673,8 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
     }
 
     inner class ScheduleCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        private val cardView: MaterialCardView = itemView.cardView
-        private val numberOfEvents: TextView = itemView.tvNumberOfEvents
+        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+        private val numberOfEvents: TextView = itemView.findViewById(R.id.tvNumberOfEvents)
 
         init {
             itemView.setOnClickListener(this)
@@ -706,8 +700,8 @@ class GroupRecyclerViewAdapter internal constructor(val context: Context) :
     }
 
     inner class DynamicEventsCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        private val cardView: MaterialCardView = itemView.cardView
-        private val numberOfEvents: TextView = itemView.tvNumberOfEvents
+        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+        private val numberOfEvents: TextView = itemView.findViewById(R.id.tvNumberOfEvents)
 
         init {
             itemView.setOnClickListener(this)

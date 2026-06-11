@@ -25,8 +25,6 @@ import com.aurora.aonev3.data.logic.LogicCollection
 import com.aurora.aonev3.logic.*
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.DeviceDetailFragment
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_device_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -569,7 +567,6 @@ class RemoteDetailFragment : DeviceDetailFragment() {
                         val moveDownTriggers = arrayOf(buildTrigger(deviceDatapoint(device, device.ldevs.first(), "/movedown")))
                         val stopTriggers = arrayOf(buildTrigger(deviceDatapoint(device, device.ldevs.first(), "/stop")))
                         val recallTriggers = arrayOf(buildTrigger(deviceDatapoint(device, device.ldevs.first(), "/recall")))
-
 
                         val rules: ArrayList<JSONObject> = arrayListOf(
                             JSONObject()

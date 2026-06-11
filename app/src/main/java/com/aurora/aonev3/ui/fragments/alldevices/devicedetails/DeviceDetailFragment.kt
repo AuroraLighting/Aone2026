@@ -16,6 +16,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentDeviceDetailBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.NestedGroupTree
 import com.aurora.aonev3.R
@@ -27,15 +28,16 @@ import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.data.groups.groupmembers.GroupMember
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.fragments.alldevices.AllDevicesViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_device_detail.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-
 open class DeviceDetailFragment : Fragment() {
+
+    private var _binding: FragmentDeviceDetailBinding? = null
+    private val binding get() = _binding!!
+
 
     protected val viewModel: AllDevicesViewModel by activityViewModels()
     private var mGroups: List<Group> = emptyList()
@@ -47,7 +49,10 @@ open class DeviceDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_device_detail, container, false)
+        return run {
+            _binding = FragmentDeviceDetailBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,7 +141,6 @@ open class DeviceDetailFragment : Fragment() {
                         .actionGlobalGroupSelectorFragment()
                 )
         )
-
 
         btnIdentify.setOnClickListener {
             NabtoHandler.selectedGateway?.let { gateway ->
@@ -292,5 +296,11 @@ open class DeviceDetailFragment : Fragment() {
     override fun onDetach() {
         viewModel.clearViewModel()
         super.onDetach()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

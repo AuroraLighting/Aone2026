@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentPairingBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.ItemClickListener
 import com.aurora.aonev3.R
@@ -24,12 +25,15 @@ import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.data.devices.Device
 import com.aurora.aonev3.ui.activities.SplashscreenActivity
 import com.aurora.aonev3.ui.fragments.alldevices.AllDevicesViewModel
-import kotlinx.android.synthetic.main.fragment_pairing.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PairingFragment : Fragment() {
+
+    private var _binding: FragmentPairingBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         private const val TAG = "PairingFragment"
@@ -45,7 +49,10 @@ class PairingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_pairing, container, false)
+        return run {
+            _binding = FragmentPairingBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,10 +134,10 @@ class PairingFragment : Fragment() {
         with(rvDiscoveredDevices) {
             adapter = listAdapter
             setHasFixedSize(true)
-            layoutManager = androidx.recyclerview.widget.GridLayoutManager(
+            layoutManager = androidx.recyclerview.widgbinding.et.GridLayoutManager(
                 context,
                 1,
-                androidx.recyclerview.widget.RecyclerView.VERTICAL,
+                androidx.recyclerview.widgbinding.et.RecyclerView.VERTICAL,
                 false
             )
 
@@ -175,7 +182,7 @@ class PairingFragment : Fragment() {
             viewModel.deviceFound.observe(viewLifecycleOwner, {
                 if (it == true) {
                     tvTitle.text = getString(R.string.discovered_devices)
-                    tvSubtitle.text = getString(R.string.discovered_devices_subtitle)
+                    tvSubbinding.title.text = getString(R.string.discovered_devices_subtitle)
                     layoutSearching.visibility = View.GONE
                     layoutDiscovered.visibility = View.VISIBLE
                 }
@@ -234,5 +241,11 @@ class PairingFragment : Fragment() {
 
             findNavController().popBackStack()
         }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

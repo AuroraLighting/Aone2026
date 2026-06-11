@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.aurora.aonev3.databinding.FragmentGroupSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.ItemClickListener
 import com.aurora.aonev3.R
@@ -18,9 +19,12 @@ import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.ui.fragments.groups.GroupsViewModel
 import com.aurora.aonev3.ui.fragments.groups.groupselector.GroupSelectorViewAdapter
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.fragment_group_selector.*
 
 class MotionSensorGroupSelectorFragment : Fragment() {
+
+    private var _binding: FragmentGroupSelectorBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         private const val TAG = "GroupSelectorFragment"
@@ -39,7 +43,10 @@ class MotionSensorGroupSelectorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_group_selector, container, false)
+        return run {
+            _binding = FragmentGroupSelectorBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,10 +64,10 @@ class MotionSensorGroupSelectorFragment : Fragment() {
         with(rvGroups) {
             adapter = listAdapter
             setHasFixedSize(true)
-            layoutManager = androidx.recyclerview.widget.GridLayoutManager(
+            layoutManager = androidx.recyclerview.widgbinding.et.GridLayoutManager(
                 context,
                 1,
-                androidx.recyclerview.widget.RecyclerView.VERTICAL,
+                androidx.recyclerview.widgbinding.et.RecyclerView.VERTICAL,
                 false
             )
 
@@ -96,5 +103,11 @@ class MotionSensorGroupSelectorFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

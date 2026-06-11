@@ -9,9 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.aurora.aonev3.databinding.FragmentKineticStopPressingBinding
 import com.aurora.aonev3.R
 
 class KineticStopPressingFragment : Fragment() {
+
+    private var _binding: FragmentKineticStopPressingBinding? = null
+    private val binding get() = _binding!!
+
 
     private val handler = Handler(Looper.getMainLooper())
     private val runnable = Runnable {
@@ -32,7 +37,10 @@ class KineticStopPressingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_kinetic_stop_pressing, container, false)
+        return run {
+            _binding = FragmentKineticStopPressingBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,5 +58,11 @@ class KineticStopPressingFragment : Fragment() {
         private const val TAG = "KineticStopPressingFrag"
         fun newInstance() =
             KineticStopPressingFragment()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

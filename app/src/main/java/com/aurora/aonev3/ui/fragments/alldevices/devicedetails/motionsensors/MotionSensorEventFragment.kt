@@ -14,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentMotionSensorEventBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.data.devices.Device
 import com.aurora.aonev3.data.groups.Group
@@ -32,8 +33,6 @@ import com.aurora.aonev3.ui.fragments.schedules.EventDay
 import com.aurora.aonev3.ui.fragments.schedules.EventTarget
 import com.aurora.aonev3.ui.fragments.schedules.SunriseSunsetType
 import com.aurora.aonev3.ui.fragments.schedules.TriggerTime
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_motion_sensor_event.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -42,6 +41,10 @@ import java.util.*
 import kotlin.math.abs
 
 open class MotionSensorEventFragment : Fragment() {
+
+    private var _binding: FragmentMotionSensorEventBinding? = null
+    private val binding get() = _binding!!
+
 
     protected val viewModel: MotionSensorEventViewModel by activityViewModels()
     protected val allDeviceViewModel: AllDevicesViewModel by activityViewModels()
@@ -63,7 +66,10 @@ open class MotionSensorEventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_motion_sensor_event, container, false)
+        return run {
+            _binding = FragmentMotionSensorEventBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,31 +84,31 @@ open class MotionSensorEventFragment : Fragment() {
                 btnGroup.backgroundTintList =
                     ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
 
-                btnTarget.isClickable = true
-                btnTarget.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                btnTargbinding.et.isClickable = true
+                btnTargbinding.et.setTextColor(activity.getColor(R.color.colorTextPrimary))
             }
         }
 
-        viewModel.eventTarget.observe(viewLifecycleOwner) { eventTarget ->
+        viewModel.eventTargbinding.et.observe(viewLifecycleOwner) { eventTarget ->
             mEventTarget = eventTarget
             activity.runOnUiThread {
                 if (eventTarget == null) {
                     btnEvent.text = getString(R.string.turn_space_device_on_activate_scene)
                     btnDevice.isClickable = false
                     btnScene.isClickable = false
-                    btnTarget.text = getString(R.string.scene_space_or_device)
+                    btnTargbinding.et.text = getString(R.string.scene_space_or_device)
                 }
 
                 eventTarget?.let {
-                    btnTarget.setTextColor(activity.getColor(R.color.colorPrimary))
-                    btnTarget.backgroundTintList =
+                    btnTargbinding.et.setTextColor(activity.getColor(R.color.colorPrimary))
+                    btnTargbinding.et.backgroundTintList =
                         ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
                     when (eventTarget) {
-                        EventTarget.SPACE -> {
+                        EventTargbinding.et.SPACE -> {
                             viewModel.device.postValue(null)
                             viewModel.scene.postValue(null)
 
-                            btnTarget.text = getString(R.string.this_space)
+                            btnTargbinding.et.text = getString(R.string.this_space)
                             layoutScene.visibility = View.GONE
                             layoutDevice.visibility = View.GONE
 
@@ -131,10 +137,10 @@ open class MotionSensorEventFragment : Fragment() {
                             btnDaylight.backgroundTintList =
                                 ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
                         }
-                        EventTarget.DEVICE -> {
+                        EventTargbinding.et.DEVICE -> {
                             viewModel.scene.postValue(null)
 
-                            btnTarget.text = getString(R.string.device_in_space)
+                            btnTargbinding.et.text = getString(R.string.device_in_space)
 
                             layoutDevice.visibility = View.VISIBLE
 
@@ -174,9 +180,9 @@ open class MotionSensorEventFragment : Fragment() {
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
                             }
                         }
-                        EventTarget.SCENE -> {
+                        EventTargbinding.et.SCENE -> {
                             viewModel.device.postValue(null)
-                            btnTarget.text = getString(R.string.scene)
+                            btnTargbinding.et.text = getString(R.string.scene)
 
                             layoutScene.visibility = View.VISIBLE
 
@@ -222,7 +228,7 @@ open class MotionSensorEventFragment : Fragment() {
         }
 
         viewModel.device.observe(viewLifecycleOwner, Observer { device ->
-            if (viewModel.eventTarget.value != EventTarget.DEVICE) return@Observer
+            if (viewModel.eventTargbinding.et.value != EventTargbinding.et.DEVICE) return@Observer
             mSelectedDevice = device
 
             device?.let {
@@ -255,7 +261,7 @@ open class MotionSensorEventFragment : Fragment() {
         })
 
         viewModel.scene.observe(viewLifecycleOwner, Observer { scene ->
-            if (viewModel.eventTarget.value != EventTarget.SCENE) return@Observer
+            if (viewModel.eventTargbinding.et.value != EventTargbinding.et.SCENE) return@Observer
             mScene = scene
 
             scene?.let {
@@ -507,7 +513,7 @@ open class MotionSensorEventFragment : Fragment() {
             }
         }
 
-        btnTarget.setOnClickListener(
+        btnTargbinding.et.setOnClickListener(
             if (this !is DoorSensorEventFragment) {
                 if (this !is EditMotionSensorEventFragment) {
                     Navigation.createNavigateOnClickListener(
@@ -527,7 +533,7 @@ open class MotionSensorEventFragment : Fragment() {
                 )
             }
         )
-        btnTarget.isClickable = false
+        btnTargbinding.et.isClickable = false
 
         btnDevice.setOnClickListener {
             val action =
@@ -713,17 +719,17 @@ open class MotionSensorEventFragment : Fragment() {
             }
 
             when (mEventTarget) {
-                EventTarget.SCENE -> {
+                EventTargbinding.et.SCENE -> {
                     mScene?.let {
                         event.scene = SceneEventMetadata(it.id, it.groupId)
                     }
                 }
-                EventTarget.SPACE -> {
+                EventTargbinding.et.SPACE -> {
                     mGroup?.let {
                         event.group = GroupEventMetadata(it.id)
                     }
                 }
-                EventTarget.DEVICE -> {
+                EventTargbinding.et.DEVICE -> {
                     mSelectedDevice?.let {
                         event.device = DeviceEventMetadata(it.first.id, it.second, mGroup?.id)
                     }
@@ -849,8 +855,8 @@ open class MotionSensorEventFragment : Fragment() {
 
         val path =
             when (mEventTarget) {
-                EventTarget.SCENE,
-                EventTarget.SPACE -> {
+                EventTargbinding.et.SCENE,
+                EventTargbinding.et.SPACE -> {
                     mGroup?.let {
                         DevelcoHandler
                             .Endpoints
@@ -863,7 +869,7 @@ open class MotionSensorEventFragment : Fragment() {
                             )
                     } ?: ""
                 }
-                EventTarget.DEVICE -> {
+                EventTargbinding.et.DEVICE -> {
                     mSelectedDevice?.let {
                         DevelcoHandler
                             .Endpoints
@@ -935,7 +941,6 @@ open class MotionSensorEventFragment : Fragment() {
 
             SunriseSunsetHandler.addSunriseSunsetAction(sunriseSunsetActions.toTypedArray())
         }
-
 
     }
 
@@ -1047,7 +1052,7 @@ open class MotionSensorEventFragment : Fragment() {
 
         val metadata = RuleMetadata(action = RuleMetadataType.ON)
         val actions: Array<Action> = when (mEventTarget) {
-            EventTarget.SCENE -> {
+            EventTargbinding.et.SCENE -> {
                 val scene = mScene ?: return
 
                 arrayOf(
@@ -1057,7 +1062,7 @@ open class MotionSensorEventFragment : Fragment() {
                     )
                 )
             }
-            EventTarget.SPACE -> {
+            EventTargbinding.et.SPACE -> {
                 val group = mGroup ?: return
 
                 arrayOf(
@@ -1067,7 +1072,7 @@ open class MotionSensorEventFragment : Fragment() {
                     )
                 )
             }
-            EventTarget.DEVICE -> {
+            EventTargbinding.et.DEVICE -> {
                 val device = mSelectedDevice ?: return
 
                 arrayOf(
@@ -1398,5 +1403,11 @@ open class MotionSensorEventFragment : Fragment() {
         private const val TAG = "MotionSensorEventFragm…"
         fun newInstance() =
             MotionSensorEventFragment()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

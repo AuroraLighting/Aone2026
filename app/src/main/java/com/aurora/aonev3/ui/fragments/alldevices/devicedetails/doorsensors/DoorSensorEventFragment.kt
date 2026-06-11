@@ -16,6 +16,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.FragmentDoorSensorEventBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.R
 import com.aurora.aonev3.UnknownApiException
@@ -29,13 +30,15 @@ import com.aurora.aonev3.ui.fragments.schedules.EventAction
 import com.aurora.aonev3.ui.fragments.schedules.EventTarget
 import com.aurora.aonev3.ui.fragments.schedules.SunriseSunsetType
 import com.aurora.aonev3.ui.fragments.schedules.TriggerTime
-import kotlinx.android.synthetic.main.fragment_door_sensor_event.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
-
 open class DoorSensorEventFragment : Fragment() {
+
+    private var _binding: FragmentDoorSensorEventBinding? = null
+    private val binding get() = _binding!!
+
 
     private val viewModel: DoorSensorEventViewModel by activityViewModels()
     private var mGroup: Group? = null
@@ -54,7 +57,10 @@ open class DoorSensorEventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_door_sensor_event, container, false)
+        return run {
+            _binding = FragmentDoorSensorEventBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,10 +70,10 @@ open class DoorSensorEventFragment : Fragment() {
         viewModel.targetGroup.observe(viewLifecycleOwner) { group ->
             if (group != null) {
                 setButtonActive(btnGroup, group.name)
-                viewModel.eventTarget.value = viewModel.eventTarget.value
+                viewModel.eventTargbinding.et.value = viewModel.eventTargbinding.et.value
             } else {
                 setButtonClickable(btnGroup, getString(R.string.select_a_target_space))
-                viewModel.eventTarget.value = null
+                viewModel.eventTargbinding.et.value = null
             }
 
             if (mGroup != null && mGroup != group) {
@@ -78,12 +84,12 @@ open class DoorSensorEventFragment : Fragment() {
             mGroup = group
         }
 
-        viewModel.eventTarget.observe(viewLifecycleOwner) { target ->
+        viewModel.eventTargbinding.et.observe(viewLifecycleOwner) { target ->
             if (target != null) {
-                setButtonActive(btnTarget, target.displayName)
+                setButtonActive(btnTarget, targbinding.et.displayName)
 
                 when (target) {
-                    EventTarget.SCENE -> {
+                    EventTargbinding.et.SCENE -> {
                         layoutSceneDeviceOuter.visibility = View.VISIBLE
                         layoutScene.visibility = View.VISIBLE
                         layoutDevice.visibility = View.GONE
@@ -91,7 +97,7 @@ open class DoorSensorEventFragment : Fragment() {
                         viewModel.device.value = null
                         viewModel.scene.value = viewModel.scene.value
                     }
-                    EventTarget.SPACE -> {
+                    EventTargbinding.et.SPACE -> {
                         layoutSceneDeviceOuter.visibility = View.GONE
                         layoutScene.visibility = View.GONE
                         layoutDevice.visibility = View.GONE
@@ -101,7 +107,7 @@ open class DoorSensorEventFragment : Fragment() {
 
                         viewModel.trigger.value = viewModel.trigger.value
                     }
-                    EventTarget.DEVICE -> {
+                    EventTargbinding.et.DEVICE -> {
                         layoutSceneDeviceOuter.visibility = View.VISIBLE
                         layoutScene.visibility = View.GONE
                         layoutDevice.visibility = View.VISIBLE
@@ -131,7 +137,7 @@ open class DoorSensorEventFragment : Fragment() {
 
                 viewModel.trigger.value = viewModel.trigger.value
             } else {
-                if (viewModel.eventTarget.value == EventTarget.SCENE) {
+                if (viewModel.eventTargbinding.et.value == EventTargbinding.et.SCENE) {
                     setButtonClickable(btnScene, getString(R.string.scene))
 
                     viewModel.trigger.value = null
@@ -147,7 +153,7 @@ open class DoorSensorEventFragment : Fragment() {
 
                 viewModel.trigger.value = viewModel.trigger.value
             } else {
-                if (viewModel.eventTarget.value == EventTarget.DEVICE) {
+                if (viewModel.eventTargbinding.et.value == EventTargbinding.et.DEVICE) {
                     setButtonClickable(btnDevice, getString(R.string.device))
 
                     viewModel.trigger.value = null
@@ -161,15 +167,15 @@ open class DoorSensorEventFragment : Fragment() {
             if (trigger != null) {
                 setButtonActive(btnTrigger, trigger.name.toCapitalisedLowerCase())
 
-                if (viewModel.eventTarget.value != EventTarget.SCENE) {
+                if (viewModel.eventTargbinding.et.value != EventTargbinding.et.SCENE) {
                     viewModel.eventAction.value = viewModel.eventAction.value
                 } else {
                     viewModel.eventAction.value = EventAction.ON
                 }
             } else {
-                if (viewModel.eventTarget.value == EventTarget.SPACE ||
-                    (viewModel.eventTarget.value == EventTarget.SCENE && viewModel.scene.value != null) ||
-                    (viewModel.eventTarget.value == EventTarget.DEVICE && viewModel.device.value != null)) {
+                if (viewModel.eventTargbinding.et.value == EventTargbinding.et.SPACE ||
+                    (viewModel.eventTargbinding.et.value == EventTargbinding.et.SCENE && viewModel.scene.value != null) ||
+                    (viewModel.eventTargbinding.et.value == EventTargbinding.et.DEVICE && viewModel.device.value != null)) {
                     setButtonClickable(btnTrigger, getString(R.string.open_close))
                 } else {
                     setButtonNotClickable(btnTrigger, getString(R.string.open_close))
@@ -181,7 +187,7 @@ open class DoorSensorEventFragment : Fragment() {
 
         viewModel.eventAction.observe(viewLifecycleOwner) { action ->
             if (action != null) {
-                if (viewModel.eventTarget.value != EventTarget.SCENE) {
+                if (viewModel.eventTargbinding.et.value != EventTargbinding.et.SCENE) {
                     setButtonActive(btnEvent, action.displayName)
                 } else {
                     setButtonActive(btnEvent, getString(R.string.activate_scene))
@@ -189,7 +195,7 @@ open class DoorSensorEventFragment : Fragment() {
                 }
 
                 if (action == EventAction.ON) {
-                    timeoutOuterLayout.visibility = View.VISIBLE
+                    binding.timeoutOuterLayout.visibility = View.VISIBLE
                     viewModel.timeout.value = viewModel.timeout.value
                 }
 
@@ -261,7 +267,7 @@ open class DoorSensorEventFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        btnTarget.setOnClickListener {
+        btnTargbinding.et.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventTargetSelectorFragment(sender)
             findNavController().navigate(action)
         }
@@ -301,7 +307,7 @@ open class DoorSensorEventFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        btnTarget.isClickable = false
+        btnTargbinding.et.isClickable = false
         btnScene.isClickable = false
         btnDevice.isClickable = false
         btnTrigger.isClickable = false
@@ -444,5 +450,11 @@ open class DoorSensorEventFragment : Fragment() {
         private const val TAG = "DoorSensorEventFragmen…"
         fun newInstance() =
             DoorSensorEventFragment()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

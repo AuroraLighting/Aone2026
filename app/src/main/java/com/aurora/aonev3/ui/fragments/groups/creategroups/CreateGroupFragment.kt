@@ -16,14 +16,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentCreateGroupBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.data.groups.Group
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.fragment_create_group.*
 
 class CreateGroupFragment : Fragment() {
+
+    private var _binding: FragmentCreateGroupBinding? = null
+    private val binding get() = _binding!!
+
 
     companion object {
         fun newInstance() = CreateGroupFragment()
@@ -41,7 +45,10 @@ class CreateGroupFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_create_group, container, false)
+        return run {
+            _binding = FragmentCreateGroupBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,19 +83,19 @@ class CreateGroupFragment : Fragment() {
         }
 
         isCreateNew.observe(viewLifecycleOwner, {
-            createCardLayout.visibility = if (it) View.GONE else View.VISIBLE
-            createEditTextLayout.visibility = if (it) View.VISIBLE else View.GONE
-            virtualLayout.visibility = if (it) View.VISIBLE else View.GONE
+            binding.createCardLayout.visibility = if (it) View.GONE else View.VISIBLE
+            binding.createEditTextLayout.visibility = if (it) View.VISIBLE else View.GONE
+            binding.virtualLayout.visibility = if (it) View.VISIBLE else View.GONE
             btnSave.text = if (it) getString(R.string.save) else getString(R.string.done)
         })
 
         if (isVirtual) {
-            title.text = getString(R.string.create_some_custom_groups)
-            isVirtualSwitch.isChecked = true
+            binding.title.text = getString(R.string.create_some_custom_groups)
+            binding.isVirtualSwitch.isChecked = true
             tvName.text = getString(R.string.add_custom_group)
         }
 
-        virtualInfoIv.setOnClickListener {
+        binding.virtualInfoIv.setOnClickListener {
             val action = CreateGroupFragmentDirections.actionCreateGroupFragmentToGroupHelpFragment()
             findNavController().navigate(action)
         }
@@ -101,7 +108,7 @@ class CreateGroupFragment : Fragment() {
             findNavController().popBackStack(R.id.groupsFragment, false)
         }
 
-        isVirtualSwitch.setOnTouchListener { v, event ->
+        binding.isVirtualSwitch.setOnTouchListener { v, event ->
             val activity = activity ?: return@setOnTouchListener false
 
             if (event.action == ACTION_UP) {
@@ -135,7 +142,7 @@ class CreateGroupFragment : Fragment() {
 
                 isCreateNew.value = isCreateNew.value != true
 
-                viewModel.createGroup(name, isVirtualSwitch.isChecked)
+                viewModel.createGroup(name, binding.isVirtualSwitch.isChecked)
 
                 etName.setText("")
                 try {
@@ -162,4 +169,10 @@ class CreateGroupFragment : Fragment() {
         }
     }
 
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

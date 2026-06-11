@@ -6,23 +6,27 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.android.volley.VolleyError
+import com.aurora.aonev3.databinding.ActivityForgotPasswordBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.activity_forgot_password.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityForgotPasswordBinding
+
+
     private val crashlytics = FirebaseCrashlytics.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forgot_password)
+        binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        etEmail.setOnEditorActionListener { _, actionId, _ ->
+        binding.etEmail.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
                     resetPassword()
@@ -31,13 +35,13 @@ class ForgotPasswordActivity : AppCompatActivity() {
             false
         }
 
-        btnReset.setOnClickListener {
+        binding.btnReset.setOnClickListener {
             resetPassword()
         }
     }
 
     private fun resetPassword() {
-        val email = etEmail?.text?.trim()?.toString() ?: ""
+        val email = binding.etEmail?.text?.trim()?.toString() ?: ""
 
         CoroutineScope(Dispatchers.IO).launch {
             try {

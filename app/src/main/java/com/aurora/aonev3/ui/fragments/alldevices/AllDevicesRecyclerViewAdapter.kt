@@ -13,7 +13,6 @@ import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.data.groups.groupmembers.GroupMember
 import com.aurora.aonev3.data.logic.LogicCollection
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.layout_all_device_tile.view.*
 
 class AllDevicesRecyclerViewAdapter internal constructor(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -78,7 +77,6 @@ class AllDevicesRecyclerViewAdapter internal constructor(val context: Context) :
             }
         }
     }
-
 
     override fun getItemCount() = mGatewayList.size + mDeviceList.size + mSchedulesList.size
 

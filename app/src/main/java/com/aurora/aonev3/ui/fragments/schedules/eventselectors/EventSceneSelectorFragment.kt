@@ -20,6 +20,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aurora.aonev3.databinding.FragmentSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.ItemClickListener
 import com.aurora.aonev3.R
@@ -40,13 +41,15 @@ import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventFragment
 import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventViewModel
 import com.aurora.aonev3.ui.fragments.schedules.ScheduleViewModel
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.fragment_selector.*
-import kotlinx.android.synthetic.main.layout_scene_selector_tile.view.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val SENDER = "sender"
 
 class EventSceneSelectorFragment : Fragment() {
+
+    private var _binding: FragmentSelectorBinding? = null
+    private val binding get() = _binding!!
+
 
     private lateinit var viewModel: IEventSceneSelectorViewModel
     private var mGroup: Group? = null
@@ -99,7 +102,10 @@ class EventSceneSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_selector, container, false)
+        return run {
+            _binding = FragmentSelectorBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -178,7 +184,7 @@ class EventSceneSelectorFragment : Fragment() {
             viewType: Int
         ): EventSceneCardViewHolder {
             val layoutView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.layout_scene_selector_tile, parent, false)
+                .inflate(R.binding.layout.layout_scene_selector_tile, parent, false)
             return EventSceneCardViewHolder(layoutView)
         }
 
@@ -204,13 +210,13 @@ class EventSceneSelectorFragment : Fragment() {
                 holder.icon.setImageDrawable(
                     ContextCompat.getDrawable(context, icon.resourceValue)
                 )
-                holder.iconLayout.backgroundTintList = colourStateList
+                holder.binding.iconLayout.backgroundTintList = colourStateList
 
                 if (scene.second) {
-                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     holder.name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    holder.binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     holder.name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }
@@ -232,17 +238,17 @@ class EventSceneSelectorFragment : Fragment() {
 
         inner class EventSceneCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
             View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
-            var icon: ImageView = itemView.sceneIconIv
-            var iconLayout: ConstraintLayout = itemView.iconLayout
+            var binding.cardView: MaterialCardView = itemView.binding.cardView
+            var name: TextView = itemView.binding.tvName
+            var icon: ImageView = itemView.binding.sceneIconIv
+            var binding.iconLayout: ConstraintLayout = itemView.binding.iconLayout
 
             init {
                 itemView.setOnClickListener(this)
             }
 
             override fun onClick(p0: View?) {
-                onItemClickListener?.onItemClick(cardView, adapterPosition)
+                onItemClickListener?.onItemClick(binding.cardView, adapterPosition)
             }
         }
     }
@@ -250,4 +256,10 @@ class EventSceneSelectorFragment : Fragment() {
 
 interface IEventSceneSelectorViewModel: IEventGroupSelectorViewModel {
     var scene: MutableLiveData<Scene?>
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
