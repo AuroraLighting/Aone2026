@@ -49,7 +49,7 @@ class RenameGroupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvTitle.text = if (!viewModel.group.metadata.optBoolean("is_virtual_group")) {
+        binding.tvTitle.text = if (!viewModel.group.metadata.optBoolean("is_virtual_group")) {
             getString(R.string.rename_space)
         } else {
             getString(R.string.rename_group)
@@ -57,7 +57,7 @@ class RenameGroupFragment : Fragment() {
 
         etName.setText(viewModel.group.name)
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val name = etName.text?.toString() ?: return@setOnClickListener
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {
@@ -69,7 +69,7 @@ class RenameGroupFragment : Fragment() {
             }
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
     }

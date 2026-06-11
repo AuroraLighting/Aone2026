@@ -71,7 +71,7 @@ class KineticUpDownSelectorFragment : Fragment() {
             }
         }
 
-        tvTitle.text = getString(R.string.assign_functionality_of_the_up_down_buttons)
+        binding.tvTitle.text = getString(R.string.assign_functionality_of_the_up_down_buttons)
 
         with(recyclerView) {
             adapter = eventDayAdapter
@@ -82,7 +82,7 @@ class KineticUpDownSelectorFragment : Fragment() {
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val mode = eventDayAdapter.getSelected()?.first ?: return@setOnClickListener
             if (!isSecondaryMode)
                 viewModel.targetMode.postValue(mode)
@@ -92,7 +92,7 @@ class KineticUpDownSelectorFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

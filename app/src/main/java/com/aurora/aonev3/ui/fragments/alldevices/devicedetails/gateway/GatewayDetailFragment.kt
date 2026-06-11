@@ -104,7 +104,7 @@ open class GatewayDetailFragment : Fragment() {
             }
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 NabtoHandler.selectedGateway?.let { gateway ->
                     val name = etName.text?.trim()?.toString() ?: gateway.name
@@ -124,11 +124,11 @@ open class GatewayDetailFragment : Fragment() {
             }
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnRelease.setOnClickListener {
+        binding.btnRelease.setOnClickListener {
             if (activity?.isFinishing == false) {
                 AlertDialog.Builder(activity)
                     .setMessage("Are you sure you want to remove this Hub?")
@@ -158,7 +158,7 @@ open class GatewayDetailFragment : Fragment() {
             }
         }
 
-        btnShare.setOnClickListener {
+        binding.btnShare.setOnClickListener {
             val gateway = NabtoHandler.selectedGateway ?: return@setOnClickListener
             val action = GatewayDetailFragmentDirections.actionGatewayDetailFragmentToShareGatewayFragment(gateway.serial)
             findNavController().navigate(action)
@@ -166,15 +166,15 @@ open class GatewayDetailFragment : Fragment() {
         }
 
         if (!allowEditing()) {
-            btnSave.visibility = View.GONE
-            btnCancel.visibility = View.GONE
-            btnRelease.visibility = View.GONE
+            binding.btnSave.visibility = View.GONE
+            binding.btnCancel.visibility = View.GONE
+            binding.btnRelease.visibility = View.GONE
 
             etName.isEnabled = false
         }
 
         if (NabtoHandler.selectedGateway?.accessLevel != NabtoHandler.GatewayAccessLevel.OWNER) {
-            btnShare.visibility = View.GONE
+            binding.btnShare.visibility = View.GONE
         }
     }
 

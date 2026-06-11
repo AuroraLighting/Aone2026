@@ -43,7 +43,7 @@ class AboutFragment : Fragment() {
 
         tvAppVersionValue.text = BuildConfig.VERSION_NAME
 
-        btnPrivacy.setOnClickListener(
+        binding.btnPrivacy.setOnClickListener(
             Navigation
                 .createNavigateOnClickListener(
                     AboutFragmentDirections
@@ -51,7 +51,7 @@ class AboutFragment : Fragment() {
                 )
         )
 
-        btnTerms.setOnClickListener(
+        binding.btnTerms.setOnClickListener(
             Navigation
                 .createNavigateOnClickListener(
                     AboutFragmentDirections
@@ -59,21 +59,21 @@ class AboutFragment : Fragment() {
                 )
         )
 
-        btnLicences.setOnClickListener {
+        binding.btnLicences.setOnClickListener {
             startActivity(Intent(requireContext(), OssLicensesMenuActivity::class.java))
         }
 
-        btnBeta.setOnClickListener {
+        binding.btnBeta.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://auroralightinghelp.zendesk.com/hc/en-gb/articles/4405190146065-BETA-Testing-new-features-before-general-release"))
             startActivity(browserIntent)
         }
 
-        btnFeature.setOnClickListener {
+        binding.btnFeature.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://auroralightinghelp.zendesk.com/hc/en-gb/articles/4405190035473-How-can-I-request-for-a-feature-to-be-added-to-the-App-"))
             startActivity(browserIntent)
         }
 
-        btnUpdate.setOnClickListener {
+        binding.btnUpdate.setOnClickListener {
             val activity = requireActivity()
 
             val appUpdateManager =  AppUpdateManagerFactory.create(activity)

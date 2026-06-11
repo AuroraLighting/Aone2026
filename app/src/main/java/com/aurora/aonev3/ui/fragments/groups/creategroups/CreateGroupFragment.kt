@@ -86,7 +86,7 @@ class CreateGroupFragment : Fragment() {
             binding.createCardLayout.visibility = if (it) View.GONE else View.VISIBLE
             binding.createEditTextLayout.visibility = if (it) View.VISIBLE else View.GONE
             binding.virtualLayout.visibility = if (it) View.VISIBLE else View.GONE
-            btnSave.text = if (it) getString(R.string.save) else getString(R.string.done)
+            binding.btnSave.text = if (it) getString(R.string.save) else getString(R.string.done)
         })
 
         if (isVirtual) {
@@ -104,7 +104,7 @@ class CreateGroupFragment : Fragment() {
             isCreateNew.value = true
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack(R.id.groupsFragment, false)
         }
 
@@ -131,7 +131,7 @@ class CreateGroupFragment : Fragment() {
             return@setOnTouchListener true
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             if (isCreateNew.value == true) {
                 val name = etName.text?.toString() ?: return@setOnClickListener
 

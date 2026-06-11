@@ -256,11 +256,11 @@ class TimeConditionFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val startTime = viewModel.startTime.value ?: TriggerTime(0, 0, SunriseSunsetType.TIME, 0)
             val endTime = viewModel.endTime.value ?: TriggerTime(0, 0, SunriseSunsetType.TIME, 0)
 

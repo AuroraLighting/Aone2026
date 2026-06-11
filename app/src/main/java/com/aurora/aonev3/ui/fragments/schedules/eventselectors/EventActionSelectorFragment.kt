@@ -74,7 +74,7 @@ class EventActionSelectorFragment : Fragment() {
             }
         }
 
-        tvTitle.text = getString(R.string.set_event)
+        binding.tvTitle.text = getString(R.string.set_event)
 
         with(recyclerView) {
             adapter = eventActionAdapter
@@ -85,14 +85,14 @@ class EventActionSelectorFragment : Fragment() {
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val action = eventActionAdapter.getSelected()?.first ?: return@setOnClickListener
             viewModel.eventAction.postValue(action)
 
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

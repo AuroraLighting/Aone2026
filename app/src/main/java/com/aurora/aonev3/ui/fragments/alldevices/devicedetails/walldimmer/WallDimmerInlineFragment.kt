@@ -85,7 +85,7 @@ open class WallDimmerInlineFragment : DeviceDetailFragment() {
 
     override fun btnSaveClickListener(): View.OnClickListener {
         return View.OnClickListener {
-            btnSave.isEnabled = false
+            binding.btnSave.isEnabled = false
             activity?.layoutGreyOut?.visibility = View.VISIBLE
             val device = viewModel.selectedDevice ?: return@OnClickListener
 
@@ -93,7 +93,7 @@ open class WallDimmerInlineFragment : DeviceDetailFragment() {
                 viewModel.updateDeviceName(device)
 
                 activity?.runOnUiThread {
-                    btnSave.isEnabled = true
+                    binding.btnSave.isEnabled = true
                     activity?.layoutGreyOut?.visibility = View.GONE
                     findNavController().popBackStack()
                 }

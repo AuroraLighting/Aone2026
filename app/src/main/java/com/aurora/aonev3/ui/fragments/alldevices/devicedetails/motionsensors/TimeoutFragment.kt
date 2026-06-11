@@ -107,13 +107,13 @@ class TimeoutFragment : Fragment() {
             }
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             viewModel.timeout.postValue(binding.minutePicker.value * 60 + binding.secondPicker.value)
 
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

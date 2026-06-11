@@ -236,7 +236,7 @@ class KineticDetailFragment : DeviceDetailFragment() {
         return View.OnClickListener {
             val device = viewModel.selectedDevice ?: return@OnClickListener
             val group = mGroup ?: return@OnClickListener
-            btnSave.isEnabled = false
+            binding.btnSave.isEnabled = false
             activity?.layoutGreyOut?.visibility = View.VISIBLE
             viewModel.viewModelScope.launch(Dispatchers.IO) {
 
@@ -326,7 +326,7 @@ class KineticDetailFragment : DeviceDetailFragment() {
                 }
 
                 activity?.runOnUiThread {
-                    btnSave.isEnabled = true
+                    binding.btnSave.isEnabled = true
                     activity?.layoutGreyOut?.visibility = View.GONE
                     findNavController().popBackStack()
                 }

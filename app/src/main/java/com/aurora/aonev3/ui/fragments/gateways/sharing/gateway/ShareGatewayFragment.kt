@@ -84,7 +84,7 @@ class ShareGatewayFragment : Fragment() {
             getShares()
         }
 
-        btnShare.setOnClickListener {
+        binding.btnShare.setOnClickListener {
             share(it)
         }
 

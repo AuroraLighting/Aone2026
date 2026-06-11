@@ -42,12 +42,12 @@ class AccountDeleteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnDeleteAccount.setOnClickListener {
-            btnDeleteAccount.isEnabled = false
+        binding.btnDeleteAccount.setOnClickListener {
+            binding.btnDeleteAccount.isEnabled = false
             val username = etEmail.text?.toString()
             val password = etPassword.text?.toString()
             viewModel.viewModelScope.launch(Dispatchers.IO) {
@@ -80,7 +80,7 @@ class AccountDeleteFragment : Fragment() {
                                 .create()
                                 .show()
                         }
-                        btnDeleteAccount.isEnabled = true
+                        binding.btnDeleteAccount.isEnabled = true
                     }
                 }
             }

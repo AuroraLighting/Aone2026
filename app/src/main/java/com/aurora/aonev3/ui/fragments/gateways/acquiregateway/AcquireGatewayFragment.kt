@@ -49,17 +49,17 @@ class AcquireGatewayFragment : Fragment() {
         }
         viewModel.error = ""
 
-        btnScan.setOnClickListener {
+        binding.btnScan.setOnClickListener {
             it.isEnabled = false
             startActivityForResult(Intent(activity, BarcodeActivity::class.java), SCAN_BARCODE_RQ)
         }
 
-        btnHelp.setOnClickListener {
+        binding.btnHelp.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://auroralightinghelp.zendesk.com"))
             startActivity(browserIntent)
         }
 
-        btnSignOut.setOnClickListener {
+        binding.btnSignOut.setOnClickListener {
             signOut()
             activity?.startActivity(Intent(activity, LoginActivity::class.java))
             activity?.finishAffinity()

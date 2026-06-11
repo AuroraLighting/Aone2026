@@ -142,7 +142,7 @@ open class DeviceDetailFragment : Fragment() {
                 )
         )
 
-        btnIdentify.setOnClickListener {
+        binding.btnIdentify.setOnClickListener {
             NabtoHandler.selectedGateway?.let { gateway ->
                 var ldev = device.ldevs.firstOrNull() ?: ""
 
@@ -178,13 +178,13 @@ open class DeviceDetailFragment : Fragment() {
             }
         }
 
-        btnSave.setOnClickListener(btnSaveClickListener())
+        binding.btnSave.setOnClickListener(btnSaveClickListener())
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnDelete.setOnClickListener {
+        binding.btnDelete.setOnClickListener {
             activity?.let {
                 if (!it.isFinishing) {
                     AlertDialog.Builder(it)
@@ -205,9 +205,9 @@ open class DeviceDetailFragment : Fragment() {
             etName.isClickable = false
             etName.isEnabled = false
             groupLayout.isClickable = false
-            btnDelete.visibility = View.GONE
-            btnSave.visibility = View.GONE
-            btnCancel.visibility = View.GONE
+            binding.btnDelete.visibility = View.GONE
+            binding.btnSave.visibility = View.GONE
+            binding.btnCancel.visibility = View.GONE
         }
     }
 
@@ -224,7 +224,7 @@ open class DeviceDetailFragment : Fragment() {
             if (viewModel.deviceName.isNotBlank() && viewModel.deviceName != device.name) {
                 NabtoHandler.selectedGateway?.let { gateway ->
                     if (gateway.isConnected) {
-                        btnSave.isEnabled = false
+                        binding.binding.btnSave.isEnabled = false
                         activity?.layoutGreyOut?.visibility = View.VISIBLE
                         viewModel.viewModelScope.launch(Dispatchers.IO) {
                             try {
@@ -248,7 +248,7 @@ open class DeviceDetailFragment : Fragment() {
                             }
 
                             activity?.runOnUiThread {
-                                btnSave.isEnabled = true
+                                binding.binding.btnSave.isEnabled = true
                                 activity?.layoutGreyOut?.visibility = View.GONE
                                 findNavController().popBackStack()
                             }

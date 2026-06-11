@@ -152,7 +152,7 @@ class EventDeviceSelectorFragment : Fragment() {
         }
         eventLightAdapter.setItems(devicesList)
 
-        tvTitle.text = getString(R.string.select_device)
+        binding.tvTitle.text = getString(R.string.select_device)
 
         with(recyclerView) {
             adapter = eventLightAdapter
@@ -165,7 +165,7 @@ class EventDeviceSelectorFragment : Fragment() {
             )
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val device = viewModel.selectedDevice ?: return@setOnClickListener
             val selectedLdev = viewModel.selectedLdev ?: return@setOnClickListener
             senderViewModel.device.postValue(Pair(device, selectedLdev))
@@ -173,7 +173,7 @@ class EventDeviceSelectorFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
     }

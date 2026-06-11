@@ -73,19 +73,19 @@ class DynamicEventFragment : Fragment() {
             setUpUI()
         }
 
-        btnScene.setOnClickListener {
+        binding.btnScene.setOnClickListener {
             val sender = DynamicEventFragment::class.simpleName ?: return@setOnClickListener
             val action = DynamicEventFragmentDirections.actionGlobalEventSceneSelectorFragment(sender, viewModel.group)
             findNavController().navigate(action)
         }
 
-        btnTime.setOnClickListener {
+        binding.btnTime.setOnClickListener {
             val sender = DynamicEventFragment::class.simpleName ?: return@setOnClickListener
             val action = DynamicEventFragmentDirections.actionDynamicEventFragmentToTimeConditionFragment(sender)
             findNavController().navigate(action)
         }
 
-        btnDays.setOnClickListener {
+        binding.btnDays.setOnClickListener {
             val sender = DynamicEventFragment::class.simpleName ?: return@setOnClickListener
             val action = DynamicEventFragmentDirections.actionGlobalEventDaySelectorFragment(sender)
             findNavController().navigate(action)
@@ -100,11 +100,11 @@ class DynamicEventFragment : Fragment() {
                 .show()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnSave.setOnClickListener { button ->
+        binding.btnSave.setOnClickListener { button ->
             button.isEnabled = false
             activity?.layoutGreyOut?.visibility = View.VISIBLE
 
@@ -119,7 +119,7 @@ class DynamicEventFragment : Fragment() {
                         App.actionFailed()
                     }
 //    TODO                if (isSuccessful) {
-                    btnSave.isEnabled = true
+                    binding.binding.btnSave.isEnabled = true
                     activity.layoutGreyOut?.visibility = View.GONE
                     findNavController().popBackStack()
 //                    }
@@ -127,7 +127,7 @@ class DynamicEventFragment : Fragment() {
             }
         }
 
-        btnDelete.setOnClickListener {
+        binding.btnDelete.setOnClickListener {
             val activity = activity ?: return@setOnClickListener
             if (!activity.isFinishing) {
                 AlertDialog.Builder(activity)
@@ -148,7 +148,7 @@ class DynamicEventFragment : Fragment() {
             }
         }
 
-        btnDelete.visibility = if (!edit) {
+        binding.btnDelete.visibility = if (!edit) {
             View.GONE
         } else {
             View.VISIBLE

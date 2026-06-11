@@ -53,7 +53,7 @@ class WallDimmerControlTargetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val gateway = NabtoHandler.selectedGateway ?: return
 
-        tvTitle.text = getString(R.string.select_inline_dimmer)
+        binding.tvTitle.text = getString(R.string.select_inline_dimmer)
 
         val inlineDimmers = SyncHandler
             .devicesList
@@ -76,11 +76,11 @@ class WallDimmerControlTargetFragment : Fragment() {
             ))
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             findNavController().previousBackStackEntry?.savedStateHandle?.set("targetId", viewModel.target?.id ?: -1)
             findNavController().popBackStack() }
     }

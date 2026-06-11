@@ -79,13 +79,13 @@ open class MotionSensorEventFragment : Fragment() {
         viewModel.targetGroup.observe(viewLifecycleOwner) { group ->
             mGroup = group
             if (group != null) {
-                btnGroup.text = group.name
-                btnGroup.setTextColor(activity.getColor(R.color.colorPrimary))
-                btnGroup.backgroundTintList =
+                binding.btnGroup.text = group.name
+                binding.btnGroup.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnGroup.backgroundTintList =
                     ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
 
-                btnTarget.isClickable = true
-                btnTarget.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                binding.btnTarget.isClickable = true
+                binding.btnTarget.setTextColor(activity.getColor(R.color.colorTextPrimary))
             }
         }
 
@@ -93,43 +93,43 @@ open class MotionSensorEventFragment : Fragment() {
             mEventTarget = eventTarget
             activity.runOnUiThread {
                 if (eventTarget == null) {
-                    btnEvent.text = getString(R.string.turn_space_device_on_activate_scene)
-                    btnDevice.isClickable = false
-                    btnScene.isClickable = false
-                    btnTarget.text = getString(R.string.scene_space_or_device)
+                    binding.btnEvent.text = getString(R.string.turn_space_device_on_activate_scene)
+                    binding.btnDevice.isClickable = false
+                    binding.btnScene.isClickable = false
+                    binding.btnTarget.text = getString(R.string.scene_space_or_device)
                 }
 
                 eventTarget?.let {
-                    btnTarget.setTextColor(activity.getColor(R.color.colorPrimary))
-                    btnTarget.backgroundTintList =
+                    binding.btnTarget.setTextColor(activity.getColor(R.color.colorPrimary))
+                    binding.btnTarget.backgroundTintList =
                         ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
                     when (eventTarget) {
                         EventTarget.SPACE -> {
                             viewModel.device.postValue(null)
                             viewModel.scene.postValue(null)
 
-                            btnTarget.text = getString(R.string.this_space)
+                            binding.btnTarget.text = getString(R.string.this_space)
                             layoutScene.visibility = View.GONE
                             layoutDevice.visibility = View.GONE
 
-                            btnEvent.setTextColor(activity.getColor(R.color.colorPrimary))
-                            btnEvent.backgroundTintList =
+                            binding.btnEvent.setTextColor(activity.getColor(R.color.colorPrimary))
+                            binding.btnEvent.backgroundTintList =
                                 ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                            btnEvent.text = getString(R.string.turn_space_on)
+                            binding.btnEvent.text = getString(R.string.turn_space_on)
 
-                            btnTime.isClickable = true
-                            btnTime.setTextColor(activity.getColor(R.color.colorPrimary))
-                            btnTime.backgroundTintList =
+                            binding.btnTime.isClickable = true
+                            binding.btnTime.setTextColor(activity.getColor(R.color.colorPrimary))
+                            binding.btnTime.backgroundTintList =
                                 ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
 
-                            btnTimeout.isClickable = true
-                            btnTimeout.backgroundTintList =
+                            binding.btnTimeout.isClickable = true
+                            binding.btnTimeout.backgroundTintList =
                                 ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                            btnTimeout.setTextColor(activity.getColor(R.color.colorPrimary))
+                            binding.btnTimeout.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                            btnDays.isClickable = true
-                            btnDays.setTextColor(activity.getColor(R.color.colorPrimary))
-                            btnDays.backgroundTintList =
+                            binding.btnDays.isClickable = true
+                            binding.btnDays.setTextColor(activity.getColor(R.color.colorPrimary))
+                            binding.btnDays.backgroundTintList =
                                 ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
 
                             btnDaylight.isClickable = true
@@ -140,38 +140,38 @@ open class MotionSensorEventFragment : Fragment() {
                         EventTarget.DEVICE -> {
                             viewModel.scene.postValue(null)
 
-                            btnTarget.text = getString(R.string.device_in_space)
+                            binding.btnTarget.text = getString(R.string.device_in_space)
 
                             layoutDevice.visibility = View.VISIBLE
 
-                            btnDevice.isClickable = true
-                            btnDevice.backgroundTintList =
+                            binding.btnDevice.isClickable = true
+                            binding.btnDevice.backgroundTintList =
                                 ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                            btnDevice.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                            binding.btnDevice.setTextColor(activity.getColor(R.color.colorTextPrimary))
 
-                            btnEvent.text = getString(R.string.turn_device_on)
+                            binding.btnEvent.text = getString(R.string.turn_device_on)
 
                             if (viewModel.device.value == null) {
-                                btnDevice.text = getString(R.string.select_device)
+                                binding.btnDevice.text = getString(R.string.select_device)
 
-                                btnEvent.isClickable = false
-                                btnEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                btnEvent.backgroundTintList =
+                                binding.btnEvent.isClickable = false
+                                binding.btnEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnEvent.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
 
-                                btnTime.isClickable = false
-                                btnTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                btnTime.backgroundTintList =
+                                binding.btnTime.isClickable = false
+                                binding.btnTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnTime.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
 
-                                btnTimeout.isClickable = false
-                                btnTimeout.backgroundTintList =
+                                binding.btnTimeout.isClickable = false
+                                binding.btnTimeout.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                                btnTimeout.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnTimeout.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
 
-                                btnDays.isClickable = false
-                                btnDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                btnDays.backgroundTintList =
+                                binding.btnDays.isClickable = false
+                                binding.btnDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnDays.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
 
                                 btnDaylight.isClickable = false
@@ -182,38 +182,38 @@ open class MotionSensorEventFragment : Fragment() {
                         }
                         EventTarget.SCENE -> {
                             viewModel.device.postValue(null)
-                            btnTarget.text = getString(R.string.scene)
+                            binding.btnTarget.text = getString(R.string.scene)
 
                             layoutScene.visibility = View.VISIBLE
 
-                            btnScene.isClickable = true
-                            btnScene.backgroundTintList =
+                            binding.btnScene.isClickable = true
+                            binding.btnScene.backgroundTintList =
                                 ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                            btnScene.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                            binding.btnScene.setTextColor(activity.getColor(R.color.colorTextPrimary))
 
-                            btnEvent.text = getString(R.string.activate_scene)
+                            binding.btnEvent.text = getString(R.string.activate_scene)
 
                             if (viewModel.scene.value == null) {
-                                btnScene.text = getString(R.string.select_scene)
+                                binding.btnScene.text = getString(R.string.select_scene)
 
-                                btnEvent.isClickable = false
-                                btnEvent.backgroundTintList =
+                                binding.btnEvent.isClickable = false
+                                binding.btnEvent.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                                btnEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
 
-                                btnTime.isClickable = false
-                                btnTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                btnTime.backgroundTintList =
+                                binding.btnTime.isClickable = false
+                                binding.btnTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnTime.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
 
-                                btnTimeout.isClickable = false
-                                btnTimeout.backgroundTintList =
+                                binding.btnTimeout.isClickable = false
+                                binding.btnTimeout.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                                btnTimeout.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnTimeout.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
 
-                                btnDays.isClickable = false
-                                btnDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                btnDays.backgroundTintList =
+                                binding.btnDays.isClickable = false
+                                binding.btnDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnDays.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
 
                                 btnDaylight.isClickable = false
@@ -232,27 +232,27 @@ open class MotionSensorEventFragment : Fragment() {
             mSelectedDevice = device
 
             device?.let {
-                btnDevice.text = device.first.name
+                binding.btnDevice.text = device.first.name
                 viewModel.scene.postValue(null)
 
-                btnDevice.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnDevice.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnDevice.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnDevice.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnEvent.isClickable = true
-                btnEvent.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnEvent.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnEvent.isClickable = true
+                binding.btnEvent.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnEvent.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnTime.isClickable = true
-                btnTime.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnTime.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnTime.isClickable = true
+                binding.btnTime.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnTime.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnTimeout.isClickable = true
-                btnTimeout.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnTimeout.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnTimeout.isClickable = true
+                binding.btnTimeout.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnTimeout.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnDays.isClickable = true
-                btnDays.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnDays.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnDays.isClickable = true
+                binding.btnDays.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnDays.setTextColor(activity.getColor(R.color.colorPrimary))
 
                 btnDaylight.isClickable = true
                 btnDaylight.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
@@ -265,27 +265,27 @@ open class MotionSensorEventFragment : Fragment() {
             mScene = scene
 
             scene?.let {
-                btnScene.text = scene.name
+                binding.btnScene.text = scene.name
                 viewModel.device.postValue(null)
 
-                btnScene.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnScene.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnScene.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnScene.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnEvent.isClickable = true
-                btnEvent.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnEvent.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnEvent.isClickable = true
+                binding.btnEvent.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnEvent.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnTime.isClickable = true
-                btnTime.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnTime.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnTime.isClickable = true
+                binding.btnTime.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnTime.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnTimeout.isClickable = true
-                btnTimeout.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnTimeout.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnTimeout.isClickable = true
+                binding.btnTimeout.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnTimeout.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnDays.isClickable = true
-                btnDays.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnDays.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnDays.isClickable = true
+                binding.btnDays.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnDays.setTextColor(activity.getColor(R.color.colorPrimary))
 
                 btnDaylight.isClickable = true
                 btnDaylight.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
@@ -296,13 +296,13 @@ open class MotionSensorEventFragment : Fragment() {
         viewModel.isAllDay.observe(viewLifecycleOwner) { isAllDay ->
             mIsAllDay = isAllDay
             if (viewModel.startTime.value == null && viewModel.endTime.value == null) {
-                btnTime.text = getString(R.string.time_condition_placeholder)
+                binding.btnTime.text = getString(R.string.time_condition_placeholder)
                 return@observe
             }
 
             isAllDay?.let {
                 if (isAllDay) {
-                    btnTime.text = getString(R.string.all_day)
+                    binding.btnTime.text = getString(R.string.all_day)
                 } else {
                     val startTime = mStartTime ?: TriggerTime(
                         hour = 0,
@@ -354,7 +354,7 @@ open class MotionSensorEventFragment : Fragment() {
                             endTime.minute
                         )
                     }
-                    btnTime.text = String.format(
+                    binding.btnTime.text = String.format(
                         getString(R.string.time_condition),
                         startString,
                         endString
@@ -408,7 +408,7 @@ open class MotionSensorEventFragment : Fragment() {
                         endTime.minute
                     )
                 }
-                btnTime.text = String.format(
+                binding.btnTime.text = String.format(
                     getString(R.string.time_condition),
                     startString,
                     endString
@@ -461,7 +461,7 @@ open class MotionSensorEventFragment : Fragment() {
                         endTime.minute
                     )
                 }
-                btnTime.text = String.format(
+                binding.btnTime.text = String.format(
                     getString(R.string.time_condition),
                     startString,
                     endString
@@ -472,7 +472,7 @@ open class MotionSensorEventFragment : Fragment() {
         viewModel.eventDay.observe(viewLifecycleOwner) {
             val day = it ?: return@observe
             mDay = day
-            btnDays.text = day.displayName
+            binding.btnDays.text = day.displayName
         }
 
         viewModel.targetLux.observe(viewLifecycleOwner) { lux ->
@@ -488,7 +488,7 @@ open class MotionSensorEventFragment : Fragment() {
         viewModel.timeout.observe(viewLifecycleOwner, Observer { value ->
             mTimeout = value
             if (value == null) {
-                btnTimeout.text = String.format(getString(R.string.minutes_seconds), 4, 0)
+                binding.btnTimeout.text = String.format(getString(R.string.minutes_seconds), 4, 0)
                 return@Observer
             }
             val minutes = value / 60
@@ -498,10 +498,10 @@ open class MotionSensorEventFragment : Fragment() {
                 viewModel.initialTimeout = value
             }
 
-            btnTimeout.text = String.format(getString(R.string.minutes_seconds), minutes, seconds)
+            binding.btnTimeout.text = String.format(getString(R.string.minutes_seconds), minutes, seconds)
         })
 
-        btnGroup.setOnClickListener {
+        binding.btnGroup.setOnClickListener {
             try {
                 val action = when (this) {
                     is EditMotionSensorEventFragment -> EditMotionSensorEventFragmentDirections.actionGlobalMotionSensorGroupSelectorFragment()
@@ -513,7 +513,7 @@ open class MotionSensorEventFragment : Fragment() {
             }
         }
 
-        btnTarget.setOnClickListener(
+        binding.btnTarget.setOnClickListener(
             if (this !is DoorSensorEventFragment) {
                 if (this !is EditMotionSensorEventFragment) {
                     Navigation.createNavigateOnClickListener(
@@ -533,9 +533,9 @@ open class MotionSensorEventFragment : Fragment() {
                 )
             }
         )
-        btnTarget.isClickable = false
+        binding.btnTarget.isClickable = false
 
-        btnDevice.setOnClickListener {
+        binding.btnDevice.setOnClickListener {
             val action =
                 if (this !is DoorSensorEventFragment) {
                     if (this !is EditMotionSensorEventFragment) {
@@ -557,9 +557,9 @@ open class MotionSensorEventFragment : Fragment() {
                 }
             findNavController().navigate(action)
         }
-        btnDevice.isClickable = false
+        binding.btnDevice.isClickable = false
 
-        btnScene.setOnClickListener {
+        binding.btnScene.setOnClickListener {
             val sender = MotionSensorEventFragment::class.simpleName ?: return@setOnClickListener
             val action =
                 if (this !is EditMotionSensorEventFragment) {
@@ -571,9 +571,9 @@ open class MotionSensorEventFragment : Fragment() {
                 }
             findNavController().navigate(action)
         }
-        btnScene.isClickable = false
+        binding.btnScene.isClickable = false
 
-        btnTime.setOnClickListener {
+        binding.btnTime.setOnClickListener {
             try {
                 val action = when (this) {
                     is EditMotionSensorEventFragment -> EditMotionSensorEventFragmentDirections.actionGlobalTimeConditionFragment(MotionSensorEventFragment::class.simpleName ?: "")
@@ -584,9 +584,9 @@ open class MotionSensorEventFragment : Fragment() {
                 findNavController().navigate(R.id.action_global_timeConditionFragment)
             }
         }
-        btnTime.isClickable = false
+        binding.btnTime.isClickable = false
 
-        btnDays.setOnClickListener(
+        binding.btnDays.setOnClickListener(
             if (this !is DoorSensorEventFragment) {
                 if (this !is EditMotionSensorEventFragment) {
                     Navigation.createNavigateOnClickListener(
@@ -606,7 +606,7 @@ open class MotionSensorEventFragment : Fragment() {
                 )
             }
         )
-        btnDays.isClickable = false
+        binding.btnDays.isClickable = false
 
         btnDaylight.setOnClickListener(
             if (this !is EditMotionSensorEventFragment) {
@@ -623,7 +623,7 @@ open class MotionSensorEventFragment : Fragment() {
         )
         btnDaylight.isClickable = false
 
-        btnTimeout.setOnClickListener {
+        binding.btnTimeout.setOnClickListener {
             val sender = MotionSensorEventFragment::class.simpleName ?: return@setOnClickListener
             val action =
                 if (this !is EditMotionSensorEventFragment) {
@@ -635,13 +635,13 @@ open class MotionSensorEventFragment : Fragment() {
                 }
             findNavController().navigate(action)
         }
-        btnTimeout.isClickable = false
+        binding.btnTimeout.isClickable = false
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             it.isEnabled = false
             activity.layoutGreyOut?.visibility = View.VISIBLE
             NabtoHandler.selectedGateway?.let { gateway ->
@@ -803,7 +803,7 @@ open class MotionSensorEventFragment : Fragment() {
                                         )
 
                                         activity?.runOnUiThread {
-                                            btnSave.isEnabled = true
+                                            binding.binding.btnSave.isEnabled = true
                                             activity?.layoutGreyOut?.visibility = View.GONE
                                             findNavController().popBackStack()
                                         }
@@ -832,7 +832,7 @@ open class MotionSensorEventFragment : Fragment() {
                                         )
 
                                         activity?.runOnUiThread {
-                                            btnSave.isEnabled = true
+                                            binding.binding.btnSave.isEnabled = true
                                             activity?.layoutGreyOut?.visibility = View.GONE
                                             findNavController().popBackStack()
                                         }

@@ -78,11 +78,11 @@ class NoGroupsFragment : Fragment() {
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack(R.id.groupsFragment, false)
         }
 
-        btnDone.setOnClickListener {
+        binding.btnDone.setOnClickListener {
             activity?.layoutGreyOut?.visibility = View.VISIBLE
 
             CoroutineScope(Dispatchers.IO).launch {

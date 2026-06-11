@@ -54,7 +54,7 @@ class LegacyScheduleFragment : Fragment() {
             .find { it.parentGateway == gateway.serial && it.id == collectionId } ?: return
         viewModel.logicCollection = logicCollection
 
-        btnScheduleName.text = logicCollection.name
+        binding.btnScheduleName.text = logicCollection.name
 
         viewModel.getLogicRules(logicCollection).observe(viewLifecycleOwner) {
             val rules = it.toList()
@@ -163,21 +163,21 @@ class LegacyScheduleFragment : Fragment() {
             }
 
             activity.runOnUiThread {
-                btnTarget.text = name
-                btnDays.text = daysString
+                binding.btnTarget.text = name
+                binding.btnDays.text = daysString
 
                 if (onTime.isNotBlank()) {
-                    btnOn.text = onTime
+                    binding.btnOn.text = onTime
                     layoutOn.visibility = View.VISIBLE
                 }
                 if (offTime.isNotBlank()) {
-                    btnOff.text = offTime
+                    binding.btnOff.text = offTime
                     layoutOff.visibility = View.VISIBLE
                 }
             }
         }
 
-        btnHelp.setOnClickListener {
+        binding.btnHelp.setOnClickListener {
             if (!activity.isFinishing) {
                 AlertDialog.Builder(activity)
                     .setTitle(R.string.legacy_schedule)
@@ -188,7 +188,7 @@ class LegacyScheduleFragment : Fragment() {
             }
         }
 
-        btnDelete.setOnClickListener {
+        binding.btnDelete.setOnClickListener {
             if (!activity.isFinishing) {
                 AlertDialog.Builder(activity)
                     .setMessage(getString(R.string.delete_schedule_confirmation))

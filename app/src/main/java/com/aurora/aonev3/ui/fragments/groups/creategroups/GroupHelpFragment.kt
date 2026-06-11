@@ -29,7 +29,7 @@ class GroupHelpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnOk.setOnClickListener {
+        binding.btnOk.setOnClickListener {
             findNavController().popBackStack()
         }
     }

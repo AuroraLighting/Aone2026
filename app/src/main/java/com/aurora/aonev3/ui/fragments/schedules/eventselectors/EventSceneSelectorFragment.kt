@@ -128,7 +128,7 @@ class EventSceneSelectorFragment : Fragment() {
             setItems(mScenes.map { Pair(it, false) })
         }
 
-        tvTitle.text = getString(R.string.select_scene)
+        binding.tvTitle.text = getString(R.string.select_scene)
 
         with(recyclerView) {
             adapter = eventSceneAdapter
@@ -139,14 +139,14 @@ class EventSceneSelectorFragment : Fragment() {
             addItemDecoration(GridItemDecoration(margin, margin, margin * 2, margin * 2))
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val scene = eventSceneAdapter.getSelected()?.first ?: return@setOnClickListener
             viewModel.scene.postValue(scene)
 
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

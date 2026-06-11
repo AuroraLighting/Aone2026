@@ -84,13 +84,13 @@ class EventGroupSelectorFragment : Fragment() {
             })
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val selectedGroup = listAdapter.selectedGroup ?: return@setOnClickListener
             senderViewModel.targetGroup.postValue(selectedGroup)
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
     }

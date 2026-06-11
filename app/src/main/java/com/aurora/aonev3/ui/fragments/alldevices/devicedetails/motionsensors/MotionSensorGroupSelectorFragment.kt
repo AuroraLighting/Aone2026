@@ -83,7 +83,7 @@ class MotionSensorGroupSelectorFragment : Fragment() {
             })
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
             try {
                 val v = activity.currentFocus
@@ -97,7 +97,7 @@ class MotionSensorGroupSelectorFragment : Fragment() {
             }
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             motionSensorEventViewModel.targetGroup.postValue(listAdapter.selectedGroup)
 
             findNavController().popBackStack()

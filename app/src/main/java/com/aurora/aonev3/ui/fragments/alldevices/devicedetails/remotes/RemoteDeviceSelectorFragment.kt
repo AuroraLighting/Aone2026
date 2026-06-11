@@ -60,7 +60,7 @@ class RemoteDeviceSelectorFragment : Fragment() {
         val activity = activity ?: return
         val lightsAdapter = RemoteDeviceViewAdapter(activity)
 
-        tvTitle.text = getString(R.string.select_device)
+        binding.tvTitle.text = getString(R.string.select_device)
 
         val devices = SyncHandler
             .devicesList
@@ -83,7 +83,7 @@ class RemoteDeviceSelectorFragment : Fragment() {
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val target = lightsAdapter.getSelected() ?: return@setOnClickListener
 
             if (target.type != DeviceTargetRecyclerViewType.GROUP) {
@@ -102,7 +102,7 @@ class RemoteDeviceSelectorFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

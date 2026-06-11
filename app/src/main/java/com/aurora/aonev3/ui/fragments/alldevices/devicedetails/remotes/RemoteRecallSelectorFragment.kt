@@ -73,7 +73,7 @@ class RemoteRecallSelectorFragment : Fragment() {
             }
         }
 
-        tvTitle.text = getString(R.string.set_the_recall_button_functionality)
+        binding.tvTitle.text = getString(R.string.set_the_recall_button_functionality)
 
         with(recyclerView) {
             adapter = eventDayAdapter
@@ -84,14 +84,14 @@ class RemoteRecallSelectorFragment : Fragment() {
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val mode = eventDayAdapter.getSelected()?.first ?: return@setOnClickListener
             viewModel.targetRecall.postValue(mode)
 
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

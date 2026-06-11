@@ -191,7 +191,7 @@ open class DoorSensorEventFragment : Fragment() {
                     setButtonActive(btnEvent, action.displayName)
                 } else {
                     setButtonActive(btnEvent, getString(R.string.activate_scene))
-                    btnEvent.isClickable = false
+                    binding.btnEvent.isClickable = false
                 }
 
                 if (action == EventAction.ON) {
@@ -262,60 +262,60 @@ open class DoorSensorEventFragment : Fragment() {
             }
         }
 
-        btnGroup.setOnClickListener {
+        binding.btnGroup.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventGroupSelectorFragment(sender)
             findNavController().navigate(action)
         }
 
-        btnTarget.setOnClickListener {
+        binding.btnTarget.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventTargetSelectorFragment(sender)
             findNavController().navigate(action)
         }
 
-        btnScene.setOnClickListener {
+        binding.btnScene.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventSceneSelectorFragment(sender)
             findNavController().navigate(action)
         }
 
-        btnDevice.setOnClickListener {
+        binding.btnDevice.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventDeviceSelectorFragment(sender)
             findNavController().navigate(action)
         }
 
-        btnTrigger.setOnClickListener {
+        binding.btnTrigger.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventTriggerSelectorFragment(sender)
             findNavController().navigate(action)
         }
 
-        btnEvent.setOnClickListener {
+        binding.btnEvent.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventActionSelectorFragment(false, sender)
             findNavController().navigate(action)
         }
 
-        btnTimeout.setOnClickListener {
+        binding.btnTimeout.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToTimeoutFragment(sender)
             findNavController().navigate(action)
         }
 
-        btnTime.setOnClickListener {
+        binding.btnTime.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToTimeConditionFragment(sender)
             findNavController().navigate(action)
         }
 
-        btnDays.setOnClickListener {
+        binding.btnDays.setOnClickListener {
             val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventDaySelectorFragment(sender)
             findNavController().navigate(action)
         }
 
-        btnTarget.isClickable = false
-        btnScene.isClickable = false
-        btnDevice.isClickable = false
-        btnTrigger.isClickable = false
-        btnEvent.isClickable = false
-        btnTime.isClickable = false
-        btnDays.isClickable = false
+        binding.btnTarget.isClickable = false
+        binding.btnScene.isClickable = false
+        binding.btnDevice.isClickable = false
+        binding.btnTrigger.isClickable = false
+        binding.btnEvent.isClickable = false
+        binding.btnTime.isClickable = false
+        binding.btnDays.isClickable = false
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             it.isEnabled = false
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {
@@ -351,7 +351,7 @@ open class DoorSensorEventFragment : Fragment() {
             }
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
     }

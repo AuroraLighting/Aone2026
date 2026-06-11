@@ -52,7 +52,7 @@ class NameGatewayFragment : Fragment() {
             false
         }
 
-        btnDone.setOnClickListener {
+        binding.btnDone.setOnClickListener {
             rename()
         }
 

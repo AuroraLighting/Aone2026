@@ -140,11 +140,11 @@ class AddDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

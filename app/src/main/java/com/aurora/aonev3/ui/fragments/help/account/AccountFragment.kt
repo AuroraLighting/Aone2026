@@ -52,10 +52,10 @@ class AccountFragment : Fragment() {
         tvEmailValue.text = email
         tvNameValue.text = arrayOf(CloudHandler.user.optString("first_name"), CloudHandler.user.optString("last_name")).joinToString(" ")
 
-        btnDeleteAccount.visibility = if (OtaHandler.isAccountDeleteAvailable) View.VISIBLE else View.GONE
+        binding.btnDeleteAccount.visibility = if (OtaHandler.isAccountDeleteAvailable) View.VISIBLE else View.GONE
 
-        btnChangePassword.setOnClickListener {
-            btnChangePassword.isEnabled = false
+        binding.btnChangePassword.setOnClickListener {
+            binding.btnChangePassword.isEnabled = false
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 try {
@@ -87,12 +87,12 @@ class AccountFragment : Fragment() {
                 }
 
                 activity?.runOnUiThread {
-                    btnChangePassword.isEnabled = true
+                    binding.btnChangePassword.isEnabled = true
                 }
             }
         }
 
-        btnDeleteAccount.setOnClickListener {
+        binding.btnDeleteAccount.setOnClickListener {
             val activity = activity ?: return@setOnClickListener
 
             activity.runOnUiThread {

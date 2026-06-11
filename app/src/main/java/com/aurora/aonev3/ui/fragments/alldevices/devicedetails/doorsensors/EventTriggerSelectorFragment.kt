@@ -68,7 +68,7 @@ class EventTriggerSelectorFragment : Fragment() {
 
         val eventTriggerAdapter = TriggerViewAdapter(activity)
 
-        tvTitle.text = getString(R.string.select_a_trigger)
+        binding.tvTitle.text = getString(R.string.select_a_trigger)
 
         with(recyclerView) {
             adapter = eventTriggerAdapter
@@ -79,14 +79,14 @@ class EventTriggerSelectorFragment : Fragment() {
             addItemDecoration(GridItemDecoration(margin, margin, margin * 2, margin * 2))
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val trigger = eventTriggerAdapter.selected ?: return@setOnClickListener
             viewModel.trigger.postValue(trigger)
 
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

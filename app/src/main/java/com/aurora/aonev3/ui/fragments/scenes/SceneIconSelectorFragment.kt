@@ -58,13 +58,13 @@ class SceneIconSelectorFragment : Fragment() {
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             findNavController().previousBackStackEntry?.savedStateHandle?.set("colour", viewModel.selectedColour)
             findNavController().previousBackStackEntry?.savedStateHandle?.set("icon", viewModel.selectedIcon)
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
     }

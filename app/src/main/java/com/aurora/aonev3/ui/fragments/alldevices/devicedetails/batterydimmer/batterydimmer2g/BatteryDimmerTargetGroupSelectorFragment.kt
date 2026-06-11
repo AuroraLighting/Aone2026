@@ -61,7 +61,7 @@ class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val gateway = NabtoHandler.selectedGateway ?: return
 
-        tvTitle.text = getString(R.string.select_target_space)
+        binding.tvTitle.text = getString(R.string.select_target_space)
 
         val adapter = GroupRecyclerViewAdapter()
         adapter.setGroups(
@@ -88,11 +88,11 @@ class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
             )
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             findNavController().previousBackStackEntry?.savedStateHandle?.set(returnKey, viewModel.selectedGroup?.id)
             findNavController().popBackStack()
         }

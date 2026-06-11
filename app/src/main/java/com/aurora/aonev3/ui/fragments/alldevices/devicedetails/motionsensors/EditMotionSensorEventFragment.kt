@@ -38,7 +38,7 @@ class EditMotionSensorEventFragment : MotionSensorEventFragment() {
     }
 
     override fun createLogicCollection(gateway: NabtoHandler.NabtoGateway) {
-        btnSave.isEnabled = false
+        binding.btnSave.isEnabled = false
         activity?.layoutGreyOut?.visibility = View.VISIBLE
         val logicCollection = viewModel.logicCollection ?: return
 
@@ -176,7 +176,7 @@ class EditMotionSensorEventFragment : MotionSensorEventFragment() {
                                 createLogicRules(gateway, logicCollection, offTimer, overrideTimer)
 
                                 activity?.runOnUiThread {
-                                    btnSave.isEnabled = true
+                                    binding.btnSave.isEnabled = true
                                     activity?.layoutGreyOut?.visibility = View.GONE
                                     findNavController().popBackStack()
                                 }
@@ -195,7 +195,7 @@ class EditMotionSensorEventFragment : MotionSensorEventFragment() {
                                 createLogicRules(gateway, logicCollection, offTimer, overrideTimer)
 
                                 activity?.runOnUiThread {
-                                    btnSave.isEnabled = true
+                                    binding.btnSave.isEnabled = true
                                     activity?.layoutGreyOut?.visibility = View.GONE
                                     findNavController().popBackStack()
                                 }

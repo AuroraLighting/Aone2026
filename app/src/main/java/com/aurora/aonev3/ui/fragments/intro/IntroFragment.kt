@@ -79,7 +79,7 @@ class IntroFragment : Fragment() {
                     4 -> {
                         activity?.tabLayout?.visibility = View.INVISIBLE
 
-                        btnDone.setOnClickListener {
+                        binding.btnDone.setOnClickListener {
                             SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                                 putBoolean("introDone", true)
                             }

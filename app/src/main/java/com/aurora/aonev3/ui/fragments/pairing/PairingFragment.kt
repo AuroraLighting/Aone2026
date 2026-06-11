@@ -171,7 +171,7 @@ class PairingFragment : Fragment() {
                             } else {
                                 "${newDevices.size} Devices found"
                             }
-                            tvSearching.text = string
+                            binding.tvSearching.text = string
 
                             listAdapter.setDevices(newDevices)
                         }
@@ -181,10 +181,10 @@ class PairingFragment : Fragment() {
 
             viewModel.deviceFound.observe(viewLifecycleOwner, {
                 if (it == true) {
-                    tvTitle.text = getString(R.string.discovered_devices)
+                    binding.tvTitle.text = getString(R.string.discovered_devices)
                     tvSubbinding.title.text = getString(R.string.discovered_devices_subtitle)
-                    layoutSearching.visibility = View.GONE
-                    layoutDiscovered.visibility = View.VISIBLE
+                    binding.layoutSearching.visibility = View.GONE
+                    binding.layoutDiscovered.visibility = View.VISIBLE
                 }
             })
 
@@ -212,9 +212,9 @@ class PairingFragment : Fragment() {
             }
         }
 
-        btnInstructions.setOnClickListener(Navigation.createNavigateOnClickListener(PairingFragmentDirections.actionPairingFragmentToPairingInstructions()))
+        binding.btnInstructions.setOnClickListener(Navigation.createNavigateOnClickListener(PairingFragmentDirections.actionPairingFragmentToPairingInstructions()))
 
-        btnFinish.setOnClickListener {
+        binding.btnFinish.setOnClickListener {
             NabtoHandler.selectedGateway?.let { gateway ->
                 viewModel.viewModelScope.launch(Dispatchers.IO) {
                     try {

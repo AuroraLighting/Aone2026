@@ -45,8 +45,8 @@ class HelpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnAccount.setOnClickListener {
-            btnAccount.isEnabled = false
+        binding.btnAccount.setOnClickListener {
+            binding.btnAccount.isEnabled = false
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 try {
                     viewModel.getUser()
@@ -66,7 +66,7 @@ class HelpFragment : Fragment() {
                 }
 
                 activity?.runOnUiThread {
-                    btnAccount.isEnabled = true
+                    binding.btnAccount.isEnabled = true
                     val action = HelpFragmentDirections.actionHelpFragmentToAccountFragment()
                     try {
                         findNavController().navigate(action)
@@ -81,12 +81,12 @@ class HelpFragment : Fragment() {
             }
         }
 
-        btnHelp.setOnClickListener {
+        binding.btnHelp.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://auroralightinghelp.zendesk.com"))
             startActivity(browserIntent)
         }
 
-        btnResetIntro.setOnClickListener {
+        binding.btnResetIntro.setOnClickListener {
             SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                 putBoolean("introDone", false)
             }
@@ -98,7 +98,7 @@ class HelpFragment : Fragment() {
             ).show()
         }
 
-        btnResetTours.setOnClickListener {
+        binding.btnResetTours.setOnClickListener {
             SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                 putBoolean("homeTourDone", false)
                 putBoolean("allDevicesTourDone", false)
@@ -106,7 +106,7 @@ class HelpFragment : Fragment() {
             }
         }
 
-        btnAbout.setOnClickListener(
+        binding.btnAbout.setOnClickListener(
             Navigation
                 .createNavigateOnClickListener(
                     HelpFragmentDirections
@@ -115,12 +115,12 @@ class HelpFragment : Fragment() {
         )
 
         if (!SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean("office_mode", false)) {
-            btnOfficeMode.text = getString(R.string.enable_office_mode)
+            binding.btnOfficeMode.text = getString(R.string.enable_office_mode)
         } else {
-            btnOfficeMode.text = getString(R.string.disable_office_mode)
+            binding.btnOfficeMode.text = getString(R.string.disable_office_mode)
         }
 
-        btnOfficeMode.setOnClickListener {
+        binding.btnOfficeMode.setOnClickListener {
             if (!SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean("office_mode", false)) {
                 if (activity?.isFinishing == false) {
                     AlertDialog.Builder(activity)
@@ -129,7 +129,7 @@ class HelpFragment : Fragment() {
                             SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                                 putBoolean("office_mode", true)
                             }
-                            btnOfficeMode.text = getString(R.string.disable_office_mode)
+                            binding.btnOfficeMode.text = getString(R.string.disable_office_mode)
                         }
                         .setNegativeButton(R.string.cancel, null)
                         .create()
@@ -149,7 +149,7 @@ class HelpFragment : Fragment() {
                                 SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                                     putBoolean("office_mode", false)
                                 }
-                                btnOfficeMode.text = getString(R.string.enable_office_mode)
+                                binding.btnOfficeMode.text = getString(R.string.enable_office_mode)
                             } else {
                                 Toast.makeText(activity, "Password was incorrect", Toast.LENGTH_SHORT).show()
                             }

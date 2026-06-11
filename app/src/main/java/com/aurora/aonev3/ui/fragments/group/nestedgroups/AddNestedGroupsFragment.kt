@@ -89,7 +89,7 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val ids = adapter.selectedGroups.map { it.id }.sorted()
             layoutGreyOut?.visibility = View.VISIBLE
 
@@ -105,7 +105,7 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

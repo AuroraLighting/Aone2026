@@ -249,7 +249,7 @@ class RemoteDetailFragment : DeviceDetailFragment() {
     override fun btnSaveClickListener(): View.OnClickListener {
         return View.OnClickListener {
             val device = viewModel.selectedDevice ?: return@OnClickListener
-            btnSave.isEnabled = false
+            binding.btnSave.isEnabled = false
             activity?.layoutGreyOut?.visibility = View.VISIBLE
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 val gateway = NabtoHandler.selectedGateway ?: return@launch
@@ -654,7 +654,7 @@ class RemoteDetailFragment : DeviceDetailFragment() {
                     }
                 }
                 activity?.runOnUiThread {
-                    btnSave.isEnabled = true
+                    binding.btnSave.isEnabled = true
                     activity?.layoutGreyOut?.visibility = View.GONE
                     findNavController().popBackStack()
                 }

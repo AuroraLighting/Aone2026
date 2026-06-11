@@ -83,7 +83,7 @@ class ScheduleEventFragment : Fragment() {
             mLogicRule = logicRule
 
             if (logicRule == null) {
-                btnDelete.visibility = View.GONE
+                binding.btnDelete.visibility = View.GONE
                 return@Observer
             }
 
@@ -170,7 +170,7 @@ class ScheduleEventFragment : Fragment() {
             }
 
             activity?.runOnUiThread {
-                btnDelete.visibility = View.VISIBLE
+                binding.btnDelete.visibility = View.VISIBLE
             }
 
             edit = true
@@ -576,11 +576,11 @@ class ScheduleEventFragment : Fragment() {
             )
         )
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnSave.setOnClickListener { button ->
+        binding.btnSave.setOnClickListener { button ->
             button.isEnabled = false
             activity?.layoutGreyOut?.visibility = View.VISIBLE
 
@@ -597,7 +597,7 @@ class ScheduleEventFragment : Fragment() {
                         App.actionFailed()
                     }
 //    TODO                if (isSuccessful) {
-                        btnSave.isEnabled = true
+                        binding.binding.btnSave.isEnabled = true
                         activity.layoutGreyOut?.visibility = View.GONE
                         findNavController().popBackStack()
 //                    }
@@ -605,7 +605,7 @@ class ScheduleEventFragment : Fragment() {
             }
         }
 
-        btnDelete.setOnClickListener {
+        binding.btnDelete.setOnClickListener {
             val activity = activity ?: return@setOnClickListener
             if (!activity.isFinishing) {
                 mLogicCollection.let { logicCollection ->

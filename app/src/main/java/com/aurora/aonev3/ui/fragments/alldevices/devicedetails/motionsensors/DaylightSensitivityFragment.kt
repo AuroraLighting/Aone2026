@@ -140,13 +140,13 @@ class DaylightSensitivityFragment : Fragment() {
             viewModel.lux.postValue(it)
         })
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             motionSensorEventViewModel.targetLux.postValue(viewModel.lux.value)
 
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
     }

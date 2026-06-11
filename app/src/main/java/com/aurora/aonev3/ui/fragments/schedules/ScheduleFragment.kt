@@ -173,9 +173,9 @@ class ScheduleFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     val rules = viewModel.sortedLogicRules
                     if (rules.isNotEmpty()) {
                         eventsAdapter.setLogicRules(rules)
-                        layoutEvent.visibility = View.VISIBLE
+                        binding.layoutEvent.visibility = View.VISIBLE
                     } else {
-                        layoutEvent.visibility = View.GONE
+                        binding.layoutEvent.visibility = View.GONE
                     }
                 }
             }
@@ -204,17 +204,17 @@ class ScheduleFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             findNavController().navigate(action)
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
         if (!allowEditing()) {
-            btnSave.visibility = View.GONE
-            btnCancel.visibility = View.GONE
+            binding.btnSave.visibility = View.GONE
+            binding.btnCancel.visibility = View.GONE
             binding.addEvent.visibility = View.GONE
             binding.dividerTop.visibility = View.GONE
         }

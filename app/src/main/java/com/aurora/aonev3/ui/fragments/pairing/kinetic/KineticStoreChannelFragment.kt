@@ -29,7 +29,7 @@ class KineticStoreChannelFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnDone.setOnClickListener {
+        binding.btnDone.setOnClickListener {
             findNavController().popBackStack()
         }
     }

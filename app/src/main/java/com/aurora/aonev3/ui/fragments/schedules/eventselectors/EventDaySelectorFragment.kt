@@ -90,7 +90,7 @@ class EventDaySelectorFragment : Fragment() {
             }
         }
 
-        tvTitle.text = getString(R.string.set_day_for_event)
+        binding.tvTitle.text = getString(R.string.set_day_for_event)
 
         with(recyclerView) {
             adapter = eventDayAdapter
@@ -101,14 +101,14 @@ class EventDaySelectorFragment : Fragment() {
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val day = eventDayAdapter.getSelected()?.first ?: return@setOnClickListener
             viewModel.eventDay.postValue(day)
 
             findNavController().popBackStack()
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 

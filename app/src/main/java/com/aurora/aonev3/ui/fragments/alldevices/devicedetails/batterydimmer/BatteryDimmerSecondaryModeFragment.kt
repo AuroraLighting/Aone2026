@@ -49,7 +49,7 @@ class BatteryDimmerSecondaryModeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvTitle.text = getString(R.string.secondary_mode)
+        binding.tvTitle.text = getString(R.string.secondary_mode)
 
         val adapter = SecondaryModeRecyclerViewAdapter()
 
@@ -67,11 +67,11 @@ class BatteryDimmerSecondaryModeFragment : Fragment() {
             ))
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             findNavController().previousBackStackEntry?.savedStateHandle?.set(returnKey, viewModel.mode)
             findNavController().popBackStack()
         }
