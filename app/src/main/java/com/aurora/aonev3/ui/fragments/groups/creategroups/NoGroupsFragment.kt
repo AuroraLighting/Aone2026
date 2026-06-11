@@ -196,7 +196,7 @@ class NoGroupsFragment : Fragment() {
             var icon: ImageView = itemView.findViewById(R.id.ivIcon)
 
             init {
-                binding.cardView.setOnClickListener(this)
+                cardView.setOnClickListener(this)
             }
 
             override fun onClick(p0: View?) {

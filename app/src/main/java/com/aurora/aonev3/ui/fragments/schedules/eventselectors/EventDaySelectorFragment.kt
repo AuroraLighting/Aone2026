@@ -174,7 +174,7 @@ class EventDaySelectorFragment : Fragment() {
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.findViewById(R.id.ivIcon).visibility = View.GONE
+                itemView.findViewById<android.view.View>(R.id.ivIcon).visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {

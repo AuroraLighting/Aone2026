@@ -149,10 +149,10 @@ class WallDimmerControlTargetFragment : Fragment() {
 
                 if (device == viewModel.target) {
                     name.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-                    binding.cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileActive))
+                    cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileActive))
                 } else {
                     name.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextPrimary))
-                    binding.cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileInactive))
+                    cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileInactive))
                 }
             }
         }

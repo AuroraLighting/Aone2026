@@ -73,8 +73,8 @@ class PairingInstructionsFragment : Fragment() {
 
         private inner class PairingInstructionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView),
             View.OnClickListener {
-            private val nameTv: TextView = itemView.findViewById(R.id.binding).tvName
-            private val iconIv: ImageView = itemView.findViewById(R.id.binding).ivIcon
+            private val nameTv: TextView = itemView.findViewById(R.id.tvName)
+            private val iconIv: ImageView = itemView.findViewById(R.id.ivIcon)
 
             init {
                 itemView.setOnClickListener(this)

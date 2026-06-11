@@ -201,11 +201,11 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
             }
 
             if (rule.isEnabled) {
-                binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                 name.setTextColor(context.getColor(R.color.colorPrimary))
                 days.setTextColor(context.getColor(R.color.colorPrimary))
             } else {
-                binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                 name.setTextColor(context.getColor(R.color.colorPrimaryBackground))
                 days.setTextColor(context.getColor(R.color.colorPrimaryBackground))
             }
@@ -336,11 +336,11 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
             name.text = nameString
             days.text = dayString
             if (rule.isEnabled) {
-                binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                 name.setTextColor(context.getColor(R.color.colorPrimary))
                 days.setTextColor(context.getColor(R.color.colorPrimary))
             } else {
-                binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                 name.setTextColor(context.getColor(R.color.colorPrimaryBackground))
                 days.setTextColor(context.getColor(R.color.colorPrimaryBackground))
             }

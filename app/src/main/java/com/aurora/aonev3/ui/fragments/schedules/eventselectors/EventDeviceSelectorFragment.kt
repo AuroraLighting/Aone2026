@@ -290,7 +290,7 @@ class EventDeviceSelectorFragment : Fragment() {
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.findViewById(R.id.ivIcon).visibility = View.GONE
+                itemView.findViewById<android.view.View>(R.id.ivIcon).visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {
@@ -302,17 +302,17 @@ class EventDeviceSelectorFragment : Fragment() {
                 name.text = device.name
 
                 if (device == viewModel.selectedDevice) {
-                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }
         }
 
         inner class SocketCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val nameTv: TextView = itemView.findViewById(R.id.binding).tvName
+            private val nameTv: TextView = itemView.findViewById(R.id.tvName)
             private val ibLeftSocket: ImageButton = itemView.findViewById(R.id.ibLeftSocket)
             private val ibRightSocket: ImageButton = itemView.findViewById(R.id.ibRightSocket)
             private val ibLock: ImageButton = itemView.findViewById(R.id.ibLock)

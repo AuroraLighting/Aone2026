@@ -172,8 +172,8 @@ class SceneIconSelectorFragment : Fragment() {
         }
 
         inner class ColourViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val binding.fill: ConstraintLayout = itemView.findViewById(R.id.binding).fill
-            private val selectedView: ConstraintLayout = itemView.findViewById(R.id.binding).selected
+            private val binding.fill: ConstraintLayout = itemView.findViewById(R.id.fill)
+            private val selectedView: ConstraintLayout = itemView.findViewById(R.id.selected)
 
             init {
                 itemView.setOnClickListener(this)
@@ -202,9 +202,9 @@ class SceneIconSelectorFragment : Fragment() {
         }
 
         inner class IconViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val binding.fill: ConstraintLayout = itemView.findViewById(R.id.binding).fill
-            private val ivIcon: ImageView = itemView.findViewById(R.id.binding).iconIv
-            private val selectedView: ConstraintLayout = itemView.findViewById(R.id.binding).selected
+            private val binding.fill: ConstraintLayout = itemView.findViewById(R.id.fill)
+            private val ivIcon: ImageView = itemView.findViewById(R.id.iconIv)
+            private val selectedView: ConstraintLayout = itemView.findViewById(R.id.selected)
 
             init {
                 itemView.setOnClickListener(this)
