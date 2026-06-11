@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlin_version = '1.8.22'
-        room_version = "2.5.2"
+        room_version = "2.6.1"
         arch_lifecycle_version = "2.2.0"
         coroutine_version = '1.6.4'
         nav_version = "2.6.0"
