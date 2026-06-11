@@ -43,8 +43,15 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    jvmTarget = JavaVersion.VERSION_1_8.toString()
+}
+
+kapt {
+    javacOptions {
+        option("-source", "1.8")
+        option("-target", "1.8")
     }
+}
 
     ndkVersion "22.1.7171670"
 
