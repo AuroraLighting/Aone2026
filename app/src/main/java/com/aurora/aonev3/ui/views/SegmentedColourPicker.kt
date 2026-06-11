@@ -81,15 +81,15 @@ class SegmentedColourPicker: View {
         pointerOutlinePaint.color = Color.BLACK
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        canvas?.drawBitmap(backgroundBitmap, null, square, null)
+        canvas.drawBitmap(backgroundBitmap, null, square, null)
 
         if (isShowingPointer) {
             pointerPaint.color = selectedColour
-            canvas?.drawOval(pointerRectF, pointerPaint)
-            canvas?.drawOval(pointerRectF, pointerOutlinePaint)
+            canvas.drawOval(pointerRectF, pointerPaint)
+            canvas.drawOval(pointerRectF, pointerOutlinePaint)
         }
     }
 
