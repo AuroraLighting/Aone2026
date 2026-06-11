@@ -14,6 +14,8 @@ import com.aurora.aonev3.data.logic.LogicCollection
 import com.aurora.aonev3.data.logic.rules.LogicRule
 import com.aurora.aonev3.logic.*
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.fragment_schedule_event.view.*
+import kotlinx.android.synthetic.main.layout_pairing_device_tile.view.*
 import kotlin.math.abs
 
 class EventRecyclerViewAdapter internal constructor(val context: Context, val logicCollection: LogicCollection) : RecyclerView.Adapter<EventRecyclerViewAdapter.EventCardViewHolder>() {
@@ -54,30 +56,30 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
     }
 
     inner class ScheduleEventCardViewHolder(itemView: View) : EventCardViewHolder(itemView) {
-        var binding.cardView: MaterialCardView = itemView.cardView
+        var cardView: MaterialCardView = itemView.cardView
         var name: TextView = itemView.tvName
         var days: TextView = itemView.tvDays
-        var binding.menu: ImageView = itemView.menu
+        var menu: ImageView = itemView.menu
 
         init {
             if (allowEditing()) {
-                binding.menu.visibility = View.VISIBLE
-                binding.menu.setOnClickListener {
+                menu.visibility = View.VISIBLE
+                menu.setOnClickListener {
                     onMenuClickListener?.onItemClick(it, bindingAdapterPosition)
                 }
                 itemView.setOnClickListener(this)
                 itemView.setOnLongClickListener(this)
             } else {
-                binding.menu.visibility = View.GONE
+                menu.visibility = View.GONE
             }
         }
 
         override fun onClick(p0: View?) {
-            onItemClickListener?.onItemClick(binding.cardView, bindingAdapterPosition)
+            onItemClickListener?.onItemClick(cardView, bindingAdapterPosition)
         }
 
         override fun onLongClick(v: View?): Boolean {
-            return onItemLongClickListener?.onItemLongClick(binding.cardView, bindingAdapterPosition) ?: false
+            return onItemLongClickListener?.onItemLongClick(cardView, bindingAdapterPosition) ?: false
         }
 
         override fun setEvent(rule: LogicRule) {
@@ -201,11 +203,11 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
             }
 
             if (rule.isEnabled) {
-                binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                 name.setTextColor(context.getColor(R.color.colorPrimary))
                 days.setTextColor(context.getColor(R.color.colorPrimary))
             } else {
-                binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                 name.setTextColor(context.getColor(R.color.colorPrimaryBackground))
                 days.setTextColor(context.getColor(R.color.colorPrimaryBackground))
             }
@@ -216,30 +218,30 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
     }
 
     inner class DynamicEventCardViewHolder(itemView: View) : EventCardViewHolder(itemView) {
-        var binding.cardView: MaterialCardView = itemView.cardView
+        var cardView: MaterialCardView = itemView.cardView
         var name: TextView = itemView.tvName
         var days: TextView = itemView.tvDays
-        var binding.menu: ImageView = itemView.menu
+        var menu: ImageView = itemView.menu
 
         init {
             if (allowEditing()) {
-                binding.menu.visibility = View.VISIBLE
-                binding.menu.setOnClickListener {
+                menu.visibility = View.VISIBLE
+                menu.setOnClickListener {
                     onMenuClickListener?.onItemClick(it, bindingAdapterPosition)
                 }
                 itemView.setOnClickListener(this)
                 itemView.setOnLongClickListener(this)
             } else {
-                binding.menu.visibility = View.GONE
+                menu.visibility = View.GONE
             }
         }
 
         override fun onClick(p0: View?) {
-            onItemClickListener?.onItemClick(binding.cardView, bindingAdapterPosition)
+            onItemClickListener?.onItemClick(cardView, bindingAdapterPosition)
         }
 
         override fun onLongClick(v: View?): Boolean {
-            return onItemLongClickListener?.onItemLongClick(binding.cardView, bindingAdapterPosition) ?: false
+            return onItemLongClickListener?.onItemLongClick(cardView, bindingAdapterPosition) ?: false
         }
 
         override fun setEvent(rule: LogicRule) {
@@ -336,11 +338,11 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
             name.text = nameString
             days.text = dayString
             if (rule.isEnabled) {
-                binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                 name.setTextColor(context.getColor(R.color.colorPrimary))
                 days.setTextColor(context.getColor(R.color.colorPrimary))
             } else {
-                binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                 name.setTextColor(context.getColor(R.color.colorPrimaryBackground))
                 days.setTextColor(context.getColor(R.color.colorPrimaryBackground))
             }

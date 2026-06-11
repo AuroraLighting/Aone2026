@@ -23,7 +23,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
-import com.aurora.aonev3.databinding.FragmentTimeTriggerBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.R
 import com.aurora.aonev3.logic.CollectionType
@@ -34,6 +33,8 @@ import com.aurora.aonev3.ui.activities.SplashscreenActivity
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.TimeConditionFragment
 import com.aurora.aonev3.ui.fragments.schedules.*
 import com.google.android.gms.location.LocationServices
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_time_trigger.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -42,10 +43,6 @@ import javax.security.auth.login.LoginException
 const val LOCATION_PERMISSION_RC = 0
 
 class ScheduleTimeTriggerFragment : Fragment() {
-
-    private var _binding: FragmentTimeTriggerBinding? = null
-    private val binding get() = _binding!!
-
     private lateinit var eventTimeViewModel: IScheduleTimeViewModel
     private val viewModel: IScheduleTimeViewModel by viewModels<ScheduleTimeViewModel>()
     private val sunriseSunsetViewModel: SunriseSunsetViewModel by activityViewModels()
@@ -85,10 +82,7 @@ class ScheduleTimeTriggerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentTimeTriggerBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_time_trigger, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -300,11 +294,5 @@ class ScheduleTimeTriggerFragment : Fragment() {
                 // Ignore all other requests.
             }
         }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

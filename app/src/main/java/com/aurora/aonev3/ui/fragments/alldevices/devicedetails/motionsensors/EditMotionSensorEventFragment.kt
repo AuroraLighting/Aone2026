@@ -20,6 +20,8 @@ import com.aurora.aonev3.logic.*
 import com.aurora.aonev3.ui.activities.SplashscreenActivity
 import com.aurora.aonev3.ui.fragments.schedules.EventTarget
 import com.aurora.aonev3.ui.fragments.schedules.SunriseSunsetType
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_motion_sensor_event.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject

@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentEventGroupSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.data.groups.Group
@@ -21,12 +20,9 @@ import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventFragment
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventViewModel
 import com.aurora.aonev3.ui.fragments.groups.groupselector.GroupSelectorViewAdapter
+import kotlinx.android.synthetic.main.fragment_group_selector.*
 
 class EventGroupSelectorFragment : Fragment() {
-
-    private var _binding: FragmentEventGroupSelectorBinding? = null
-    private val binding get() = _binding!!
-
 
     private val viewModel: EventGroupSelectorViewModel by viewModels()
     private lateinit var senderViewModel: IEventGroupSelectorViewModel
@@ -47,10 +43,7 @@ class EventGroupSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentEventGroupSelectorBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_event_group_selector, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,10 +91,4 @@ class EventGroupSelectorFragment : Fragment() {
 
 interface IEventGroupSelectorViewModel {
     var targetGroup: MutableLiveData<Group?>
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

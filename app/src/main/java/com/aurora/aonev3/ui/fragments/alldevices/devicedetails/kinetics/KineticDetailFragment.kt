@@ -27,6 +27,8 @@ import com.aurora.aonev3.data.logic.LogicCollection
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.DeviceDetailFragment
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_device_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -109,6 +111,7 @@ class KineticDetailFragment : DeviceDetailFragment() {
 
             setModeColour(upDownLayout, tvUpDown, mode)
         })
+
 
         kineticViewModel.secondaryMode.observe(viewLifecycleOwner, { mode ->
             mSecondaryMode = mode

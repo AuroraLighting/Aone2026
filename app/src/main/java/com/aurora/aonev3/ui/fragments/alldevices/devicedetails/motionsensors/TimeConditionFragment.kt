@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
-import com.aurora.aonev3.databinding.FragmentTimeConditionBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.debug
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors.DoorSensorEventViewModel
@@ -28,13 +27,10 @@ import com.aurora.aonev3.ui.fragments.schedules.eventselectors.ConditionEndTimeV
 import com.aurora.aonev3.ui.fragments.schedules.eventselectors.ConditionStartTimeViewModel
 import com.aurora.aonev3.ui.fragments.schedules.eventselectors.IScheduleTimeViewModel
 import com.aurora.aonev3.ui.fragments.schedules.eventselectors.ScheduleTimeViewModel
+import kotlinx.android.synthetic.main.fragment_time_condition.*
 import kotlin.math.abs
 
 class TimeConditionFragment : Fragment() {
-
-    private var _binding: FragmentTimeConditionBinding? = null
-    private val binding get() = _binding!!
-
 
     private lateinit var senderEventViewModel: ITimeConditionViewModel
     private val viewModel: ITimeConditionViewModel by viewModels<TimeConditionViewModel>()
@@ -69,10 +65,7 @@ class TimeConditionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentTimeConditionBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_time_condition, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -147,6 +140,7 @@ class TimeConditionFragment : Fragment() {
         viewModel.endTime.observe(viewLifecycleOwner) {
             it ?: return@observe
             mEndTime = it
+
 
             if (endConditionViewModel.trigger.value == null) {
                 endConditionViewModel.updateTrigger(it.hour, it.minute, it.trigger, it.offset)
@@ -296,10 +290,4 @@ interface ITimeConditionViewModel {
     fun setIsAllDay(isAllDay: Boolean)
     fun updateStartTime(hour: Int = startTime.value?.hour ?: 0, minute: Int = startTime.value?.minute ?: 0, trigger: SunriseSunsetType = startTime.value?.trigger ?: SunriseSunsetType.TIME, offset: Int = startTime.value?.offset ?: 0)
     fun updateEndTime(hour: Int = endTime.value?.hour ?: 0, minute: Int = endTime.value?.minute ?: 0, trigger: SunriseSunsetType = endTime.value?.trigger ?: SunriseSunsetType.TIME, offset: Int = endTime.value?.offset ?: 0)
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

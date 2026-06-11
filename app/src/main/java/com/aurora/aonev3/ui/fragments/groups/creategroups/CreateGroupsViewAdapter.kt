@@ -11,6 +11,7 @@ import com.aurora.aonev3.ItemClickListener
 import com.aurora.aonev3.R
 import com.aurora.aonev3.data.groups.Group
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.layout_group_selector_tile.view.*
 
 class CreateGroupsViewAdapter internal constructor(val context: Context) :
     RecyclerView.Adapter<CreateGroupsViewAdapter.GroupCardViewHolder>() {

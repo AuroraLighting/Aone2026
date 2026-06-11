@@ -18,7 +18,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentSelectorBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
@@ -34,12 +33,13 @@ import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventFragment
 import com.aurora.aonev3.ui.fragments.schedules.ScheduleEventViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.android.synthetic.main.fragment_selector.*
+import kotlinx.android.synthetic.main.layout_double_socket_schedule_tile.view.*
+import kotlinx.android.synthetic.main.layout_group_selector_tile.view.*
+import kotlinx.android.synthetic.main.layout_group_selector_tile.view.cardView
+import kotlinx.android.synthetic.main.layout_group_selector_tile.view.tvName
 
 class EventDeviceSelectorViewModel: ViewModel() {
-
-    private var _binding: FragmentSelectorBinding? = null
-    private val binding get() = _binding!!
-
     var selectedDevice: Device? = null
     var selectedLdev: String? = null
 }
@@ -84,10 +84,7 @@ class EventDeviceSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentSelectorBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_selector, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -285,12 +282,12 @@ class EventDeviceSelectorFragment : Fragment() {
 
         inner class EventDeviceCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
             View.OnClickListener {
-            var binding.cardView: MaterialCardView = itemView.binding.cardView
-            var name: TextView = itemView.binding.tvName
+            var cardView: MaterialCardView = itemView.cardView
+            var name: TextView = itemView.tvName
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.binding.ivIcon.visibility = View.GONE
+                itemView.ivIcon.visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {
@@ -302,20 +299,20 @@ class EventDeviceSelectorFragment : Fragment() {
                 name.text = device.name
 
                 if (device == viewModel.selectedDevice) {
-                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }
         }
 
         inner class SocketCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val nameTv: TextView = itemView.findViewById(R.id.binding).tvName
-            private val ibLeftSocket: ImageButton = itemView.findViewById(R.id.ibLeftSocket)
-            private val ibRightSocket: ImageButton = itemView.findViewById(R.id.ibRightSocket)
-            private val ibLock: ImageButton = itemView.findViewById(R.id.ibLock)
+            private val nameTv: TextView = itemView.tvName
+            private val ibLeftSocket: ImageButton = itemView.ibLeftSocket
+            private val ibRightSocket: ImageButton = itemView.ibRightSocket
+            private val ibLock: ImageButton = itemView.ibLock
 
             init {
                 ibLeftSocket.setOnClickListener {
@@ -391,10 +388,4 @@ enum class EventDevicesDataType {
 
 interface IEventDeviceSelectorViewModel: IEventGroupSelectorViewModel {
     var device: MutableLiveData<Pair<Device, String>?>
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

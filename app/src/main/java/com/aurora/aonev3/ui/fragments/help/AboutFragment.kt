@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
-import com.aurora.aonev3.databinding.FragmentAboutBinding
 import com.aurora.aonev3.BuildConfig
 import com.aurora.aonev3.R
 import com.aurora.aonev3.debug
@@ -20,22 +19,18 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
 import com.google.android.play.core.install.model.UpdateAvailability
+import kotlinx.android.synthetic.main.fragment_about.*
+import kotlinx.android.synthetic.main.fragment_about.btnPrivacy
+import kotlinx.android.synthetic.main.fragment_about.btnTerms
 
 class AboutFragment : Fragment() {
-
-    private var _binding: FragmentAboutBinding? = null
-    private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentAboutBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_about, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,6 +62,7 @@ class AboutFragment : Fragment() {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://auroralightinghelp.zendesk.com/hc/en-gb/articles/4405190146065-BETA-Testing-new-features-before-general-release"))
             startActivity(browserIntent)
         }
+
 
         btnFeature.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://auroralightinghelp.zendesk.com/hc/en-gb/articles/4405190035473-How-can-I-request-for-a-feature-to-be-added-to-the-App-"))
@@ -116,11 +112,5 @@ class AboutFragment : Fragment() {
                 debug(it.toString())
             }
         }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

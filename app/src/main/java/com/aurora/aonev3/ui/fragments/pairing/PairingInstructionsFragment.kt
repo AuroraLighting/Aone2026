@@ -11,25 +11,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentPairingInstructionsBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
+import kotlinx.android.synthetic.main.fragment_pairing_instructions.*
+import kotlinx.android.synthetic.main.layout_pairing_instruction_tile.view.*
 
 class PairingInstructionsFragment : Fragment() {
-
-    private var _binding: FragmentPairingInstructionsBinding? = null
-    private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentPairingInstructionsBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_pairing_instructions, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,8 +67,8 @@ class PairingInstructionsFragment : Fragment() {
 
         private inner class PairingInstructionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView),
             View.OnClickListener {
-            private val nameTv: TextView = itemView.findViewById(R.id.binding).tvName
-            private val iconIv: ImageView = itemView.findViewById(R.id.binding).ivIcon
+            private val nameTv: TextView = itemView.tvName
+            private val iconIv: ImageView = itemView.ivIcon
 
             init {
                 itemView.setOnClickListener(this)
@@ -105,11 +99,5 @@ class PairingInstructionsFragment : Fragment() {
         PLUG("Plug in Adapter", R.drawable.plug_pairing),
         RELAY("Smart Relay", R.drawable.relay_pairing),
         WALLDIMMER("Rotary Dimmer", R.drawable.dimmer_pairing)
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

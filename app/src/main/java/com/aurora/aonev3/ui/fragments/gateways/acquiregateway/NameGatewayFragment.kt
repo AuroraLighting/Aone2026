@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.gateways.acquiregateway
 
+
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -11,23 +12,20 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.VolleyError
-import com.aurora.aonev3.databinding.FragmentNameGatewayBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.ui.activities.login.toJSONObject
 import com.aurora.aonev3.ui.fragments.groups.GroupsFragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.android.synthetic.main.fragment_name_gateway.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
+
 class NameGatewayFragment : Fragment() {
-
-    private var _binding: FragmentNameGatewayBinding? = null
-    private val binding get() = _binding!!
-
     private val crashlytics = FirebaseCrashlytics.getInstance()
 
     override fun onCreateView(
@@ -35,10 +33,7 @@ class NameGatewayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentNameGatewayBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_name_gateway, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -121,11 +116,5 @@ class NameGatewayFragment : Fragment() {
         @JvmStatic
         fun newInstance() =
             NameGatewayFragment()
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

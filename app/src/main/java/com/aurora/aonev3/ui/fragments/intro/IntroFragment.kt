@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import com.aurora.aonev3.databinding.FragmentIntroBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.activities.login.LoginActivity
+import kotlinx.android.synthetic.main.activity_tour.*
+import kotlinx.android.synthetic.main.fragment_intro.*
+import kotlinx.android.synthetic.main.fragment_intro.imageView
+import kotlinx.android.synthetic.main.fragment_intro.textView
+import kotlinx.android.synthetic.main.fragment_intro_end.*
 
 private const val ARG_INDEX = "index"
 private const val ARG_TARGET = "target"
@@ -21,10 +25,6 @@ private const val ARG_TARGET = "target"
  * A simple [Fragment] subclass.
  */
 class IntroFragment : Fragment() {
-
-    private var _binding: FragmentIntroBinding? = null
-    private val binding get() = _binding!!
-
     private var index: String? = null
     private var target: String? = null
 
@@ -53,26 +53,26 @@ class IntroFragment : Fragment() {
 
                 when (index?.toInt()) {
                     1 -> {
-                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_1))
+                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_1))
 
-                        binding.textView.text = getString(R.string.intro_1_text_1)
-                        binding.textView2.text = getString(R.string.intro_1_text_2)
+                        textView.text = getString(R.string.intro_1_text_1)
+                        textView2.text = getString(R.string.intro_1_text_2)
 
                         activity?.tabLayout?.visibility = View.VISIBLE
                     }
                     2 -> {
-                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_2))
+                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_2))
 
-                        binding.textView.text = getString(R.string.intro_2_text_1)
-                        binding.textView2.text = getString(R.string.intro_2_text_2)
+                        textView.text = getString(R.string.intro_2_text_1)
+                        textView2.text = getString(R.string.intro_2_text_2)
 
                         activity?.tabLayout?.visibility = View.VISIBLE
                     }
                     3 -> {
-                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_3))
+                        imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_3))
 
-                        binding.textView.text = getString(R.string.intro_3_text_1)
-                        binding.textView2.text = getString(R.string.intro_3_text_2)
+                        textView.text = getString(R.string.intro_3_text_1)
+                        textView2.text = getString(R.string.intro_3_text_2)
 
                         activity?.tabLayout?.visibility = View.VISIBLE
                     }
@@ -98,6 +98,7 @@ class IntroFragment : Fragment() {
                 }
             }
 
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -115,11 +116,5 @@ class IntroFragment : Fragment() {
                     putString(ARG_TARGET, target)
                 }
             }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

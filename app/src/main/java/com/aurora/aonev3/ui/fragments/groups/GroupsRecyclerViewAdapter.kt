@@ -20,6 +20,7 @@ import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.data.groups.groupmembers.GroupMember
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.android.synthetic.main.layout_group_tile.view.*
 
 class GroupsRecyclerViewAdapter internal constructor(val context: Context) : RecyclerView.Adapter<GroupsRecyclerViewAdapter.GroupCardViewHolder>() {
 
@@ -126,11 +127,11 @@ class GroupsRecyclerViewAdapter internal constructor(val context: Context) : Rec
     }
 
     inner class GroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
-        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-        private val name: TextView = itemView.findViewById(R.id.tvName)
-        private val state: ImageView = itemView.findViewById(R.id.ivState)
-        private val levels: TextView = itemView.findViewById(R.id.tvLevels)
-        private val ivOffline: ImageView = itemView.findViewById(R.id.ivOffline)
+        private val cardView: MaterialCardView = itemView.cardView
+        private val name: TextView = itemView.tvName
+        private val state: ImageView = itemView.ivState
+        private val levels: TextView = itemView.tvLevels
+        private val ivOffline: ImageView = itemView.ivOffline
 
         init {
             itemView.setOnClickListener(this)

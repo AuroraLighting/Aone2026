@@ -26,6 +26,8 @@ import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.bat
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.batterydimmer1g.SECONDARY_MODE_2_KEY
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.batterydimmer1g.SECONDARY_MODE_KEY
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_device_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray

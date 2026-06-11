@@ -15,18 +15,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentSceneIconSelectorBinding
 import com.aurora.aonev3.GridItemDecoration
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SectionHeaderViewHolder
 import com.aurora.aonev3.ui.ColourScenes
 import com.aurora.aonev3.ui.IconsScenes
+import kotlinx.android.synthetic.main.fragment_scene_icon_selector.*
+import kotlinx.android.synthetic.main.layout_scene_colour.view.fill
+import kotlinx.android.synthetic.main.layout_scene_colour.view.selected
+import kotlinx.android.synthetic.main.layout_scene_icon.view.*
 
 class SceneIconSelectorFragment : Fragment() {
-
-    private var _binding: FragmentSceneIconSelectorBinding? = null
-    private val binding get() = _binding!!
-
 
     private val viewModel: NewSceneViewModel by viewModels()
     private val args: SceneIconSelectorFragmentArgs by navArgs()
@@ -36,10 +35,7 @@ class SceneIconSelectorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentSceneIconSelectorBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_scene_icon_selector, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -172,8 +168,8 @@ class SceneIconSelectorFragment : Fragment() {
         }
 
         inner class ColourViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val binding.fill: ConstraintLayout = itemView.findViewById(R.id.binding).fill
-            private val selectedView: ConstraintLayout = itemView.findViewById(R.id.binding).selected
+            private val fill: ConstraintLayout = itemView.fill
+            private val selectedView: ConstraintLayout = itemView.selected
 
             init {
                 itemView.setOnClickListener(this)
@@ -196,15 +192,15 @@ class SceneIconSelectorFragment : Fragment() {
             }
 
             fun setColour(colour: String) {
-                binding.fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
+                fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
                 selectedView.visibility = if (colour == viewModel.selectedColour) { View.VISIBLE } else { View.INVISIBLE }
             }
         }
 
         inner class IconViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val binding.fill: ConstraintLayout = itemView.findViewById(R.id.binding).fill
-            private val ivIcon: ImageView = itemView.findViewById(R.id.binding).iconIv
-            private val selectedView: ConstraintLayout = itemView.findViewById(R.id.binding).selected
+            private val fill: ConstraintLayout = itemView.fill
+            private val ivIcon: ImageView = itemView.iconIv
+            private val selectedView: ConstraintLayout = itemView.selected
 
             init {
                 itemView.setOnClickListener(this)
@@ -224,7 +220,7 @@ class SceneIconSelectorFragment : Fragment() {
 
             fun setIcon(icon: IconsScenes) {
                 val colour = if (!viewModel.selectedColour.isNullOrBlank()) viewModel.selectedColour else ColourScenes.DEFAULT.stringValue
-                binding.fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
+                fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
                 selectedView.visibility = if (icon == viewModel.selectedIcon) { View.VISIBLE } else { View.INVISIBLE }
 
                 ivIcon.setImageDrawable(
@@ -235,11 +231,5 @@ class SceneIconSelectorFragment : Fragment() {
                     })
             }
         }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

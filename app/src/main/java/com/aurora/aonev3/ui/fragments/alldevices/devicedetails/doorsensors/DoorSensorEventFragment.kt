@@ -16,7 +16,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
-import com.aurora.aonev3.databinding.FragmentDoorSensorEventBinding
 import com.aurora.aonev3.App
 import com.aurora.aonev3.R
 import com.aurora.aonev3.UnknownApiException
@@ -30,15 +29,13 @@ import com.aurora.aonev3.ui.fragments.schedules.EventAction
 import com.aurora.aonev3.ui.fragments.schedules.EventTarget
 import com.aurora.aonev3.ui.fragments.schedules.SunriseSunsetType
 import com.aurora.aonev3.ui.fragments.schedules.TriggerTime
+import kotlinx.android.synthetic.main.fragment_door_sensor_event.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
+
 open class DoorSensorEventFragment : Fragment() {
-
-    private var _binding: FragmentDoorSensorEventBinding? = null
-    private val binding get() = _binding!!
-
 
     private val viewModel: DoorSensorEventViewModel by activityViewModels()
     private var mGroup: Group? = null
@@ -57,10 +54,7 @@ open class DoorSensorEventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return run {
-            _binding = FragmentDoorSensorEventBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_door_sensor_event, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -450,11 +444,5 @@ open class DoorSensorEventFragment : Fragment() {
         private const val TAG = "DoorSensorEventFragmen…"
         fun newInstance() =
             DoorSensorEventFragment()
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

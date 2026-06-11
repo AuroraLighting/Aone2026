@@ -17,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentAddDevicesBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
@@ -26,16 +25,13 @@ import com.aurora.aonev3.data.devices.Device.DeviceCategory.*
 import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.data.groups.groupmembers.GroupMember
 import com.aurora.aonev3.ui.fragments.alldevices.AllDevicesViewModel
+import kotlinx.android.synthetic.main.fragment_add_devices.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 
 class AddDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
-
-    private var _binding: FragmentAddDevicesBinding? = null
-    private val binding get() = _binding!!
-
 
     companion object {
         private const val TAG = "AddDevicesFragment"
@@ -53,10 +49,7 @@ class AddDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return run {
-            _binding = FragmentAddDevicesBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_add_devices, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -411,11 +404,5 @@ class AddDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         } else {
             false
         }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -7,6 +7,7 @@ import com.aurora.aonev3.allowEditing
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.DeviceDetailFragment
+import kotlinx.android.synthetic.main.fragment_device_detail.*
 
 class DoubleSocketDetailFragment : DeviceDetailFragment() {
 

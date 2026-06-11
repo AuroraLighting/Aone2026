@@ -20,6 +20,10 @@ import com.aurora.aonev3.data.devices.Device
 import com.aurora.aonev3.data.groups.Group
 import com.aurora.aonev3.ui.IconsDevices
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.layout_device_tile.view.*
+import kotlinx.android.synthetic.main.layout_device_tile.view.cardView
+import kotlinx.android.synthetic.main.layout_device_tile.view.tvName
+import kotlinx.android.synthetic.main.layout_double_socket_tile.view.*
 
 class SceneDevicesRecyclerViewAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -250,9 +254,9 @@ class SceneDevicesRecyclerViewAdapter(val context: Context) : RecyclerView.Adapt
     }
 
     inner class SocketCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val nameTv: TextView = itemView.findViewById(R.id.tvName)
-        private val ibLeftSocket: ImageButton = itemView.findViewById(R.id.ibLeftSocket)
-        private val ibRightSocket: ImageButton = itemView.findViewById(R.id.ibRightSocket)
+        private val nameTv: TextView = itemView.tvName
+        private val ibLeftSocket: ImageButton = itemView.ibLeftSocket
+        private val ibRightSocket: ImageButton = itemView.ibRightSocket
 
         init {
             ibLeftSocket.setOnClickListener {
@@ -303,10 +307,10 @@ class SceneDevicesRecyclerViewAdapter(val context: Context) : RecyclerView.Adapt
 
     inner class GroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener, View.OnLongClickListener {
-        private val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-        private val nameTv: TextView = itemView.findViewById(R.id.tvName)
-        private val levelTv: TextView = itemView.findViewById(R.id.tvLevel)
-        private val colourTemperatureTv: TextView = itemView.findViewById(R.id.tvColourTemperature)
+        private val cardView: MaterialCardView = itemView.cardView
+        private val nameTv: TextView = itemView.tvName
+        private val levelTv: TextView = itemView.tvLevel
+        private val colourTemperatureTv: TextView = itemView.tvColourTemperature
 
         init {
             itemView.setOnClickListener(this)
@@ -382,6 +386,7 @@ class SceneDevicesRecyclerViewAdapter(val context: Context) : RecyclerView.Adapt
         }
     }
 }
+
 
 data class SceneDeviceData(val device: Device? = null, val group: Group? = null, val section: String? = null, val type: SceneDeviceDataType)
 

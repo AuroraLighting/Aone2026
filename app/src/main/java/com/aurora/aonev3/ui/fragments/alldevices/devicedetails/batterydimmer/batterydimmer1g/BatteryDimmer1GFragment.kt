@@ -20,6 +20,8 @@ import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.SyncHandler
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.DeviceDetailFragment
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_device_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -47,6 +49,7 @@ class BatteryDimmer1GFragment : DeviceDetailFragment() {
                 )
             findNavController().navigate(action)
         }
+
 
         viewModel.group.observe(viewLifecycleOwner, { group ->
             setDimmerModeColour()

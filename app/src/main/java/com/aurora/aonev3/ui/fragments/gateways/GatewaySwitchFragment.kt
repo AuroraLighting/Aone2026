@@ -25,6 +25,8 @@ import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.activities.SplashscreenActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.android.synthetic.main.fragment_gateway_switch_dialog.*
+import kotlinx.android.synthetic.main.layout_gateway_tile.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -150,6 +152,7 @@ class GatewaySwitchFragment : BottomSheetDialogFragment() {
         }
     }
 
+
     companion object {
         private const val TAG = "GatewaySwitchFragment"
         fun newInstance() =
@@ -243,9 +246,9 @@ private class GatewayAdapter(val context: Context): RecyclerView.Adapter<Gateway
     ) : RecyclerView.ViewHolder(inflater.inflate(R.layout.layout_gateway_tile, parent, false)),
         View.OnClickListener, View.OnLongClickListener {
 
-        val name: TextView = itemView.findViewById(R.id.tvName)
-        val online: TextView = itemView.findViewById(R.id.tvOnline)
-        val state: ImageView = itemView.findViewById(R.id.ivState)
+        val name: TextView = itemView.tvName
+        val online: TextView = itemView.tvOnline
+        val state: ImageView = itemView.ivState
 
         init {
             itemView.setOnClickListener(this)
