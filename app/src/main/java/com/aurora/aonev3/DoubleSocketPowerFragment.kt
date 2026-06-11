@@ -9,12 +9,16 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.aurora.aonev3.databinding.FragmentDoubleSocketPowerBinding
 import com.aurora.aonev3.network.handlers.SyncHandler
-import kotlinx.android.synthetic.main.fragment_double_socket_power.*
 import java.text.DecimalFormat
 import kotlin.math.ln
 
 class DoubleSocketPowerFragment : Fragment() {
+
+    private var _binding: FragmentDoubleSocketPowerBinding? = null
+    private val binding get() = _binding!!
+
 
     private val args: DoubleSocketPowerFragmentArgs by navArgs()
     private val deviceId: Int by lazy { args.deviceId }
@@ -24,7 +28,10 @@ class DoubleSocketPowerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_double_socket_power, container, false)
+        return run {
+            _binding = FragmentDoubleSocketPowerBinding.inflate(inflater, container, false)
+            binding.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,5 +104,11 @@ class DoubleSocketPowerFragment : Fragment() {
     companion object {
         fun newInstance() =
             DoubleSocketPowerFragment()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
