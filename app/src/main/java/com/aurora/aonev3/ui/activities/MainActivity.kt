@@ -293,13 +293,24 @@ class MainActivity : AppCompatActivity() {
                 NabtoHandler.nabtoGateways.find { it.serial == NabtoHandler.selectedGateway?.serial }
         }
 
-        NabtoHandler.selectedGateway?.let {
-            if (it.isConnected) {
-                SyncHandler.syncHandlerCoroutineScope.launch {
+        NabtoHandler.selectedGateway?.let { selectedGateway ->
+            if (selectedGateway.isConnected) {
+                SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
                     try {
-                        SyncHandler.syncGroups(it)
+                        SyncHandler.syncGroups(selectedGateway, force = true)
+                        SyncHandler.syncDevices(selectedGateway, force = true)
+                        SyncHandler.groupsList
+                            .filter { group -> group.parentGateway == selectedGateway.serial }
+                            .forEach { group ->
+                                SyncHandler.syncGroupMembers(selectedGateway, group, force = true)
+                            }
+                        SyncHandler.syncDeviceDatapoints(selectedGateway, force = true)
+                        SyncHandler.syncLogicCollectionsCached(selectedGateway, force = true)
+                        SyncHandler.syncLogicRulesAndTimersCached(selectedGateway, force = true)
                     } catch (err: VolleyError) {
-                        handleConnectionError(err, it)
+                        handleConnectionError(err, selectedGateway)
+                    } catch (ex: Exception) {
+                        ex.printStackTrace()
                     }
                 }
             }

@@ -90,6 +90,7 @@ class GroupFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
         mIsScenes = false
 
+        refreshSpaceDevices(gateway)
 
         if (mGroup.metadata.optBoolean("is_virtual_group") || !showScenes) {
             fabScenes.visibility = View.GONE
@@ -346,6 +347,7 @@ class GroupFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     .sortedBy { device -> device.name }
 
             if (devices.isEmpty()) {
+                refreshSpaceDevices(gateway)
                 return@observe
             }
             val nestedDevices = findNestedDevices(nestedGroups)
@@ -795,6 +797,40 @@ class GroupFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         viewModel.selectedGroup.postValue(mGroup)
 
         viewModel.reportStates()
+    }
+
+    private fun refreshSpaceDevices(gateway: NabtoHandler.NabtoGateway) {
+        if (!this::mGroup.isInitialized) return
+
+        viewModel.viewModelScope.launch(Dispatchers.IO) {
+            try {
+                if (!gateway.isConnected) {
+                    val credentials = CloudHandler.getCredentials()
+                    if (credentials.first.isNotEmpty()) {
+                        NabtoHandler.openTunnel(gateway, credentials.first)
+                    }
+                }
+
+                if (!gateway.isConnected) return@launch
+
+                SyncHandler.syncGroups(gateway, force = true)
+                SyncHandler.syncDevices(gateway, force = true)
+                SyncHandler.syncGroupMembers(gateway, mGroup, force = true)
+                SyncHandler.syncDeviceDatapoints(gateway, force = true)
+                SyncHandler.syncGroupDatapoints(gateway, mGroup, force = true)
+                SyncHandler.syncLogicCollectionsCached(gateway, force = true)
+                SyncHandler.syncLogicRulesAndTimersCached(gateway, force = true)
+            } catch (err: VolleyError) {
+                if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
+                    gateway.isConnected = false
+                }
+                err.printStackTrace()
+                crashlytics.recordException(err)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                crashlytics.recordException(ex)
+            }
+        }
     }
 
     private fun findNestedDevices(groups: List<Group>): List<Device> {
