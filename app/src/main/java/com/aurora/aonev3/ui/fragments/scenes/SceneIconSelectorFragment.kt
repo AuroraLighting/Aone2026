@@ -172,7 +172,7 @@ class SceneIconSelectorFragment : Fragment() {
         }
 
         inner class ColourViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val binding.fill: ConstraintLayout = itemView.findViewById(R.id.fill)
+            private val fill: ConstraintLayout = itemView.findViewById(R.id.fill)
             private val selectedView: ConstraintLayout = itemView.findViewById(R.id.selected)
 
             init {
@@ -196,13 +196,13 @@ class SceneIconSelectorFragment : Fragment() {
             }
 
             fun setColour(colour: String) {
-                binding.fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
+                fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
                 selectedView.visibility = if (colour == viewModel.selectedColour) { View.VISIBLE } else { View.INVISIBLE }
             }
         }
 
         inner class IconViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val binding.fill: ConstraintLayout = itemView.findViewById(R.id.fill)
+            private val fill: ConstraintLayout = itemView.findViewById(R.id.fill)
             private val ivIcon: ImageView = itemView.findViewById(R.id.iconIv)
             private val selectedView: ConstraintLayout = itemView.findViewById(R.id.selected)
 
@@ -224,7 +224,7 @@ class SceneIconSelectorFragment : Fragment() {
 
             fun setIcon(icon: IconsScenes) {
                 val colour = if (!viewModel.selectedColour.isNullOrBlank()) viewModel.selectedColour else ColourScenes.DEFAULT.stringValue
-                binding.fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
+                fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
                 selectedView.visibility = if (icon == viewModel.selectedIcon) { View.VISIBLE } else { View.INVISIBLE }
 
                 ivIcon.setImageDrawable(
