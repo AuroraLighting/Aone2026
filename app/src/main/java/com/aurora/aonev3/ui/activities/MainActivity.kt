@@ -3,6 +3,7 @@ package com.aurora.aonev3.ui.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -89,6 +90,16 @@ class MainActivity : AppCompatActivity() {
             mPreviousGateway?.isMigrating?.removeObserver(observer)
             gateway.isMigrating.observeForever(observer)
             mPreviousGateway = gateway
+
+            gateway.isConnectedLiveData.observe(this) { connected ->
+                ConnectionService.updateStatus(this, connected == true)
+                if (connected == true) {
+                    Log.d(TAG, "Gateway connected; checking MQTT config and forcing device sync")
+                    hasCheckedMqttCerts = false
+                    checkMqttCerts.postValue(true)
+                    forceInitialDeviceSync(gateway)
+                }
+            }
 
             OtaHandler.gatewayFirmware.observeForever(Observer { gatewayFirmware ->
                 val version = gatewayFirmware.optString("version")
@@ -201,21 +212,33 @@ class MainActivity : AppCompatActivity() {
             if (hasCheckedMqttCerts) return@observe
             SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
                 val gateway = gateway ?: return@launch
-                val mqttConfig = CloudHandler.getMqttConfig().optJSONObject("body") ?: JSONObject()
-                val hubMqttConfig = DevelcoHandler.getMqttConfig(gateway).optJSONObject("body") ?: JSONObject()
+                try {
+                    val mqttConfig = CloudHandler.getMqttConfig().optJSONObject("body") ?: JSONObject()
+                    val hubMqttConfig = DevelcoHandler.getMqttConfig(gateway).optJSONObject("body") ?: JSONObject()
 
-                if (mqttConfig.optString("serverurl") != hubMqttConfig.optString("serverurl")
-                    || mqttConfig.optString("cacrt") != hubMqttConfig.optString("cacrt")
-                    || mqttConfig.optString("crt") != hubMqttConfig.optString("crt")
-                    || mqttConfig.optString("key") != hubMqttConfig.optString("key")) {
-                    DevelcoHandler.putMqttConfig(gateway, mqttConfig.put("keypassword", ""))
-                    delay(10 * 1000)
-                }
+                    if (mqttConfig.optString("serverurl") != hubMqttConfig.optString("serverurl")
+                        || mqttConfig.optString("cacrt") != hubMqttConfig.optString("cacrt")
+                        || mqttConfig.optString("crt") != hubMqttConfig.optString("crt")
+                        || mqttConfig.optString("key") != hubMqttConfig.optString("key")) {
+                        Log.d(TAG, "Updating hub MQTT config")
+                        DevelcoHandler.putMqttConfig(gateway, mqttConfig.put("keypassword", ""))
+                        delay(10 * 1000)
+                    }
 
-                if (DevelcoHandler.getMqttStatus(gateway).optJSONObject("body")?.optBoolean("connected") != true) {
-                    DevelcoHandler.putMqttConfig(gateway, JSONObject())
+                    if (DevelcoHandler.getMqttStatus(gateway).optJSONObject("body")?.optBoolean("connected") != true) {
+                        Log.d(TAG, "Hub MQTT not connected; nudging config endpoint")
+                        DevelcoHandler.putMqttConfig(gateway, JSONObject())
+                        delay(5 * 1000)
+                    }
+
+                    hasCheckedMqttCerts = true
+                    forceInitialDeviceSync(gateway)
+                } catch (err: VolleyError) {
+                    Log.e(TAG, "MQTT config/device sync failed", err)
+                    handleConnectionError(err, gateway)
+                } catch (ex: Exception) {
+                    Log.e(TAG, "MQTT config/device sync failed", ex)
                 }
-                hasCheckedMqttCerts = true
             }
         }
     }
@@ -238,13 +261,9 @@ class MainActivity : AppCompatActivity() {
 
         NabtoHandler.selectedGateway?.let {
             if (it.isConnected) {
-                SyncHandler.syncHandlerCoroutineScope.launch {
-                    try {
-                        SyncHandler.syncGroups(it)
-                    } catch (err: VolleyError) {
-                        handleConnectionError(err, it)
-                    }
-                }
+                hasCheckedMqttCerts = false
+                checkMqttCerts.postValue(true)
+                forceInitialDeviceSync(it)
             }
         }
 
@@ -259,6 +278,37 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         ConnectionService.stop(this)
         super.onDestroy()
+    }
+
+    private fun forceInitialDeviceSync(gateway: NabtoHandler.NabtoGateway) {
+        if (!gateway.isConnected) return
+
+        SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
+            try {
+                SyncHandler.syncDevices(gateway, force = true)
+                SyncHandler.syncGroups(gateway, force = true)
+
+                SyncHandler.groupsList
+                    .filter { it.parentGateway == gateway.serial }
+                    .forEach { group ->
+                        SyncHandler.syncGroupMembers(gateway, group, force = true)
+                    }
+
+                SyncHandler.syncDeviceDatapoints(gateway, force = true)
+                SyncHandler.syncLogicCollectionsCached(gateway, force = true)
+                SyncHandler.syncLogicRulesAndTimersCached(gateway, force = true)
+
+                Log.d(
+                    TAG,
+                    "Initial sync complete: devices=${SyncHandler.devicesList.count { it.parentGateway == gateway.serial }}, groups=${SyncHandler.groupsList.count { it.parentGateway == gateway.serial }}, members=${SyncHandler.groupMembersList.count { it.parentGateway == gateway.serial }}"
+                )
+            } catch (err: VolleyError) {
+                Log.e(TAG, "Initial device sync failed", err)
+                handleConnectionError(err, gateway)
+            } catch (ex: Exception) {
+                Log.e(TAG, "Initial device sync failed", ex)
+            }
+        }
     }
 
     private fun handleConnectionError(err: VolleyError, gateway: NabtoHandler.NabtoGateway) {
