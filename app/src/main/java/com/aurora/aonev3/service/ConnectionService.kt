@@ -7,6 +7,8 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.util.Log
@@ -14,6 +16,18 @@ import androidx.core.app.NotificationCompat
 import com.aurora.aonev3.R
 import com.aurora.aonev3.ui.activities.MainActivity
 
+/**
+ * Foreground service that keeps the WebSocket connection alive while the app is open.
+ *
+ * Android will kill background processes to save battery. Running as a foreground
+ * service prevents this. A persistent notification is required by Android for any
+ * foreground service (API 26+).
+ *
+ * Lifecycle:
+ *   - Started by MainActivity.onResume()
+ *   - Stopped by MainActivity.onDestroy()
+ *   - Holds a PARTIAL_WAKE_LOCK so CPU stays awake for reconnect logic when screen is off
+ */
 class ConnectionService : Service() {
 
     private var wakeLock: PowerManager.WakeLock? = null
@@ -21,7 +35,16 @@ class ConnectionService : Service() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-        startForeground(NOTIFICATION_ID, buildNotification(connected = false))
+        val notification = buildNotification(connected = false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(
+                NOTIFICATION_ID,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+            )
+        } else {
+            startForeground(NOTIFICATION_ID, notification)
+        }
         acquireWakeLock()
         Log.d(TAG, "ConnectionService created")
     }
@@ -33,6 +56,7 @@ class ConnectionService : Service() {
                 updateNotification(connected)
             }
         }
+        // START_STICKY: if OS kills this service, restart it automatically
         return START_STICKY
     }
 
@@ -44,17 +68,21 @@ class ConnectionService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
+    // ── Notification ──────────────────────────────────────────────────────────
+
     private fun createNotificationChannel() {
-        val channel = NotificationChannel(
-            CHANNEL_ID,
-            "Hub connection",
-            NotificationManager.IMPORTANCE_LOW
-        ).apply {
-            description = "Keeps your Aurora A-One hub connected"
-            setShowBadge(false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                "Hub connection",
+                NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                description = "Keeps your Aurora A-One hub connected"
+                setShowBadge(false)
+            }
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
         }
-        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.createNotificationChannel(channel)
     }
 
     private fun buildNotification(connected: Boolean): Notification {
@@ -66,7 +94,7 @@ class ConnectionService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val statusText = if (connected) "Connected to hub" else "Connecting to hub…"
+        val statusText = if (connected) "Connected to hub" else "Connecting to hub\u2026"
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Aurora A-One")
@@ -79,27 +107,27 @@ class ConnectionService : Service() {
             .build()
     }
 
-    fun updateNotification(connected: Boolean) {
+    private fun updateNotification(connected: Boolean) {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(NOTIFICATION_ID, buildNotification(connected))
     }
+
+    // ── Wake lock ─────────────────────────────────────────────────────────────
 
     private fun acquireWakeLock() {
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
         wakeLock = powerManager.newWakeLock(
             PowerManager.PARTIAL_WAKE_LOCK,
             "AuroraAOne::ConnectionWakeLock"
-        ).also {
-            it.acquire()
-        }
+        ).also { it.acquire() }
     }
 
     private fun releaseWakeLock() {
-        wakeLock?.let {
-            if (it.isHeld) it.release()
-        }
+        wakeLock?.let { if (it.isHeld) it.release() }
         wakeLock = null
     }
+
+    // ── Companion ─────────────────────────────────────────────────────────────
 
     companion object {
         private const val TAG = "ConnectionService"
