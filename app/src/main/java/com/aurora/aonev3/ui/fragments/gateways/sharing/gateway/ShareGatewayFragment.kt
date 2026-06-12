@@ -62,7 +62,7 @@ class ShareGatewayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as? MainActivity)?.setupUI(view)
 
-        with(rvUsers) {
+        with(binding.rvUsers) {
             adapter = userAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)

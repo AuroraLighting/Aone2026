@@ -61,7 +61,7 @@ class MotionSensorGroupSelectorFragment : Fragment() {
             listAdapter.notifyDataSetChanged()
         })
 
-        with(rvGroups) {
+        with(binding.rvGroups) {
             adapter = listAdapter
             setHasFixedSize(true)
             layoutManager = androidx.recyclerview.widget.GridLayoutManager(

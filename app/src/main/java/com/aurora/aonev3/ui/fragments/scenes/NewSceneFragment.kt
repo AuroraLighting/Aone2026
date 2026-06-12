@@ -131,7 +131,7 @@ class NewSceneFragment : Fragment() {
             }
         }
 
-        with(rvLights) {
+        with(binding.rvLights) {
             adapter = gridAdapter
             setHasFixedSize(false)
             layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false).apply {

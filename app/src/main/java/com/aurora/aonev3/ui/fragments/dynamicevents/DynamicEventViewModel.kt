@@ -501,7 +501,7 @@ class DynamicEventViewModel(val logicCollection: LogicCollection, logicRule: Log
 }
 
 class DynamicEventViewModelFactory(private val logicCollection: LogicCollection, val logicRule: LogicRule?, val group: Group): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DynamicEventViewModel::class.java)) {
             return DynamicEventViewModel(logicCollection = logicCollection, logicRule = logicRule, group = group) as T
         }

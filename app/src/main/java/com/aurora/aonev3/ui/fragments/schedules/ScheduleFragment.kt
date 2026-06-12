@@ -180,7 +180,7 @@ class ScheduleFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 }
             }
 
-        with(rvEvents) {
+        with(binding.rvEvents) {
             adapter = eventsAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)

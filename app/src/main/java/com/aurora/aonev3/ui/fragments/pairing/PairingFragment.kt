@@ -131,7 +131,7 @@ class PairingFragment : Fragment() {
             }
         }
 
-        with(rvDiscoveredDevices) {
+        with(binding.rvDiscoveredDevices) {
             adapter = listAdapter
             setHasFixedSize(true)
             layoutManager = androidx.recyclerview.widget.GridLayoutManager(

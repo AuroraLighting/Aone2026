@@ -107,7 +107,7 @@ class ScheduleViewModel(val logicCollection: LogicCollection) : ViewModel() {
 }
 
 class ScheduleViewModelFactory(private val logicCollection: LogicCollection): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ScheduleViewModel::class.java)) {
             return ScheduleViewModel(logicCollection = logicCollection) as T
         }

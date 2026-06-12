@@ -59,7 +59,7 @@ class EventGroupSelectorFragment : Fragment() {
 
         val listAdapter = GroupSelectorViewAdapter(requireActivity())
 
-        with(rvGroups) {
+        with(binding.rvGroups) {
             adapter = listAdapter
             setHasFixedSize(true)
             layoutManager = androidx.recyclerview.widget.GridLayoutManager(

@@ -74,7 +74,7 @@ class RemoteDeviceSelectorFragment : Fragment() {
 
         lightsAdapter.setItems(devices)
 
-        with(rvLights) {
+        with(binding.rvLights) {
             adapter = lightsAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)

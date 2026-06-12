@@ -302,10 +302,10 @@ class EventDeviceSelectorFragment : Fragment() {
                 name.text = device.name
 
                 if (device == viewModel.selectedDevice) {
-                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }

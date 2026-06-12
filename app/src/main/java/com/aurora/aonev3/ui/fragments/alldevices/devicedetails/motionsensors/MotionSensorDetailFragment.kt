@@ -174,7 +174,7 @@ open class MotionSensorDetailFragment : DeviceDetailFragment(), PopupMenu.OnMenu
             }
         }
 
-        with(rvMotionSensorEvents) {
+        with(binding.rvMotionSensorEvents) {
             adapter = listAdapter
             setHasFixedSize(true)
             layoutManager = androidx.recyclerview.widget.GridLayoutManager(

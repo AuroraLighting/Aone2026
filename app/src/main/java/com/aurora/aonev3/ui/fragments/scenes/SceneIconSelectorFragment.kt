@@ -47,7 +47,7 @@ class SceneIconSelectorFragment : Fragment() {
 
         val iconsAdapter = IconViewAdapter()
 
-        with(rvColours) {
+        with(binding.rvColours) {
             adapter = iconsAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false).apply {
