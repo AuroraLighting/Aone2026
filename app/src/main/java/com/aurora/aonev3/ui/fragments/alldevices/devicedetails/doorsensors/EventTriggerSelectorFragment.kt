@@ -149,18 +149,18 @@ class EventTriggerSelectorFragment : Fragment() {
 
             override fun onClick(p0: View?) {
                 getItem(adapterPosition)?.let {
-                    selected = it
+                    this@TriggerViewAdapter.selected = it
                 }
             }
 
             fun setTrigger(trigger: TriggerEnum) {
                 name.text = trigger.name.toCapitalisedLowerCase()
 
-                if (trigger == selected) {
-                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                if (trigger == this@TriggerViewAdapter.selected) {
+                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }

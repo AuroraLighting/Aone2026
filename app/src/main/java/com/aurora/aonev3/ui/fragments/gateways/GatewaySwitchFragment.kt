@@ -121,7 +121,7 @@ class GatewaySwitchFragment : BottomSheetDialogFragment() {
             }
         }
 
-        with(binding.rvGateways) {
+        with(rvGateways) {
             adapter = gatewayAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 1, RecyclerView.VERTICAL, false)

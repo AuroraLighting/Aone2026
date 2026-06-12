@@ -199,7 +199,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             val popup = PopupMenu(requireContext(), it)
             popup.menuInflater.inflate(R.menu.groups_menu, popup.menu)
             if (!allowEditing()) {
-                popup.binding.menu.removeItem(R.id.create_group)
+                popup.menu.removeItem(R.id.create_group)
             }
             popup.setOnMenuItemClickListener(this@GroupsFragment)
             popup.show()

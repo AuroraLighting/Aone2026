@@ -114,7 +114,7 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             val popup = PopupMenu(requireContext(), it)
             popup.menuInflater.inflate(R.menu.nested_groups_menu, popup.menu)
             if (viewModel.group?.metadata?.optBoolean("is_virtual_group") == true) {
-                popup.binding.menu.findItem(R.id.create).title =
+                popup.menu.findItem(R.id.create).title =
                     getString(R.string.create_new_group)
             }
             popup.setOnMenuItemClickListener(this)

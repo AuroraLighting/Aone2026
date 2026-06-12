@@ -167,14 +167,14 @@ class ControlsFragment : Fragment() {
 
                 activity?.runOnUiThread {
                     binding.tvLevel?.text = "$level%"
-                    binding.level_seekbar?.progress = 100 - level
+                    level_seekbar?.progress = 100 - level
                 }
             }
             datapoints.find { dp -> dp.key == "colourtempmin" }?.also { miredMin ->
                 val value = miredMin.value as? Int ?: 154
                 colourTemperatureMin = value
                 activity?.runOnUiThread {
-                    binding.colour_temperature_seekbar?.max =
+                    colour_temperature_seekbar?.max =
                         colourTemperatureMax - colourTemperatureMin + (0.05 * (colourTemperatureMax - colourTemperatureMin)).toInt()
                 }
             }
@@ -187,7 +187,7 @@ class ControlsFragment : Fragment() {
 
                 colourTemperatureMax = value
                 activity?.runOnUiThread {
-                    binding.colour_temperature_seekbar?.max =
+                    colour_temperature_seekbar?.max =
                         colourTemperatureMax - colourTemperatureMin + (0.05 * (colourTemperatureMax - colourTemperatureMin)).toInt()
                 }
             }
@@ -200,7 +200,7 @@ class ControlsFragment : Fragment() {
 
                 activity?.runOnUiThread {
                     binding.tvColourTemperature?.text = "${((1000000 / value) / 100) * 100}K"
-                    binding.colour_temperature_seekbar?.progress =
+                    colour_temperature_seekbar?.progress =
                         (value as? Int ?: 220) - colourTemperatureMin
                 }
             }
@@ -223,7 +223,7 @@ class ControlsFragment : Fragment() {
         })
 
         if (group != null) {
-            binding.colour_temperature_seekbar?.max =
+            colour_temperature_seekbar?.max =
                 colourTemperatureMax - colourTemperatureMin + (0.05 * (colourTemperatureMax - colourTemperatureMin)).toInt()
         }
 
@@ -249,7 +249,7 @@ class ControlsFragment : Fragment() {
 
                 activity?.runOnUiThread {
                     binding.tvLevel?.text = "$level%"
-                    binding.level_seekbar?.progress = 100 - level
+                    level_seekbar?.progress = 100 - level
                 }
             }
             datapoints.find { dp -> dp.key == "mired" }?.also { mired ->
@@ -259,7 +259,7 @@ class ControlsFragment : Fragment() {
                 }
                 activity?.runOnUiThread {
                     binding.tvColourTemperature?.text = "${((1000000 / value) / 100) * 100}K"
-                    binding.colour_temperature_seekbar?.progress =
+                    colour_temperature_seekbar?.progress =
                         (value as? Int ?: 220) - colourTemperatureMin
                 }
             }
@@ -281,8 +281,8 @@ class ControlsFragment : Fragment() {
             }
         })
 
-        binding.level_seekbar?.max = 105
-        binding.level_seekbar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        level_seekbar?.max = 105
+        level_seekbar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 p0 ?: return
                 if (p1 > 100) {
@@ -303,7 +303,7 @@ class ControlsFragment : Fragment() {
             }
         })
 
-        binding.colour_temperature_seekbar?.setOnSeekBarChangeListener(object :
+        colour_temperature_seekbar?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             var tracking = false
 
@@ -314,7 +314,7 @@ class ControlsFragment : Fragment() {
                     p0.progress = colourTemperatureMax - colourTemperatureMin
                 }
                 activity?.runOnUiThread {
-                    view.binding.tvColourTemperature?.text =
+                    binding.tvColourTemperature?.text =
                         "${((1000000 / (p0.progress + colourTemperatureMin)) / 100) * 100}K"
                 }
             }

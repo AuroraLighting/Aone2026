@@ -68,20 +68,20 @@ class DaylightSensitivityFragment : Fragment() {
                     mConvertedLux = luxToLog(mLux)
 
                     when {
-                        binding.lux_seekbar.progress == lux_seekbar?.max -> {
-                            binding.lux_seekbar.progressDrawable =
+                        lux_seekbar.progress == lux_seekbar?.max -> {
+                            lux_seekbar.progressDrawable =
                                 ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_accent)
                             binding.tvSensitivity.setTextColor(activity.getColor(R.color.colorAccent))
                             binding.tvSensitivity.text = getText(R.string.daylight_always)
                         }
-                        binding.lux_seekbar.progress > mLux -> {
-                            binding.lux_seekbar.progressDrawable =
+                        lux_seekbar.progress > mLux -> {
+                            lux_seekbar.progressDrawable =
                                 ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_green)
                             binding.tvSensitivity.setTextColor(activity.getColor(R.color.daylightGreen))
                             binding.tvSensitivity.text = getText(R.string.motion_will_activate)
                         }
                         else -> {
-                            binding.lux_seekbar.progressDrawable =
+                            lux_seekbar.progressDrawable =
                                 ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_red)
                             binding.tvSensitivity.setTextColor(activity.getColor(R.color.daylightRed))
                             binding.tvSensitivity.text = getText(R.string.motion_wont_activate)
@@ -90,25 +90,25 @@ class DaylightSensitivityFragment : Fragment() {
                 })
         }
 
-        binding.lux_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+        lux_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val lux = logToLux(progress)
 
                 when {
                     progress == seekBar?.max -> {
-                        binding.lux_seekbar.progressDrawable =
+                        lux_seekbar.progressDrawable =
                             ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_accent)
                         binding.tvSensitivity.setTextColor(activity.getColor(R.color.colorAccent))
                         binding.tvSensitivity.text = getText(R.string.daylight_always)
                     }
                     lux > mLux -> {
-                        binding.lux_seekbar.progressDrawable =
+                        lux_seekbar.progressDrawable =
                             ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_green)
                         binding.tvSensitivity.setTextColor(activity.getColor(R.color.daylightGreen))
                         binding.tvSensitivity.text = getText(R.string.motion_will_activate)
                     }
                     else -> {
-                        binding.lux_seekbar.progressDrawable =
+                        lux_seekbar.progressDrawable =
                             ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_red)
                         binding.tvSensitivity.setTextColor(activity.getColor(R.color.daylightRed))
                         binding.tvSensitivity.text = getText(R.string.motion_wont_activate)
@@ -131,9 +131,9 @@ class DaylightSensitivityFragment : Fragment() {
 
         viewModel.lux.observe(viewLifecycleOwner, {
             if (it == null) {
-                binding.lux_seekbar.progress = binding.lux_seekbar.max
+                lux_seekbar.progress = lux_seekbar.max
             } else {
-                binding.lux_seekbar.progress = luxToLog(it)
+                lux_seekbar.progress = luxToLog(it)
             }
         })
 

@@ -289,7 +289,7 @@ open class DoorSensorEventFragment : Fragment() {
         }
 
         binding.btnEvent.setOnClickListener {
-            val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventActionSelectorFragment(false, sender)
+            val action = DoorSensorEventFragmentDirections.actionDoorSensorEventFragmentToEventActionSelectorFragment(sender, false)
             findNavController().navigate(action)
         }
 

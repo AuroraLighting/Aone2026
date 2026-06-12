@@ -146,7 +146,7 @@ class HelpFragment : Fragment() {
                         .setPositiveButton(R.string.ok) { _, _ ->
                             val credentials = CloudHandler.getCredentials()
 
-                            if (dialogView.binding.etPassword.text?.toString() == credentials.second) {
+                            if (dialogView.etPassword.text?.toString() == credentials.second) {
                                 SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                                     putBoolean("office_mode", false)
                                 }

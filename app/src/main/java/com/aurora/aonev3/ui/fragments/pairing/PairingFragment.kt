@@ -183,7 +183,7 @@ class PairingFragment : Fragment() {
             viewModel.deviceFound.observe(viewLifecycleOwner, {
                 if (it == true) {
                     binding.tvTitle.text = getString(R.string.discovered_devices)
-                    binding.tvSubbinding.title.text = getString(R.string.discovered_devices_subtitle)
+                    binding.tvSubtitle.text = getString(R.string.discovered_devices_subtitle)
                     binding.layoutSearching.visibility = View.GONE
                     binding.layoutDiscovered.visibility = View.VISIBLE
                 }

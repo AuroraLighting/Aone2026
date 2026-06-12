@@ -9,6 +9,7 @@ import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
@@ -232,8 +233,8 @@ class ShareGatewayFragment : Fragment() {
         }
 
         inner class UserShareViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val binding.tvName = itemView.findViewById(R.id.tvName)
-            private val binding.tvEmail = itemView.findViewById(R.id.tvEmail)
+            private val tvName: TextView = itemView.findViewById(R.id.tvName)
+            private val tvEmail: TextView = itemView.findViewById(R.id.tvEmail)
 
             init {
                 itemView.setOnClickListener(this)
@@ -244,8 +245,8 @@ class ShareGatewayFragment : Fragment() {
             }
 
             fun setShare(share: Share) {
-                binding.tvName.text = share.name
-                binding.tvEmail.text = share.email
+                tvName.text = share.name
+                tvEmail.text = share.email
             }
         }
     }

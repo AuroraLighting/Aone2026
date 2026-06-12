@@ -22,7 +22,8 @@ class TourActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tour)
+        _binding = ActivityTourBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         tour = intent.getStringExtra("tour") ?: ""
 
@@ -68,9 +69,8 @@ class TourActivity : FragmentActivity() {
     }
 
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 }
