@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import com.aurora.aonev3.databinding.FragmentIntroBinding
 import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.ui.activities.MainActivity
@@ -22,9 +21,6 @@ private const val ARG_TARGET = "target"
  * A simple [Fragment] subclass.
  */
 class IntroFragment : Fragment() {
-
-    protected var _binding: FragmentIntroBinding? = null
-    protected val binding get() = _binding!!
 
     private var index: String? = null
     private var target: String? = null
@@ -54,33 +50,33 @@ class IntroFragment : Fragment() {
 
                 when (index?.toInt()) {
                     1 -> {
-                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_1))
+                        view.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_1))
 
-                        binding.textView.text = getString(R.string.intro_1_text_1)
-                        binding.textView2.text = getString(R.string.intro_1_text_2)
+                        view.textView.text = getString(R.string.intro_1_text_1)
+                        view.textView2.text = getString(R.string.intro_1_text_2)
 
                         activity?.tabLayout?.visibility = View.VISIBLE
                     }
                     2 -> {
-                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_2))
+                        view.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_2))
 
-                        binding.textView.text = getString(R.string.intro_2_text_1)
-                        binding.textView2.text = getString(R.string.intro_2_text_2)
+                        view.textView.text = getString(R.string.intro_2_text_1)
+                        view.textView2.text = getString(R.string.intro_2_text_2)
 
                         activity?.tabLayout?.visibility = View.VISIBLE
                     }
                     3 -> {
-                        binding.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_3))
+                        view.imageView.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.intro_3))
 
-                        binding.textView.text = getString(R.string.intro_3_text_1)
-                        binding.textView2.text = getString(R.string.intro_3_text_2)
+                        view.textView.text = getString(R.string.intro_3_text_1)
+                        view.textView2.text = getString(R.string.intro_3_text_2)
 
                         activity?.tabLayout?.visibility = View.VISIBLE
                     }
                     4 -> {
                         activity?.tabLayout?.visibility = View.INVISIBLE
 
-                        binding.btnDone.setOnClickListener {
+                        view.btnDone.setOnClickListener {
                             SharedPreferencesHandler.getPrefs().sharedPreferences.edit {
                                 putBoolean("introDone", true)
                             }
