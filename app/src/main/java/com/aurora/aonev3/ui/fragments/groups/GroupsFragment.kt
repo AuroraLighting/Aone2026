@@ -111,7 +111,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                             if (!gateway.isConnected) return@let
 
                             try {
-                                SyncHandler.syncGroups(gateway, first = true)
+                                syncGatewayDeviceData(gateway, force = true)
 
                                 if (SyncHandler.getGroupCount() == 0) {
                                     val action =
@@ -159,6 +159,16 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     allDevicesLiveData = viewModel.getDevices(gateway)
                     deviceDatapointsLiveData = viewModel.getDeviceDatapoints(gateway)
                     logicCollectionsLiveData = viewModel.getLogicCollection(gateway)
+
+                    if (gateway.isConnected) {
+                        SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
+                            try {
+                                syncGatewayDeviceData(gateway, force = true)
+                            } catch (err: VolleyError) {
+                                handleGatewayConnectionError(err, gateway)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -307,7 +317,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                         val isTablet = resources.getBoolean(R.bool.isTablet)
                         val isLandscape = resources.getBoolean(R.bool.isLandscape)
                         return when {
-                            !isTablet -> spanCount / 1
+                            !isTablet -> spanCount / 2
                             isLandscape -> spanCount / 3
                             else -> spanCount / 2
                         }
@@ -801,6 +811,39 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     }
 
 
+
+    private suspend fun syncGatewayDeviceData(gateway: NabtoHandler.NabtoGateway, force: Boolean = false) {
+        // Keep the working SDK 31 app flow, but make the initial SDK 34 load request
+        // the same data the manual refresh requests. This repopulates the device counts,
+        // group members and datapoints without changing Nabto/WebSocket lifecycle code.
+        SyncHandler.syncGroups(gateway, first = true, force = force)
+        SyncHandler.syncDevices(gateway, force = force)
+        SyncHandler.syncDeviceDatapoints(gateway, force = force)
+        SyncHandler.syncGroupDatapointsAndScenesCached(gateway, force = force)
+
+        SyncHandler.groupsList
+            .filter { it.parentGateway == gateway.serial }
+            .forEach { group ->
+                SyncHandler.syncGroupMembers(gateway, group, force = force)
+            }
+
+        SyncHandler.syncLogicCollectionsCached(gateway, force = force)
+    }
+
+    private fun handleGatewayConnectionError(err: VolleyError, gateway: NabtoHandler.NabtoGateway) {
+        if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
+            gateway.isConnected = false
+            val credentials = CloudHandler.getCredentials()
+            if (credentials.first.isEmpty()) {
+                activity?.finishAffinity()
+                startActivity(Intent(context, SplashscreenActivity::class.java))
+                return
+            }
+            SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
+                NabtoHandler.openTunnel(gateway, credentials.first)
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
