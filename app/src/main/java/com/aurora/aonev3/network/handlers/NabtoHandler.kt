@@ -1,6 +1,5 @@
 package com.aurora.aonev3.network.handlers
 
-import com.aurora.aonev3.synthetic.*
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -375,16 +374,36 @@ object NabtoHandler {
         var isConnecting = false
         var isConnected = false
             set(value) {
-                if (field == value) return
+                val websocketMissingOrClosed =
+                    value && (websocket == null || websocket?.isOpen != true)
+
+                if (field == value && !websocketMissingOrClosed) return
+
                 field = value
+
                 websocket = if (value) {
-                    WebsocketHandler(this).apply {
-                        connect()
+                    if (websocket?.isOpen == true) {
+                        websocket
+                    } else {
+                        try {
+                            websocket?.closeBlocking()
+                        } catch (ex: Exception) {
+                            ex.printStackTrace()
+                        }
+
+                        WebsocketHandler(this).apply {
+                            connect()
+                        }
                     }
                 } else {
-                    websocket?.closeBlocking()
+                    try {
+                        websocket?.closeBlocking()
+                    } catch (ex: Exception) {
+                        ex.printStackTrace()
+                    }
                     null
                 }
+
                 isConnectedLiveData.postValue(value)
             }
         get() {

@@ -1,6 +1,5 @@
 package com.aurora.aonev3.ui.fragments.groups
 
-import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,8 +19,6 @@ import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
-import com.aurora.aonev3.ui.activities.MainActivity
-import com.aurora.aonev3.databinding.FragmentGroupsBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.logic.CollectionType
 import com.aurora.aonev3.network.handlers.*
@@ -35,6 +32,7 @@ import com.aurora.aonev3.ui.activities.TourActivity
 import com.aurora.aonev3.ui.activities.login.LoginActivity
 import com.aurora.aonev3.ui.fragments.groups.creategroups.NoGroupsFragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.aurora.aonev3.synthetic.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,10 +41,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
-
-    protected var _binding: FragmentGroupsBinding? = null
-    protected val binding get() = _binding!!
-
 
     companion object {
         const val TAG = "GroupsFragment"
@@ -66,10 +60,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return run {
-            _binding = FragmentGroupsBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_groups, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -104,7 +95,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 } else {
                     activity?.runOnUiThread {
                         checkTimezone()
-                        (activity as? MainActivity)?.binding?.connectingLayout?.visibility = View.GONE
+                        activity?.connectingLayout?.visibility = View.GONE
                     }
                     SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
                         NabtoHandler.selectedGateway?.let { gateway ->
@@ -163,13 +154,15 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
 
+
+
         if (!SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean("homeTourDone", false)) {
             val intent = Intent(activity, TourActivity::class.java)
             intent.putExtra("tour", "home")
             startActivity(intent)
         }
 
-        binding.tvTitle.setOnClickListener {
+        tvTitle.setOnClickListener {
             val action = GroupsFragmentDirections.actionGroupsFragmentToGatewaySwitchFragment()
             try {
                 findNavController().navigate(action)
@@ -182,7 +175,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
 
-        binding.ivHub.setOnClickListener {
+        ivHub.setOnClickListener {
             val action = GroupsFragmentDirections.actionGroupsFragmentToGatewaySwitchFragment()
             try {
                 findNavController().navigate(action)
@@ -195,7 +188,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
 
-        binding.menu.setOnClickListener {
+        menu.setOnClickListener {
             val popup = PopupMenu(requireContext(), it)
             popup.menuInflater.inflate(R.menu.groups_menu, popup.menu)
             if (!allowEditing()) {
@@ -298,7 +291,8 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
 
-        with(binding.rvGroups) {
+
+        with(rvGroups) {
             adapter = gridAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 6, RecyclerView.VERTICAL, false).apply {
@@ -307,7 +301,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                         val isTablet = resources.getBoolean(R.bool.isTablet)
                         val isLandscape = resources.getBoolean(R.bool.isLandscape)
                         return when {
-                            !isTablet -> spanCount / 1
+                            !isTablet -> spanCount / 2
                             isLandscape -> spanCount / 3
                             else -> spanCount / 2
                         }
@@ -315,13 +309,16 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 }
             }
 
+
+
             val margin = resources.getDimensionPixelSize(R.dimen.default_margin_small)
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
+
         NabtoHandler.selectedGatewayLive.observe(viewLifecycleOwner) {
             NabtoHandler.selectedGateway?.let { gateway ->
-                binding.tvTitle.text = gateway.name.replace("Gateway Lite ", "")
+                tvTitle.text = gateway.name.replace("Gateway Lite ", "")
                 groupsLiveData = viewModel.getGroups(gateway)
                 datapointsLiveData =
                     viewModel.getDatapoints(gateway)//, arrayOf("onoff", "level", "mired"))
@@ -445,7 +442,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     }
 
                     activity.runOnUiThread {
-                        binding.tvDevices.text = deviceStrings.joinToString(" | ")
+                        tvDevices.text = deviceStrings.joinToString(" | ")
                     }
                 }
 
@@ -534,21 +531,21 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     }
 
                     activity.runOnUiThread {
-                        binding.tvDevices.text = deviceStrings.joinToString(" | ")
+                        tvDevices.text = deviceStrings.joinToString(" | ")
                     }
                 }
             }
         }
 
-        binding.viewAllDevicesCard.setOnClickListener(
+        viewAllDevicesCard.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 GroupsFragmentDirections.actionGroupsFragmentToAllDevicesFragment()
             )
         )
 
-        binding.swipeLayout.setOnRefreshListener {
+        swipeLayout.setOnRefreshListener {
             val gateway = NabtoHandler.selectedGateway ?: return@setOnRefreshListener
-            binding.swipeLayout.isRefreshing = true
+            swipeLayout.isRefreshing = true
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 if (!gateway.isConnected) {
@@ -570,7 +567,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     SyncHandler.syncDeviceDatapoints(gateway, force = true)
 
                     viewModel.viewModelScope.launch(Dispatchers.Main) {
-                        binding.swipeLayout?.isRefreshing = false
+                        swipeLayout?.isRefreshing = false
                     }
                 } catch (err: VolleyError) {
                     if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
@@ -800,10 +797,4 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         }
     }
 
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
