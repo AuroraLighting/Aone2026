@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -42,8 +43,8 @@ import kotlin.math.abs
 
 open class MotionSensorEventFragment : Fragment() {
 
-    private var _binding: FragmentMotionSensorEventBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentMotionSensorEventBinding? = null
+    protected val binding get() = _binding!!
 
 
     protected val viewModel: MotionSensorEventViewModel by activityViewModels()

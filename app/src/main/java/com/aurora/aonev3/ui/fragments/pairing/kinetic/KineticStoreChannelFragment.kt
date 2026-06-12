@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.pairing.kinetic
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,8 @@ import com.aurora.aonev3.R
 
 class KineticStoreChannelFragment : Fragment() {
 
-    private var _binding: FragmentKineticStoreChannelBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentKineticStoreChannelBinding? = null
+    protected val binding get() = _binding!!
 
 
     override fun onCreateView(

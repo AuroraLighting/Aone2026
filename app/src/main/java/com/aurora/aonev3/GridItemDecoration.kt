@@ -1,5 +1,6 @@
 package com.aurora.aonev3
 
+import com.aurora.aonev3.synthetic.*
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

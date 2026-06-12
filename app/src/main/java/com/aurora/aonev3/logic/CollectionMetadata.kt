@@ -1,5 +1,6 @@
 package com.aurora.aonev3.logic
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Parcelable
 import com.aurora.aonev3.ui.fragments.schedules.SunriseSunsetType
 import com.google.gson.*

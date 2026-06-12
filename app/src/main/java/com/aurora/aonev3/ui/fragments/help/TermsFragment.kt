@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.help
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,8 @@ import com.aurora.aonev3.R
 
 class TermsFragment : Fragment() {
 
-    private var _binding: FragmentTermsBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentTermsBinding? = null
+    protected val binding get() = _binding!!
 
 
     override fun onCreateView(

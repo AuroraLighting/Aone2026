@@ -1,5 +1,6 @@
 package com.aurora.aonev3.network.handlers
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Handler
 import android.os.Looper
 import android.util.Log

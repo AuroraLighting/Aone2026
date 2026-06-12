@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.help
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
@@ -26,8 +27,8 @@ import kotlinx.coroutines.launch
 
 class HelpFragment : Fragment() {
 
-    private var _binding: FragmentHelpBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentHelpBinding? = null
+    protected val binding get() = _binding!!
 
     val viewModel: HelpViewModel by viewModels()
 

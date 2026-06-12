@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,8 +36,8 @@ import org.json.JSONObject
 
 open class DeviceDetailFragment : Fragment() {
 
-    private var _binding: FragmentDeviceDetailBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentDeviceDetailBinding? = null
+    protected val binding get() = _binding!!
 
 
     protected val viewModel: AllDevicesViewModel by activityViewModels()

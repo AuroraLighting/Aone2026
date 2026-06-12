@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules.eventselectors
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,8 +20,8 @@ import kotlin.math.abs
 
 class OffsetFragment : Fragment() {
 
-    private var _binding: FragmentOffsetBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentOffsetBinding? = null
+    protected val binding get() = _binding!!
 
 
     private lateinit var viewModel: IScheduleTimeViewModel

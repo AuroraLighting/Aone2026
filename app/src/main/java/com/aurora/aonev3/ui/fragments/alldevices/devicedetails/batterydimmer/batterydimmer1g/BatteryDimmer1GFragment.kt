@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.batterydimmer1g
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.view.View

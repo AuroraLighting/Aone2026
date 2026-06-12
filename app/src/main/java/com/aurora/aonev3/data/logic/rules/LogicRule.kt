@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data.logic.rules
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Parcelable
 import com.aurora.aonev3.gson
 import com.aurora.aonev3.logic.Action

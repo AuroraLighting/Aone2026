@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,8 +28,8 @@ private const val SENDER = "param1"
  */
 class TimeoutFragment : Fragment() {
 
-    private var _binding: FragmentTimeoutBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentTimeoutBinding? = null
+    protected val binding get() = _binding!!
 
 
     private lateinit var viewModel: ITimeoutViewModel
@@ -150,9 +151,4 @@ class TimeoutFragment : Fragment() {
 interface ITimeoutViewModel {
     var timeout: MutableLiveData<Int?>
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

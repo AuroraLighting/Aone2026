@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data.groups.groupmembers
 
+import com.aurora.aonev3.synthetic.*
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
 import com.aurora.aonev3.MutableLiveDataArrayList

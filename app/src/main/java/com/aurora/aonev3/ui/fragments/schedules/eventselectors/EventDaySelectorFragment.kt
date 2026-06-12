@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules.eventselectors
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,8 +36,8 @@ private const val SENDER = "sender"
 
 class EventDaySelectorFragment : Fragment() {
 
-    private var _binding: FragmentSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentSelectorBinding? = null
+    protected val binding get() = _binding!!
 
     private var sender: String? = null
 

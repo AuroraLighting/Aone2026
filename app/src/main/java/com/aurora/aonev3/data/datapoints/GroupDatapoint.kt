@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data.datapoints
 
+import com.aurora.aonev3.synthetic.*
 data class GroupDatapoint(
     val parentGateway: String,
     val id: Int,

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.scenes
 
+import com.aurora.aonev3.synthetic.*
 //class IconViewAdapter internal constructor(val context: Context) :
 //    RecyclerView.Adapter<IconViewAdapter.ColourViewHolder>() {
 //

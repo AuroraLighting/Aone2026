@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.intro
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,8 +23,8 @@ private const val ARG_TARGET = "target"
  */
 class IntroFragment : Fragment() {
 
-    private var _binding: FragmentIntroBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentIntroBinding? = null
+    protected val binding get() = _binding!!
 
     private var index: String? = null
     private var target: String? = null

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.gateways.sharing.user
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
@@ -28,8 +29,8 @@ import java.util.*
 
 class SharedUserFragment : Fragment() {
 
-    private var _binding: FragmentSharedUserBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentSharedUserBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val args: SharedUserFragmentArgs by navArgs()

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data.logic.rules
 
+import com.aurora.aonev3.synthetic.*
 import androidx.core.util.Predicate
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError

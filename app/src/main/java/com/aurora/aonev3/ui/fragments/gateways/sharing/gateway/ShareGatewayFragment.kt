@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.gateways.sharing.gateway
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
@@ -34,8 +35,8 @@ import kotlin.collections.ArrayList
 
 class ShareGatewayFragment : Fragment() {
 
-    private var _binding: FragmentShareGatewayBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentShareGatewayBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

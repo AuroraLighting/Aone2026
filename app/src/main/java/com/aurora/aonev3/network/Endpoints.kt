@@ -1,5 +1,6 @@
 package com.aurora.aonev3.network
 
+import com.aurora.aonev3.synthetic.*
 import com.aurora.aonev3.network.handlers.DevelcoHandler.Endpoints.*
 import com.aurora.aonev3.replace
 import com.aurora.aonev3.data.devices.Device

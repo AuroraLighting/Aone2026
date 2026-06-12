@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.help
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -23,8 +24,8 @@ import com.google.android.play.core.install.model.UpdateAvailability
 
 class AboutFragment : Fragment() {
 
-    private var _binding: FragmentAboutBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentAboutBinding? = null
+    protected val binding get() = _binding!!
 
 
     override fun onCreateView(

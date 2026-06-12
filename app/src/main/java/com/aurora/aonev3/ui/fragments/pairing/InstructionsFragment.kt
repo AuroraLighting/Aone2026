@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.pairing
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,8 +19,8 @@ import com.aurora.aonev3.ui.fragments.pairing.PairingInstructionsFragment.Pairin
 
 class InstructionsFragment : Fragment() {
 
-    private var _binding: FragmentAoneInstructionsBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentAoneInstructionsBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val viewModel: PairingViewModel by viewModels()

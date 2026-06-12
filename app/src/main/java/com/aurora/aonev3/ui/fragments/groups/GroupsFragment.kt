@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.groups
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -21,29 +22,17 @@ import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
 import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.databinding.FragmentGroupsBinding
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.*
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.logic.CollectionType
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.network.handlers.*
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.data.datapoints.DeviceDatapoint
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.data.datapoints.GroupDatapoint
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.data.devices.Device
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.data.groups.Group
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.data.logic.LogicCollection
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.activities.SplashscreenActivity
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.activities.TourActivity
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.activities.login.LoginActivity
-import com.aurora.aonev3.ui.activities.MainActivity
 import com.aurora.aonev3.ui.fragments.groups.creategroups.NoGroupsFragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.CoroutineScope
@@ -55,8 +44,8 @@ import kotlin.collections.ArrayList
 
 class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
-    private var _binding: FragmentGroupsBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentGroupsBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

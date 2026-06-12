@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data.templates
 
+import com.aurora.aonev3.synthetic.*
 import androidx.room.Entity
 
 @Entity(tableName = "identities", primaryKeys = ["deviceClass", "defaultName"])

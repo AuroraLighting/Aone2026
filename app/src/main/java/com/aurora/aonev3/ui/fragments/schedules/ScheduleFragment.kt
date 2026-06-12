@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -36,8 +37,8 @@ import org.json.JSONObject
 
 class ScheduleFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
-    private var _binding: FragmentScheduleBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentScheduleBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

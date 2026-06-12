@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.walldimmer
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat

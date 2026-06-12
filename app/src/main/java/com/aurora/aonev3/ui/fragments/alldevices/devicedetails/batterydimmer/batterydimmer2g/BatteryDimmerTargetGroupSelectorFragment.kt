@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.batterydimmer2g
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +27,8 @@ import com.google.android.material.card.MaterialCardView
 
 class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
 
-    private var _binding: FragmentSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentSelectorBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val viewModel: BatteryDimmerTargetGroupSelectorViewModel by viewModels()
@@ -187,10 +188,10 @@ class BatteryDimmerTargetGroupSelectorFragment: Fragment() {
 
                 if (group == viewModel.selectedGroup) {
                     name.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
-                    binding.cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileActive))
+                    cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileActive))
                 } else {
                     name.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextPrimary))
-                    binding.cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileInactive))
+                    cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTileInactive))
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.kinetics
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle

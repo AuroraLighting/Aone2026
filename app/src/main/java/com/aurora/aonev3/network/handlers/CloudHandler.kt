@@ -1,5 +1,6 @@
 package com.aurora.aonev3.network.handlers
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Build
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData

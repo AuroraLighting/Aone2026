@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.help.account
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -22,8 +23,8 @@ import kotlinx.coroutines.launch
 
 class AccountFragment : Fragment() {
 
-    private var _binding: FragmentAccountBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentAccountBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

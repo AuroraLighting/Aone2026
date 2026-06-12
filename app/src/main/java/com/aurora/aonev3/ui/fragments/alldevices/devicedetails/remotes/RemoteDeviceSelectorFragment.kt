@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.remotes
 
+import com.aurora.aonev3.synthetic.*
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
@@ -27,8 +28,8 @@ import com.google.android.material.card.MaterialCardView
 
 class RemoteDeviceSelectorFragment : Fragment() {
 
-    private var _binding: FragmentDeviceSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentDeviceSelectorBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val viewModel: RemoteDetailViewModel by activityViewModels()

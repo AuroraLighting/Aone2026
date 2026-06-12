@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data.groups.groupmembers
 
+import com.aurora.aonev3.synthetic.*
 data class GroupMember(
     val parentGateway: String,
     val groupId: Int,

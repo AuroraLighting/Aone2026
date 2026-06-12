@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.groups.creategroups
 
+import com.aurora.aonev3.synthetic.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.volley.NoConnectionError

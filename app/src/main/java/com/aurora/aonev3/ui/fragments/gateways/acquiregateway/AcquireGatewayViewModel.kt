@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.gateways.acquiregateway
 
+import com.aurora.aonev3.synthetic.*
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.android.volley.NoConnectionError

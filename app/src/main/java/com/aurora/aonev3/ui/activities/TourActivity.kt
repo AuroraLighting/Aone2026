@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.activities
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -13,8 +14,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class TourActivity : FragmentActivity() {
 
-    private var _binding: ActivityTourBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: ActivityTourBinding? = null
+    protected val binding get() = _binding!!
 
 
     private var tour: String = ""

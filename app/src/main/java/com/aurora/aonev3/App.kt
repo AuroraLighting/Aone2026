@@ -1,5 +1,6 @@
 package com.aurora.aonev3
 
+import com.aurora.aonev3.synthetic.*
 import android.app.Application
 import android.content.Context
 import com.aurora.aonev3.logic.*

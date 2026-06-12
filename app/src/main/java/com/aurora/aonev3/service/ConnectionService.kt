@@ -1,5 +1,6 @@
 package com.aurora.aonev3.service
 
+import com.aurora.aonev3.synthetic.*
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.groups
 
+import com.aurora.aonev3.synthetic.*
 import android.app.Activity
 import android.os.Handler
 import android.os.Looper

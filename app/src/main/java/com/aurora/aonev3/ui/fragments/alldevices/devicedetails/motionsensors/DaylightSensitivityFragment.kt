@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +22,8 @@ import kotlin.math.sqrt
 
 class DaylightSensitivityFragment : Fragment() {
 
-    private var _binding: FragmentDaylightSensitivityBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentDaylightSensitivityBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

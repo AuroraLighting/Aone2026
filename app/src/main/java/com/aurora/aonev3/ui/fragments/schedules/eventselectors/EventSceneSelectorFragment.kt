@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules.eventselectors
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -47,8 +48,8 @@ private const val SENDER = "sender"
 
 class EventSceneSelectorFragment : Fragment() {
 
-    private var _binding: FragmentSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentSelectorBinding? = null
+    protected val binding get() = _binding!!
 
 
     private lateinit var viewModel: IEventSceneSelectorViewModel

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.gateways
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent

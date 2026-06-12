@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.group.renamegroup
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +19,8 @@ import kotlinx.coroutines.launch
 
 class RenameGroupFragment : Fragment() {
 
-    private var _binding: FragmentRenameGroupBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentRenameGroupBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val viewModel by viewModels<RenameGroupViewModel>()

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.gateway
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -24,8 +25,8 @@ import org.json.JSONObject
 
 open class GatewayDetailFragment : Fragment() {
 
-    private var _binding: FragmentGatewayDetailBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentGatewayDetailBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val viewModel: GatewayDetailViewModel by viewModels()

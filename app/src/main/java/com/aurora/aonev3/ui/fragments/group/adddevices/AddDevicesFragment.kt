@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.group.adddevices
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,8 +34,8 @@ import org.json.JSONObject
 
 class AddDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
-    private var _binding: FragmentAddDevicesBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentAddDevicesBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.activities.createaccount
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.group.nestedgroups
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -23,8 +24,8 @@ import kotlinx.coroutines.launch
 
 class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
-    private var _binding: FragmentAddNestedGroupsBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentAddNestedGroupsBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val args: AddNestedGroupsFragmentArgs by navArgs()

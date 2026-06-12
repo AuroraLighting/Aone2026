@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors
 
+import com.aurora.aonev3.synthetic.*
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,8 +33,8 @@ import kotlin.math.abs
 
 class TimeConditionFragment : Fragment() {
 
-    private var _binding: FragmentTimeConditionBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentTimeConditionBinding? = null
+    protected val binding get() = _binding!!
 
 
     private lateinit var senderEventViewModel: ITimeConditionViewModel
@@ -297,9 +298,4 @@ interface ITimeConditionViewModel {
     fun updateStartTime(hour: Int = startTime.value?.hour ?: 0, minute: Int = startTime.value?.minute ?: 0, trigger: SunriseSunsetType = startTime.value?.trigger ?: SunriseSunsetType.TIME, offset: Int = startTime.value?.offset ?: 0)
     fun updateEndTime(hour: Int = endTime.value?.hour ?: 0, minute: Int = endTime.value?.minute ?: 0, trigger: SunriseSunsetType = endTime.value?.trigger ?: SunriseSunsetType.TIME, offset: Int = endTime.value?.offset ?: 0)
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.legacyschedule
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +27,8 @@ import kotlinx.coroutines.launch
 
 class LegacyScheduleFragment : Fragment() {
 
-    private var _binding: FragmentLegacyScheduleBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentLegacyScheduleBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val viewModel: LegacyScheduleViewModel by viewModels()

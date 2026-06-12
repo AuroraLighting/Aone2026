@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules
 
+import com.aurora.aonev3.synthetic.*
 import android.location.Location
 import android.os.Handler
 import android.os.HandlerThread

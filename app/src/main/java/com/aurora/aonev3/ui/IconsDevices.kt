@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui
 
+import com.aurora.aonev3.synthetic.*
 import com.aurora.aonev3.R
 
 enum class IconsDevices(val defaultNames: Array<String>, val onResId: Int, val offResId: Int) {

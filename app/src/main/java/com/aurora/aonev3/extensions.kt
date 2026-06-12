@@ -1,5 +1,6 @@
 package com.aurora.aonev3
 
+import com.aurora.aonev3.synthetic.*
 import android.app.Activity
 import android.util.Log
 import android.view.inputmethod.InputMethodManager

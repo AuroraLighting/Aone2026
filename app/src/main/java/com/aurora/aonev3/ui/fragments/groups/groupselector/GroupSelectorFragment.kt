@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.groups.groupselector
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
@@ -33,8 +34,8 @@ import org.json.JSONObject
 
 class GroupSelectorFragment : Fragment() {
 
-    private var _binding: FragmentGroupSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentGroupSelectorBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.logic
 
+import com.aurora.aonev3.synthetic.*
 import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable

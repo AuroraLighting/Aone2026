@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.remotes
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,8 +22,8 @@ import com.google.android.material.card.MaterialCardView
 
 class RemoteRecallSelectorFragment : Fragment() {
 
-    private var _binding: FragmentSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentSelectorBinding? = null
+    protected val binding get() = _binding!!
 
 
     val viewModel: RemoteDetailViewModel by activityViewModels()

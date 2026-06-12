@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data.devices
 
+import com.aurora.aonev3.synthetic.*
 import org.json.JSONObject
 
 data class Device(

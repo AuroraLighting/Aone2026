@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.gateways.acquiregateway
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
@@ -19,8 +20,8 @@ import com.aurora.aonev3.ui.activities.login.LoginActivity
 
 class AcquireGatewayFragment : Fragment() {
 
-    private var _binding: FragmentAcquireGatewayBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentAcquireGatewayBinding? = null
+    protected val binding get() = _binding!!
 
     private var TAG = this::class.simpleName
     private val SCAN_BARCODE_RQ = 0

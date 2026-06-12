@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,8 +31,8 @@ private const val SENDER = "sender"
 
 class EventTriggerSelectorFragment : Fragment() {
 
-    private var _binding: FragmentSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentSelectorBinding? = null
+    protected val binding get() = _binding!!
 
     private var sender: String? = null
 
@@ -170,9 +171,4 @@ class EventTriggerSelectorFragment : Fragment() {
 interface IEventTriggerSelectorViewModel {
     var trigger: MutableLiveData<TriggerEnum?>
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

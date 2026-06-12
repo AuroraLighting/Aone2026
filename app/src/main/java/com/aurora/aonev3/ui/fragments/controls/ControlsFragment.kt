@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.controls
 
+import com.aurora.aonev3.synthetic.*
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
@@ -35,8 +36,8 @@ private const val ARG_CT_MIN = "ctMin"
 @SuppressLint("SetTextI18n")
 class ControlsFragment : Fragment() {
 
-    private var _binding: ControlsFragmentRgbwBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: ControlsFragmentRgbwBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

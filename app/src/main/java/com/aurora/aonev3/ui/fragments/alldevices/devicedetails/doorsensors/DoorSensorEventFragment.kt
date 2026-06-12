@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.doorsensors
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -36,8 +37,8 @@ import kotlin.math.abs
 
 open class DoorSensorEventFragment : Fragment() {
 
-    private var _binding: FragmentDoorSensorEventBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentDoorSensorEventBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val viewModel: DoorSensorEventViewModel by activityViewModels()

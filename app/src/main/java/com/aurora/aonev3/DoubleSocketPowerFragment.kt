@@ -1,5 +1,6 @@
 package com.aurora.aonev3
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +17,8 @@ import kotlin.math.ln
 
 class DoubleSocketPowerFragment : Fragment() {
 
-    private var _binding: FragmentDoubleSocketPowerBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentDoubleSocketPowerBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val args: DoubleSocketPowerFragmentArgs by navArgs()

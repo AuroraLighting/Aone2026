@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data.groups
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.parcelize.Parceler

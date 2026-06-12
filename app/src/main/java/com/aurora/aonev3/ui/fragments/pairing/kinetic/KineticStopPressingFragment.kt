@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.pairing.kinetic
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,8 +15,8 @@ import com.aurora.aonev3.R
 
 class KineticStopPressingFragment : Fragment() {
 
-    private var _binding: FragmentKineticStopPressingBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentKineticStopPressingBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val handler = Handler(Looper.getMainLooper())

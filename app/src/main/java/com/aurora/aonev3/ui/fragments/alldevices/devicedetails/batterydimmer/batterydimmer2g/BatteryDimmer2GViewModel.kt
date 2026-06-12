@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.batterydimmer.batterydimmer2g
 
+import com.aurora.aonev3.synthetic.*
 import androidx.lifecycle.MutableLiveData
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError

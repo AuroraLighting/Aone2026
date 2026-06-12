@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.activities.login
 
+import com.aurora.aonev3.synthetic.*
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

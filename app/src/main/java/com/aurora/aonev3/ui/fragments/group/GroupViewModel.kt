@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.group
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.MutableLiveData

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.groups.creategroups
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
@@ -25,8 +26,8 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 class CreateGroupFragment : Fragment() {
 
-    private var _binding: FragmentCreateGroupBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentCreateGroupBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

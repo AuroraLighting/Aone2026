@@ -1,5 +1,6 @@
 package com.aurora.aonev3.network.handlers
 
+import com.aurora.aonev3.synthetic.*
 import androidx.lifecycle.MutableLiveData
 import com.android.volley.VolleyError
 import com.aurora.aonev3.network.volley.Request

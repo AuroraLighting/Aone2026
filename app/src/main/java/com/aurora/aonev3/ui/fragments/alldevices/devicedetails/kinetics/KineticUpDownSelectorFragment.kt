@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.kinetics
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,8 +23,8 @@ import com.google.android.material.card.MaterialCardView
 
 class KineticUpDownSelectorFragment : Fragment() {
 
-    private var _binding: FragmentSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentSelectorBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val viewModel: KineticDetailViewModel by activityViewModels()

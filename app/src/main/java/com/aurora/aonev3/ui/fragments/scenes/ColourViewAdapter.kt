@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.scenes
 
+import com.aurora.aonev3.synthetic.*
 //class ColourViewAdapter internal constructor(val context: Context) : RecyclerView.Adapter<ColourViewAdapter.ColourViewHolder>() {
 //
 //    private var colourList = emptyList<String>()

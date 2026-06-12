@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.dynamicevents
 
+import com.aurora.aonev3.synthetic.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

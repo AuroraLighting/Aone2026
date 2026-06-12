@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.scenes
 
+import com.aurora.aonev3.synthetic.*
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -21,8 +22,8 @@ import com.aurora.aonev3.ui.IconsScenes
 
 class SceneIconSelectorFragment : Fragment() {
 
-    private var _binding: FragmentSceneIconSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentSceneIconSelectorBinding? = null
+    protected val binding get() = _binding!!
 
     private val args: SceneIconSelectorFragmentArgs by navArgs()
 

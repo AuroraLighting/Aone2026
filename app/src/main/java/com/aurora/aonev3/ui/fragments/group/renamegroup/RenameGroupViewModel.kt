@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.group.renamegroup
 
+import com.aurora.aonev3.synthetic.*
 import androidx.lifecycle.ViewModel
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors
 
+import com.aurora.aonev3.synthetic.*
 import androidx.lifecycle.ViewModel
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.data.logic.LogicCollection

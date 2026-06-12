@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules.eventselectors
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -43,8 +44,8 @@ class EventDeviceSelectorViewModel: ViewModel() {
 
 class EventDeviceSelectorFragment : Fragment() {
 
-    private var _binding: FragmentSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentSelectorBinding? = null
+    protected val binding get() = _binding!!
 
     private val viewModel: EventDeviceSelectorViewModel by viewModels()
     private lateinit var senderViewModel: IEventDeviceSelectorViewModel

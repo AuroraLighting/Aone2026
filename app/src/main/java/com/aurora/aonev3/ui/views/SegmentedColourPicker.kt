@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.views
 
+import com.aurora.aonev3.synthetic.*
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*

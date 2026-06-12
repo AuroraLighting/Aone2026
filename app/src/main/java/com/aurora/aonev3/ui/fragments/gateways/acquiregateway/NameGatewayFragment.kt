@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.gateways.acquiregateway
 
+import com.aurora.aonev3.synthetic.*
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -25,8 +26,8 @@ import org.json.JSONObject
 
 class NameGatewayFragment : Fragment() {
 
-    private var _binding: FragmentNameGatewayBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentNameGatewayBinding? = null
+    protected val binding get() = _binding!!
 
     private val crashlytics = FirebaseCrashlytics.getInstance()
 

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.help.account
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -19,8 +20,8 @@ import kotlinx.coroutines.launch
 
 class AccountDeleteFragment : Fragment() {
 
-    private var _binding: FragmentAccountDeleteBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentAccountDeleteBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

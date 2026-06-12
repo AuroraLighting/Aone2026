@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.tour
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,8 +25,8 @@ private const val ARG_INDEX = "index"
  */
 class TourFragment : Fragment() {
 
-    private var _binding: FragmentTourBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentTourBinding? = null
+    protected val binding get() = _binding!!
 
     // TODO: Rename and change types of parameters
     private var screen: String? = null

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules
 
+import com.aurora.aonev3.synthetic.*
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -34,8 +35,8 @@ import kotlin.math.abs
 
 class ScheduleEventFragment : Fragment() {
 
-    private var _binding: FragmentScheduleEventBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentScheduleEventBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.groups.eventgroupselector
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,8 +25,8 @@ import com.aurora.aonev3.ui.fragments.groups.groupselector.GroupSelectorViewAdap
 
 class EventGroupSelectorFragment : Fragment() {
 
-    private var _binding: FragmentEventGroupSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentEventGroupSelectorBinding? = null
+    protected val binding get() = _binding!!
 
 
     private val viewModel: EventGroupSelectorViewModel by viewModels()
@@ -99,9 +100,4 @@ class EventGroupSelectorFragment : Fragment() {
 interface IEventGroupSelectorViewModel {
     var targetGroup: MutableLiveData<Group?>
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

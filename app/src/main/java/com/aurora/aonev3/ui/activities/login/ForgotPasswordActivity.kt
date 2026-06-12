@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.activities.login
 
+import com.aurora.aonev3.synthetic.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo

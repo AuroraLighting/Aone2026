@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data
 
+import com.aurora.aonev3.synthetic.*
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,8 +23,8 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 class MotionSensorGroupSelectorFragment : Fragment() {
 
-    private var _binding: FragmentGroupSelectorBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentGroupSelectorBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

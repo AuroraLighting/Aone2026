@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules.eventselectors
 
+import com.aurora.aonev3.synthetic.*
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -43,8 +44,8 @@ const val LOCATION_PERMISSION_RC = 0
 
 class ScheduleTimeTriggerFragment : Fragment() {
 
-    private var _binding: FragmentTimeTriggerBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentTimeTriggerBinding? = null
+    protected val binding get() = _binding!!
 
     private lateinit var eventTimeViewModel: IScheduleTimeViewModel
     private val viewModel: IScheduleTimeViewModel by viewModels<ScheduleTimeViewModel>()

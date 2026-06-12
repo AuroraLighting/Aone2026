@@ -1,5 +1,6 @@
 package com.aurora.aonev3.network.handlers
 
+import com.aurora.aonev3.synthetic.*
 import com.android.volley.VolleyError
 import com.aurora.aonev3.App
 import com.aurora.aonev3.R.string.*

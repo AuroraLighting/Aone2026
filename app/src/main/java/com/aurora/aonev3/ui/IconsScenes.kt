@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui
 
+import com.aurora.aonev3.synthetic.*
 import com.aurora.aonev3.R
 
 enum class IconsScenes constructor(val resourceValue: Int, val stringValue: String, val backgroundColour: Int) {

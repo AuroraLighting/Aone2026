@@ -1,5 +1,6 @@
-package com.aurora.aonev3.ui.activities.binding.login
+package com.aurora.aonev3.ui.activities.login
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -74,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
                         if (loginViewModel.isUserNameValid(username) &&
                             loginViewModel.isPasswordValid(password)) {
                             binding.loading.visibility = View.VISIBLE
-                            loginViewModel.binding.login(
+                            loginViewModel.login(
                                 username,
                                 password
                             )
@@ -88,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
                 val username = binding.etEmail.text.toString()
                 val password = binding.etPassword.text.toString()
                 binding.loading.visibility = View.VISIBLE
-                loginViewModel.binding.login(username, password)
+                loginViewModel.login(username, password)
             }
         }
 

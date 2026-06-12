@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.alldevices
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -24,8 +25,8 @@ import com.aurora.aonev3.ui.activities.TourActivity
 
 class AllDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
-    private var _binding: FragmentAllDevicesBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentAllDevicesBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

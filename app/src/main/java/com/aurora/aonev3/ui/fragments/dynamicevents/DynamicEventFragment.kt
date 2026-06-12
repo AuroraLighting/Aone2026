@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.dynamicevents
 
+import com.aurora.aonev3.synthetic.*
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,8 +26,8 @@ import kotlin.math.abs
 
 class DynamicEventFragment : Fragment() {
 
-    private var _binding: FragmentDynamicEventBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentDynamicEventBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

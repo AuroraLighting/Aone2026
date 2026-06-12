@@ -1,5 +1,6 @@
 package com.aurora.aonev3.network.volley
 
+import com.aurora.aonev3.synthetic.*
 import com.android.volley.RequestQueue.RequestEvent.REQUEST_FINISHED
 import com.android.volley.toolbox.Volley
 import com.aurora.aonev3.App

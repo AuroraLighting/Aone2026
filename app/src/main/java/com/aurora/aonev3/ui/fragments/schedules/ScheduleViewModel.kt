@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules
 
+import com.aurora.aonev3.synthetic.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope

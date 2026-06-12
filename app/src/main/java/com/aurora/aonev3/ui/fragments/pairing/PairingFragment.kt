@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.pairing
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -31,8 +32,8 @@ import kotlinx.coroutines.launch
 
 class PairingFragment : Fragment() {
 
-    private var _binding: FragmentPairingBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentPairingBinding? = null
+    protected val binding get() = _binding!!
 
 
     companion object {

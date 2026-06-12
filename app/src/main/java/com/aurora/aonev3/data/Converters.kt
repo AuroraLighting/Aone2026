@@ -1,5 +1,6 @@
 package com.aurora.aonev3.data
 
+import com.aurora.aonev3.synthetic.*
 import android.util.Log
 import androidx.room.TypeConverter
 import com.aurora.aonev3.gson

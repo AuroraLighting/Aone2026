@@ -1,7 +1,8 @@
 package com.aurora.aonev3.ui.activities
 
+import com.aurora.aonev3.synthetic.*
 import android.os.Bundle
-import androidx.binding.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import com.aurora.aonev3.databinding.ActivityTermsBinding
 import com.aurora.aonev3.R
 

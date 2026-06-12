@@ -1,5 +1,6 @@
 package com.aurora.aonev3
 
+import com.aurora.aonev3.synthetic.*
 import com.aurora.aonev3.network.handlers.SyncHandler
 import com.aurora.aonev3.data.groups.Group
 import org.json.JSONArray

@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.activities
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle

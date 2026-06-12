@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.schedules
 
+import com.aurora.aonev3.synthetic.*
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.*

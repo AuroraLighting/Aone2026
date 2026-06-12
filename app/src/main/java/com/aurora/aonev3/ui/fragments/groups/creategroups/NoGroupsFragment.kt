@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.groups.creategroups
 
+import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -30,8 +31,8 @@ import org.json.JSONObject
 
 class NoGroupsFragment : Fragment() {
 
-    private var _binding: FragmentNoGroupsBinding? = null
-    private val binding get() = _binding!!
+    protected var _binding: FragmentNoGroupsBinding? = null
+    protected val binding get() = _binding!!
 
 
     override fun onCreateView(
@@ -196,7 +197,7 @@ class NoGroupsFragment : Fragment() {
             var icon: ImageView = itemView.findViewById(R.id.ivIcon)
 
             init {
-                binding.cardView.setOnClickListener(this)
+                cardView.setOnClickListener(this)
             }
 
             override fun onClick(p0: View?) {

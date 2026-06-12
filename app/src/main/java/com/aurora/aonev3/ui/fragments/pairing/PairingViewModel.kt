@@ -1,5 +1,6 @@
 package com.aurora.aonev3.ui.fragments.pairing
 
+import com.aurora.aonev3.synthetic.*
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aurora.aonev3.MutableLiveDataArrayList

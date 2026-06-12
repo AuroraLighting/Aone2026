@@ -1,5 +1,6 @@
 package com.aurora.aonev3.network.handlers
 
+import com.aurora.aonev3.synthetic.*
 import android.util.Log
 import androidx.annotation.WorkerThread
 import com.android.volley.NoConnectionError
