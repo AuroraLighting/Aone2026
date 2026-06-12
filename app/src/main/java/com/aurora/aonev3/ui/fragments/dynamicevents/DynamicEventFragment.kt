@@ -106,7 +106,7 @@ class DynamicEventFragment : Fragment() {
 
         binding.btnSave.setOnClickListener { button ->
             button.isEnabled = false
-            activity?.layoutGreyOut?.visibility = View.VISIBLE
+            activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 val isSuccessful = viewModel.createLogicRule()
@@ -120,7 +120,7 @@ class DynamicEventFragment : Fragment() {
                     }
 //    TODO                if (isSuccessful) {
                     binding.btnSave.isEnabled = true
-                    activity.layoutGreyOut?.visibility = View.GONE
+                    activity.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     findNavController().popBackStack()
 //                    }
                 }

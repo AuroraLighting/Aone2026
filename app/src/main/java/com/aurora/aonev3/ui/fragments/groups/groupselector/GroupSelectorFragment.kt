@@ -148,7 +148,7 @@ class GroupSelectorFragment : Fragment() {
                 }
 
                 binding.btnSave.isEnabled = false
-                activity?.layoutGreyOut?.visibility = View.VISIBLE
+                activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
 
                 viewModel.viewModelScope.launch(Dispatchers.IO) {
                     try {
@@ -171,7 +171,7 @@ class GroupSelectorFragment : Fragment() {
                                     .setMessage("Failed to remove ${device.name} from ${group?.name}, check it's still plugged in / has power")
                                     .setPositiveButton(getString(R.string.ok)) { _, _ ->
                                         binding.btnSave.isEnabled = true
-                                        activity.layoutGreyOut.visibility = View.GONE
+                                        activity.findViewById<android.view.View>(R.id.layoutGreyOut).visibility = View.GONE
                                     }
                                     .create()
                                     .show()
@@ -197,7 +197,7 @@ class GroupSelectorFragment : Fragment() {
                                     .setMessage("Failed to remove ${device.name} from ${group?.name}. ${json.optString("message")}")
                                     .setPositiveButton(getString(R.string.ok)) { _, _ ->
                                         binding.btnSave.isEnabled = true
-                                        activity.layoutGreyOut.visibility = View.GONE
+                                        activity.findViewById<android.view.View>(R.id.layoutGreyOut).visibility = View.GONE
                                     }
                                     .create()
                                     .show()
@@ -235,7 +235,7 @@ class GroupSelectorFragment : Fragment() {
                             if (!addGroupMember(device, group)) {
 
                                 activity?.runOnUiThread {
-                                    activity?.layoutGreyOut?.visibility = View.GONE
+                                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                                     findNavController().popBackStack()
                                 }
                             }
@@ -251,7 +251,7 @@ class GroupSelectorFragment : Fragment() {
                                             if (!addGroupMember(device, group)) {
 
                                                 activity?.runOnUiThread {
-                                                    activity?.layoutGreyOut?.visibility = View.GONE
+                                                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                                                     findNavController().popBackStack()
                                                 }
                                             }
@@ -262,14 +262,14 @@ class GroupSelectorFragment : Fragment() {
                                             viewModel.addVirtualGroupMember(device, group)
 
                                             activity?.runOnUiThread {
-                                                activity?.layoutGreyOut?.visibility = View.GONE
+                                                activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                                                 findNavController().popBackStack()
                                             }
                                         }
                                     }
                                     .setOnCancelListener {
                                         binding.btnSave.isEnabled = true
-                                        activity?.layoutGreyOut?.visibility = View.GONE
+                                        activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                                     }
                                     .create()
                                     .show()
@@ -280,7 +280,7 @@ class GroupSelectorFragment : Fragment() {
                             viewModel.addVirtualGroupMember(device, group)
 
                             activity?.runOnUiThread {
-                                activity?.layoutGreyOut?.visibility = View.GONE
+                                activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                                 findNavController().popBackStack()
                             }
                         }
@@ -303,7 +303,7 @@ class GroupSelectorFragment : Fragment() {
                         .setMessage("Failed to add ${device.name} to ${group.name}, check it's still plugged in / has power")
                         .setPositiveButton(getString(R.string.ok)) { _, _ ->
                             btnSave?.isEnabled = true
-                            activity.layoutGreyOut.visibility = View.GONE
+                            activity.findViewById<android.view.View>(R.id.layoutGreyOut).visibility = View.GONE
                         }
                         .create()
                         .show()
@@ -319,7 +319,7 @@ class GroupSelectorFragment : Fragment() {
                         .setMessage("Failed to add ${device.name} to ${group.name} as it's in too many Spaces / Groups")
                         .setPositiveButton(getString(R.string.ok)) { _, _ ->
                             binding.btnSave.isEnabled = true
-                            activity.layoutGreyOut.visibility = View.GONE
+                            activity.findViewById<android.view.View>(R.id.layoutGreyOut).visibility = View.GONE
                         }
                         .create()
                         .show()
@@ -340,7 +340,7 @@ class GroupSelectorFragment : Fragment() {
                         .setMessage("Failed to add ${device.name} to ${group.name}. ${json.optString("message")}")
                         .setPositiveButton(getString(R.string.ok)) { _, _ ->
                             binding.btnSave.isEnabled = true
-                            activity.layoutGreyOut.visibility = View.GONE
+                            activity.findViewById<android.view.View>(R.id.layoutGreyOut).visibility = View.GONE
                         }
                         .create()
                         .show()

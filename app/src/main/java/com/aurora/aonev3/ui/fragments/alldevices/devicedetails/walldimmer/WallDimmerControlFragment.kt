@@ -137,7 +137,7 @@ class WallDimmerControlFragment : WallDimmerInlineFragment() {
         return View.OnClickListener {
             val device = viewModel.selectedDevice ?: return@OnClickListener
             binding.btnSave.isEnabled = false
-            activity?.layoutGreyOut?.visibility = View.VISIBLE
+            activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 val target = wallDimmerControlViewModel.target.value
@@ -149,7 +149,7 @@ class WallDimmerControlFragment : WallDimmerInlineFragment() {
 
                 activity?.runOnUiThread {
                     binding.btnSave.isEnabled = true
-                    activity?.layoutGreyOut?.visibility = View.GONE
+                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     findNavController().popBackStack()
                 }
             }
@@ -158,7 +158,7 @@ class WallDimmerControlFragment : WallDimmerInlineFragment() {
 
     override fun btnDeleteClickListener() {
         val device = viewModel.selectedDevice ?: return
-        activity?.layoutGreyOut?.visibility = View.VISIBLE
+        activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
         NabtoHandler.selectedGateway?.let { gateway ->
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 val logicCollectionsToDelete = ArrayList<Int>()
@@ -258,7 +258,7 @@ class WallDimmerControlFragment : WallDimmerInlineFragment() {
                 }
 
                 activity?.runOnUiThread {
-                    activity?.layoutGreyOut?.visibility = View.GONE
+                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     findNavController().popBackStack()
                 }
             }

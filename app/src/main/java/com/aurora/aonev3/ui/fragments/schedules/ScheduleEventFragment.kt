@@ -554,7 +554,7 @@ class ScheduleEventFragment : Fragment() {
 
         binding.cardEvent.setOnClickListener {
             val action = ScheduleEventFragmentDirections
-                .actionScheduleEventFragmentToEventActionSelectorFragment(viewModel.device.value?.second == "lock", ScheduleEventFragment::class.simpleName ?: "")
+                .actionScheduleEventFragmentToEventActionSelectorFragment(ScheduleEventFragment::class.simpleName ?: "", viewModel.device.value?.second == "lock")
             findNavController().navigate(action)
         }
 
@@ -582,7 +582,7 @@ class ScheduleEventFragment : Fragment() {
 
         binding.btnSave.setOnClickListener { button ->
             button.isEnabled = false
-            activity?.layoutGreyOut?.visibility = View.VISIBLE
+            requireActivity().findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 val isSuccessful = mLogicCollection.let {
@@ -598,7 +598,7 @@ class ScheduleEventFragment : Fragment() {
                     }
 //    TODO                if (isSuccessful) {
                         binding.btnSave.isEnabled = true
-                        activity.layoutGreyOut?.visibility = View.GONE
+                        activity.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                         findNavController().popBackStack()
 //                    }
                 }

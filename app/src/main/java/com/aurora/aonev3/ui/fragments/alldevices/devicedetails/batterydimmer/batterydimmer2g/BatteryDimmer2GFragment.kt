@@ -194,7 +194,7 @@ class BatteryDimmer2GFragment : DeviceDetailFragment() {
         return View.OnClickListener {
             val device = viewModel.selectedDevice ?: return@OnClickListener
             binding.btnSave.isEnabled = false
-            activity?.layoutGreyOut?.visibility = View.VISIBLE
+            activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 val mode = batteryDimmerViewModel.mode.value
@@ -208,7 +208,7 @@ class BatteryDimmer2GFragment : DeviceDetailFragment() {
 
                 activity?.runOnUiThread {
                     binding.btnSave.isEnabled = true
-                    activity?.layoutGreyOut?.visibility = View.GONE
+                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     findNavController().popBackStack()
                 }
             }
@@ -217,7 +217,7 @@ class BatteryDimmer2GFragment : DeviceDetailFragment() {
 
     override fun btnDeleteClickListener() {
         val device = viewModel.selectedDevice ?: return
-        activity?.layoutGreyOut?.visibility = View.VISIBLE
+        activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
         NabtoHandler.selectedGateway?.let { gateway ->
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 val logicCollectionsToDelete = ArrayList<Int>()
@@ -315,7 +315,7 @@ class BatteryDimmer2GFragment : DeviceDetailFragment() {
                 }
 
                 activity?.runOnUiThread {
-                    activity?.layoutGreyOut?.visibility = View.GONE
+                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     findNavController().popBackStack()
                 }
             }

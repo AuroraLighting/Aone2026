@@ -156,9 +156,9 @@ class ScheduleFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
                     val popup = PopupMenu(requireContext(), view)
                     if (logicRule.isEnabled) {
-                        popup.menuInflater.inflate(R.binding.menu.enabled_schedule_menu, popup.menu)
+                        popup.menuInflater.inflate(R.menu.enabled_schedule_menu, popup.menu)
                     } else {
-                        popup.menuInflater.inflate(R.binding.menu.disabled_schedule_menu, popup.menu)
+                        popup.menuInflater.inflate(R.menu.disabled_schedule_menu, popup.menu)
                     }
                     popup.setOnMenuItemClickListener(this@ScheduleFragment)
                     popup.show()

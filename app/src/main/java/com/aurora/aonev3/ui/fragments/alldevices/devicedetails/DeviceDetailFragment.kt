@@ -225,7 +225,7 @@ open class DeviceDetailFragment : Fragment() {
                 NabtoHandler.selectedGateway?.let { gateway ->
                     if (gateway.isConnected) {
                         binding.btnSave.isEnabled = false
-                        activity?.layoutGreyOut?.visibility = View.VISIBLE
+                        activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
                         viewModel.viewModelScope.launch(Dispatchers.IO) {
                             try {
                                 DevelcoHandler.putDevice(
@@ -249,7 +249,7 @@ open class DeviceDetailFragment : Fragment() {
 
                             activity?.runOnUiThread {
                                 binding.btnSave.isEnabled = true
-                                activity?.layoutGreyOut?.visibility = View.GONE
+                                activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                                 findNavController().popBackStack()
                             }
                         }

@@ -91,7 +91,7 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
         binding.btnSave.setOnClickListener {
             val ids = adapter.selectedGroups.map { it.id }.sorted()
-            layoutGreyOut?.visibility = View.VISIBLE
+            activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 NabtoHandler.selectedGateway?.let { gateway ->
@@ -99,7 +99,7 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 }
 
                 viewModel.viewModelScope.launch(Dispatchers.Main) {
-                    layoutGreyOut?.visibility = View.GONE
+                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     findNavController().popBackStack()
                 }
             }
@@ -111,7 +111,7 @@ class AddNestedGroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
         binding.menu.setOnClickListener {
             val popup = PopupMenu(requireContext(), it)
-            popup.menuInflater.inflate(R.binding.menu.nested_groups_menu, popup.menu)
+            popup.menuInflater.inflate(R.menu.nested_groups_menu, popup.menu)
             if (viewModel.group?.metadata?.optBoolean("is_virtual_group") == true) {
                 popup.binding.menu.findItem(R.id.create).title =
                     getString(R.string.create_new_group)

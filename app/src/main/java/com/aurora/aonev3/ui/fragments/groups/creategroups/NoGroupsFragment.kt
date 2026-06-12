@@ -83,7 +83,7 @@ class NoGroupsFragment : Fragment() {
         }
 
         binding.btnDone.setOnClickListener {
-            activity?.layoutGreyOut?.visibility = View.VISIBLE
+            activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
 
             CoroutineScope(Dispatchers.IO).launch {
                 listAdapter.selectedGroups.forEach { group ->
@@ -109,7 +109,7 @@ class NoGroupsFragment : Fragment() {
                 }
 
                 activity?.runOnUiThread {
-                    activity?.layoutGreyOut?.visibility = View.GONE
+                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     val action = NavGraphDirections.actionGlobalCreateGroupFragment()
                     try {
                         findNavController().navigate(action)

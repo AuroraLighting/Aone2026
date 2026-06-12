@@ -237,7 +237,7 @@ class KineticDetailFragment : DeviceDetailFragment() {
             val device = viewModel.selectedDevice ?: return@OnClickListener
             val group = mGroup ?: return@OnClickListener
             binding.btnSave.isEnabled = false
-            activity?.layoutGreyOut?.visibility = View.VISIBLE
+            activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
             viewModel.viewModelScope.launch(Dispatchers.IO) {
 
                 NabtoHandler.selectedGateway?.let { gateway ->
@@ -327,7 +327,7 @@ class KineticDetailFragment : DeviceDetailFragment() {
 
                 activity?.runOnUiThread {
                     binding.btnSave.isEnabled = true
-                    activity?.layoutGreyOut?.visibility = View.GONE
+                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     findNavController().popBackStack()
                 }
             }
@@ -336,14 +336,14 @@ class KineticDetailFragment : DeviceDetailFragment() {
 
     override fun btnDeleteClickListener() {
         val device = viewModel.selectedDevice ?: return
-        activity?.layoutGreyOut?.visibility = View.VISIBLE
+        activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
         kineticViewModel.viewModelScope.launch(Dispatchers.IO) {
             kineticViewModel.deleteLogicCollections(device)
 
             kineticViewModel.deleteDevice(device)
 
             activity?.runOnUiThread {
-                activity?.layoutGreyOut?.visibility = View.GONE
+                activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                 findNavController().popBackStack()
             }
         }

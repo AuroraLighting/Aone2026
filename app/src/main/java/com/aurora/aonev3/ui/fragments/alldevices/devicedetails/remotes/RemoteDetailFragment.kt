@@ -250,7 +250,7 @@ class RemoteDetailFragment : DeviceDetailFragment() {
         return View.OnClickListener {
             val device = viewModel.selectedDevice ?: return@OnClickListener
             binding.btnSave.isEnabled = false
-            activity?.layoutGreyOut?.visibility = View.VISIBLE
+            activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 val gateway = NabtoHandler.selectedGateway ?: return@launch
 
@@ -655,7 +655,7 @@ class RemoteDetailFragment : DeviceDetailFragment() {
                 }
                 activity?.runOnUiThread {
                     binding.btnSave.isEnabled = true
-                    activity?.layoutGreyOut?.visibility = View.GONE
+                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     findNavController().popBackStack()
                 }
             }
@@ -664,7 +664,7 @@ class RemoteDetailFragment : DeviceDetailFragment() {
 
     override fun btnDeleteClickListener() {
         val device = viewModel.selectedDevice ?: return
-        activity?.layoutGreyOut?.visibility = View.VISIBLE
+        activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
         NabtoHandler.selectedGateway?.let { gateway ->
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 val logicCollectionsToDelete = ArrayList<Int>()
@@ -763,7 +763,7 @@ class RemoteDetailFragment : DeviceDetailFragment() {
                 }
 
                 activity?.runOnUiThread {
-                    activity?.layoutGreyOut?.visibility = View.GONE
+                    activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                     findNavController().popBackStack()
                 }
             }

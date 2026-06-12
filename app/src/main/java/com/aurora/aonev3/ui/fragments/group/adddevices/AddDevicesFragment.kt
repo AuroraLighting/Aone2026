@@ -150,7 +150,7 @@ class AddDevicesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
         binding.menu.setOnClickListener {
             val popup = PopupMenu(requireContext(), it)
-            popup.menuInflater.inflate(R.binding.menu.all_devices_menu, popup.menu)
+            popup.menuInflater.inflate(R.menu.all_devices_menu, popup.menu)
             popup.setOnMenuItemClickListener(this@AddDevicesFragment)
             popup.show()
         }

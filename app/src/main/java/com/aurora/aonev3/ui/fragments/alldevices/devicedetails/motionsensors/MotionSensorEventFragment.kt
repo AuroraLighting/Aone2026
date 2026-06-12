@@ -643,7 +643,7 @@ open class MotionSensorEventFragment : Fragment() {
 
         binding.btnSave.setOnClickListener {
             it.isEnabled = false
-            activity.layoutGreyOut?.visibility = View.VISIBLE
+            activity.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.VISIBLE
             NabtoHandler.selectedGateway?.let { gateway ->
                 createLogicCollection(gateway)
             }
@@ -804,7 +804,7 @@ open class MotionSensorEventFragment : Fragment() {
 
                                         activity?.runOnUiThread {
                                             binding.btnSave.isEnabled = true
-                                            activity?.layoutGreyOut?.visibility = View.GONE
+                                            activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                                             findNavController().popBackStack()
                                         }
                                     }
@@ -833,7 +833,7 @@ open class MotionSensorEventFragment : Fragment() {
 
                                         activity?.runOnUiThread {
                                             binding.btnSave.isEnabled = true
-                                            activity?.layoutGreyOut?.visibility = View.GONE
+                                            activity?.findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility = View.GONE
                                             findNavController().popBackStack()
                                         }
                                     }
