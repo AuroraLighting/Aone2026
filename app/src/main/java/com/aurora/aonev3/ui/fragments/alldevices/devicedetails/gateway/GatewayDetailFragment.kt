@@ -51,16 +51,16 @@ open class GatewayDetailFragment : Fragment() {
         (activity as? MainActivity)?.setupUI(view)
 
         NabtoHandler.selectedGateway?.let { gateway ->
-            etName.setText(gateway.name)
-            tvSerialNumberValue.text = gateway.serial
-            tvSystemStatusValue.text = gateway.tunnelState?.name ?: "Closed"
+            binding.etName.setText(gateway.name)
+            binding.tvSerialNumberValue.text = gateway.serial
+            binding.tvSystemStatusValue.text = gateway.tunnelState?.name ?: "Closed"
             if (gateway.lastError == null || gateway.lastError == 1) {
-                tvSystemErrorLabel.visibility = View.GONE
-                tvSystemErrorValue.visibility = View.GONE
+                binding.tvSystemErrorLabel.visibility = View.GONE
+                binding.tvSystemErrorValue.visibility = View.GONE
             } else {
-                tvSystemErrorLabel.visibility = View.VISIBLE
-                tvSystemErrorValue.visibility = View.VISIBLE
-                tvSystemErrorValue.text = gateway.lastError?.toString()
+                binding.tvSystemErrorLabel.visibility = View.VISIBLE
+                binding.tvSystemErrorValue.visibility = View.VISIBLE
+                binding.tvSystemErrorValue.text = gateway.lastError?.toString()
             }
 
             gateway.gwFirmware.observe(viewLifecycleOwner, {
@@ -77,7 +77,7 @@ open class GatewayDetailFragment : Fragment() {
                     "$firmwareVersion (n/a)"
                 }
 
-                tvFirmwareVersionValue.text = string
+                binding.tvFirmwareVersionValue.text = string
             })
 
             viewModel.getDevices(gateway).observe(viewLifecycleOwner) {
@@ -87,7 +87,7 @@ open class GatewayDetailFragment : Fragment() {
                     val fV = device.metadata.optInt("firmware_version", -1)
                     if (tV != -1) {
                         metadataTemplateVersion = tV
-                        tvTemplateVersionValue.text = metadataTemplateVersion.toString()
+                        binding.tvTemplateVersionValue.text = metadataTemplateVersion.toString()
                     }
 
                     if (fV != -1) {
@@ -98,7 +98,7 @@ open class GatewayDetailFragment : Fragment() {
                             "($metadataFirmwareVersion)"
                         }
 
-                        tvFirmwareVersionValue.text = string
+                        binding.tvFirmwareVersionValue.text = string
                     }
                 }
             }
@@ -170,7 +170,7 @@ open class GatewayDetailFragment : Fragment() {
             binding.btnCancel.visibility = View.GONE
             binding.btnRelease.visibility = View.GONE
 
-            etName.isEnabled = false
+            binding.etName.isEnabled = false
         }
 
         if (NabtoHandler.selectedGateway?.accessLevel != NabtoHandler.GatewayAccessLevel.OWNER) {

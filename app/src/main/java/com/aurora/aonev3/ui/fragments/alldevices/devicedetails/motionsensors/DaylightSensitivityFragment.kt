@@ -70,20 +70,20 @@ class DaylightSensitivityFragment : Fragment() {
                         binding.lux_seekbar.progress == lux_seekbar?.max -> {
                             binding.lux_seekbar.progressDrawable =
                                 ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_accent)
-                            tvSensitivity.setTextColor(activity.getColor(R.color.colorAccent))
-                            tvSensitivity.text = getText(R.string.daylight_always)
+                            binding.tvSensitivity.setTextColor(activity.getColor(R.color.colorAccent))
+                            binding.tvSensitivity.text = getText(R.string.daylight_always)
                         }
                         binding.lux_seekbar.progress > mLux -> {
                             binding.lux_seekbar.progressDrawable =
                                 ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_green)
-                            tvSensitivity.setTextColor(activity.getColor(R.color.daylightGreen))
-                            tvSensitivity.text = getText(R.string.motion_will_activate)
+                            binding.tvSensitivity.setTextColor(activity.getColor(R.color.daylightGreen))
+                            binding.tvSensitivity.text = getText(R.string.motion_will_activate)
                         }
                         else -> {
                             binding.lux_seekbar.progressDrawable =
                                 ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_red)
-                            tvSensitivity.setTextColor(activity.getColor(R.color.daylightRed))
-                            tvSensitivity.text = getText(R.string.motion_wont_activate)
+                            binding.tvSensitivity.setTextColor(activity.getColor(R.color.daylightRed))
+                            binding.tvSensitivity.text = getText(R.string.motion_wont_activate)
                         }
                     }
                 })
@@ -97,20 +97,20 @@ class DaylightSensitivityFragment : Fragment() {
                     progress == seekBar?.max -> {
                         binding.lux_seekbar.progressDrawable =
                             ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_accent)
-                        tvSensitivity.setTextColor(activity.getColor(R.color.colorAccent))
-                        tvSensitivity.text = getText(R.string.daylight_always)
+                        binding.tvSensitivity.setTextColor(activity.getColor(R.color.colorAccent))
+                        binding.tvSensitivity.text = getText(R.string.daylight_always)
                     }
                     lux > mLux -> {
                         binding.lux_seekbar.progressDrawable =
                             ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_green)
-                        tvSensitivity.setTextColor(activity.getColor(R.color.daylightGreen))
-                        tvSensitivity.text = getText(R.string.motion_will_activate)
+                        binding.tvSensitivity.setTextColor(activity.getColor(R.color.daylightGreen))
+                        binding.tvSensitivity.text = getText(R.string.motion_will_activate)
                     }
                     else -> {
                         binding.lux_seekbar.progressDrawable =
                             ContextCompat.getDrawable(activity, R.drawable.lux_seekbar_red)
-                        tvSensitivity.setTextColor(activity.getColor(R.color.daylightRed))
-                        tvSensitivity.text = getText(R.string.motion_wont_activate)
+                        binding.tvSensitivity.setTextColor(activity.getColor(R.color.daylightRed))
+                        binding.tvSensitivity.text = getText(R.string.motion_wont_activate)
                     }
                 }
             }

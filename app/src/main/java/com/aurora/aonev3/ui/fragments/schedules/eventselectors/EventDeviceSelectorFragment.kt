@@ -37,14 +37,14 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 class EventDeviceSelectorViewModel: ViewModel() {
 
-    private var _binding: FragmentSelectorBinding? = null
-    private val binding get() = _binding!!
-
     var selectedDevice: Device? = null
     var selectedLdev: String? = null
 }
 
 class EventDeviceSelectorFragment : Fragment() {
+
+    private var _binding: FragmentSelectorBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: EventDeviceSelectorViewModel by viewModels()
     private lateinit var senderViewModel: IEventDeviceSelectorViewModel
@@ -302,10 +302,10 @@ class EventDeviceSelectorFragment : Fragment() {
                 name.text = device.name
 
                 if (device == viewModel.selectedDevice) {
-                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }

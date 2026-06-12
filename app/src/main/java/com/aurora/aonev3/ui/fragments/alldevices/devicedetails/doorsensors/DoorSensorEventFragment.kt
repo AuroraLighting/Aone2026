@@ -90,17 +90,17 @@ open class DoorSensorEventFragment : Fragment() {
 
                 when (target) {
                     EventTarget.SCENE -> {
-                        layoutSceneDeviceOuter.visibility = View.VISIBLE
-                        layoutScene.visibility = View.VISIBLE
-                        layoutDevice.visibility = View.GONE
+                        binding.layoutSceneDeviceOuter.visibility = View.VISIBLE
+                        binding.layoutScene.visibility = View.VISIBLE
+                        binding.layoutDevice.visibility = View.GONE
 
                         viewModel.device.value = null
                         viewModel.scene.value = viewModel.scene.value
                     }
                     EventTarget.SPACE -> {
-                        layoutSceneDeviceOuter.visibility = View.GONE
-                        layoutScene.visibility = View.GONE
-                        layoutDevice.visibility = View.GONE
+                        binding.layoutSceneDeviceOuter.visibility = View.GONE
+                        binding.layoutScene.visibility = View.GONE
+                        binding.layoutDevice.visibility = View.GONE
 
                         viewModel.device.value = null
                         viewModel.scene.value = null
@@ -108,9 +108,9 @@ open class DoorSensorEventFragment : Fragment() {
                         viewModel.trigger.value = viewModel.trigger.value
                     }
                     EventTarget.DEVICE -> {
-                        layoutSceneDeviceOuter.visibility = View.VISIBLE
-                        layoutScene.visibility = View.GONE
-                        layoutDevice.visibility = View.VISIBLE
+                        binding.layoutSceneDeviceOuter.visibility = View.VISIBLE
+                        binding.layoutScene.visibility = View.GONE
+                        binding.layoutDevice.visibility = View.VISIBLE
 
                         viewModel.device.value = viewModel.device.value
                         viewModel.scene.value = null

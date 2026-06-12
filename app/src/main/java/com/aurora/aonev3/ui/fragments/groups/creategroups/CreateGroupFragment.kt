@@ -92,7 +92,7 @@ class CreateGroupFragment : Fragment() {
         if (isVirtual) {
             binding.title.text = getString(R.string.create_some_custom_groups)
             binding.isVirtualSwitch.isChecked = true
-            tvName.text = getString(R.string.add_custom_group)
+            binding.tvName.text = getString(R.string.add_custom_group)
         }
 
         binding.virtualInfoIv.setOnClickListener {
@@ -100,7 +100,7 @@ class CreateGroupFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        cardView.setOnClickListener {
+        binding.cardView.setOnClickListener {
             isCreateNew.value = true
         }
 
@@ -144,7 +144,7 @@ class CreateGroupFragment : Fragment() {
 
                 viewModel.createGroup(name, binding.isVirtualSwitch.isChecked)
 
-                etName.setText("")
+                binding.etName.setText("")
                 try {
                     val v = etName
                     v?.let {

@@ -182,19 +182,19 @@ class ScheduleEventFragment : Fragment() {
             activity?.runOnUiThread {
                 val activity = activity ?: return@runOnUiThread
                 if (eventTarget != null) {
-                    cardTarget.backgroundTintList =
+                    binding.cardTarget.backgroundTintList =
                         ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                    tvSelectTarget.setTextColor(activity.getColor(R.color.colorPrimary))
+                    binding.tvSelectTarget.setTextColor(activity.getColor(R.color.colorPrimary))
                 } else {
-                    cardTarget.backgroundTintList =
+                    binding.cardTarget.backgroundTintList =
                         ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                    tvSelectTarget.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                    binding.tvSelectTarget.setTextColor(activity.getColor(R.color.colorTextPrimary))
                 }
                 if (eventTarget == null) {
-                    cardEvent.isClickable = false
-                    cardDevice.isClickable = false
-                    cardScene.isClickable = false
-                    tvSelectTarget.text = getString(R.string.scene_space_or_device)
+                    binding.cardEvent.isClickable = false
+                    binding.cardDevice.isClickable = false
+                    binding.cardScene.isClickable = false
+                    binding.tvSelectTarget.text = getString(R.string.scene_space_or_device)
                 }
 
                 eventTarget?.let {
@@ -203,113 +203,113 @@ class ScheduleEventFragment : Fragment() {
                             viewModel.device.postValue(null)
                             viewModel.scene.postValue(null)
 
-                            tvSelectTarget.text = getString(R.string.this_space)
-                            layoutScene.visibility = View.GONE
-                            layoutDevice.visibility = View.GONE
+                            binding.tvSelectTarget.text = getString(R.string.this_space)
+                            binding.layoutScene.visibility = View.GONE
+                            binding.layoutDevice.visibility = View.GONE
 
-                            cardEvent.isClickable = true
+                            binding.cardEvent.isClickable = true
                             if (mEvent != null) {
-                                cardEvent.backgroundTintList =
+                                binding.cardEvent.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                                tvEvent.setTextColor(activity.getColor(R.color.colorPrimary))
+                                binding.tvEvent.setTextColor(activity.getColor(R.color.colorPrimary))
                             } else {
-                                cardEvent.backgroundTintList =
+                                binding.cardEvent.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                                tvEvent.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                                binding.tvEvent.setTextColor(activity.getColor(R.color.colorTextPrimary))
                             }
                         }
                         EventTarget.DEVICE -> {
                             viewModel.scene.postValue(null)
 
-                            tvSelectTarget.text = getString(R.string.device_in_space)
+                            binding.tvSelectTarget.text = getString(R.string.device_in_space)
 
-                            layoutDevice.visibility = View.VISIBLE
-                            cardDevice.isClickable = true
+                            binding.layoutDevice.visibility = View.VISIBLE
+                            binding.cardDevice.isClickable = true
 
                             if (viewModel.device.value == null) {
-                                cardDevice.backgroundTintList =
+                                binding.cardDevice.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
 
-                                tvDevice.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                                binding.tvDevice.setTextColor(activity.getColor(R.color.colorTextPrimary))
 
-                                tvDevice.text = getString(R.string.select_device)
-                                cardEvent.isClickable = false
-                                cardEvent.backgroundTintList =
+                                binding.tvDevice.text = getString(R.string.select_device)
+                                binding.cardEvent.isClickable = false
+                                binding.cardEvent.backgroundTintList =
                                     activity.resources.getColorStateList(
                                         R.color.colorTileTextActive,
                                         null
                                     )
-                                cardTime.isClickable = false
-                                cardTime.backgroundTintList =
+                                binding.cardTime.isClickable = false
+                                binding.cardTime.backgroundTintList =
                                     activity.resources.getColorStateList(
                                         R.color.colorTileTextActive,
                                         null
                                     )
-                                cardDays.isClickable = false
-                                cardDays.backgroundTintList =
+                                binding.cardDays.isClickable = false
+                                binding.cardDays.backgroundTintList =
                                     activity.resources.getColorStateList(
                                         R.color.colorTileTextActive,
                                         null
                                     )
-                                tvEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                tvTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                tvDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.tvEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.tvTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.tvDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
 
 //                                viewModel.eventAction.postValue(null)
                             } else {
-                                cardDevice.backgroundTintList =
+                                binding.cardDevice.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
 
-                                tvDevice.setTextColor(activity.getColor(R.color.colorPrimary))
+                                binding.tvDevice.setTextColor(activity.getColor(R.color.colorPrimary))
                             }
                         }
                         EventTarget.SCENE -> {
                             viewModel.device.postValue(null)
-                            tvSelectTarget.text = getString(R.string.scene)
+                            binding.tvSelectTarget.text = getString(R.string.scene)
 
-                            layoutScene.visibility = View.VISIBLE
+                            binding.layoutScene.visibility = View.VISIBLE
 
-                            cardScene.isClickable = true
+                            binding.cardScene.isClickable = true
 
                             viewModel.eventAction.postValue(EventAction.ON)
-                            cardEvent.isClickable = false
-                            cardEvent.backgroundTintList =
+                            binding.cardEvent.isClickable = false
+                            binding.cardEvent.backgroundTintList =
                                 activity.resources.getColorStateList(
                                     R.color.colorTileTextActive,
                                     null
                                 )
 
-                            tvEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                            binding.tvEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
 
                             if (viewModel.scene.value == null) {
-                                cardScene.backgroundTintList =
+                                binding.cardScene.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
 
-                                tvScene.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                                binding.tvScene.setTextColor(activity.getColor(R.color.colorTextPrimary))
 
-                                tvScene.text = getString(R.string.select_scene)
+                                binding.tvScene.text = getString(R.string.select_scene)
 
-                                cardTime.isClickable = false
-                                cardTime.backgroundTintList =
+                                binding.cardTime.isClickable = false
+                                binding.cardTime.backgroundTintList =
                                     activity.resources.getColorStateList(
                                         R.color.colorTileTextActive,
                                         null
                                     )
-                                cardDays.isClickable = false
-                                cardDays.backgroundTintList =
+                                binding.cardDays.isClickable = false
+                                binding.cardDays.backgroundTintList =
                                     activity.resources.getColorStateList(
                                         R.color.colorTileTextActive,
                                         null
                                     )
-                                tvTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                tvDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.tvTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.tvDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
 
 //                                viewModel.eventAction.postValue(null)
                             } else {
-                                cardScene.backgroundTintList =
+                                binding.cardScene.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
 
-                                tvScene.setTextColor(activity.getColor(R.color.colorPrimary))
+                                binding.tvScene.setTextColor(activity.getColor(R.color.colorPrimary))
                             }
                         }
                     }
@@ -324,16 +324,16 @@ class ScheduleEventFragment : Fragment() {
             if (viewModel.eventTarget.value != EventTarget.DEVICE) return@Observer
 
             if (device != null) {
-                cardDevice.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                tvDevice.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.cardDevice.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.tvDevice.setTextColor(activity.getColor(R.color.colorPrimary))
             } else {
-                cardDevice.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                tvDevice.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                binding.cardDevice.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
+                binding.tvDevice.setTextColor(activity.getColor(R.color.colorTextPrimary))
             }
 
             device?.let {
                 activity.runOnUiThread {
-                    tvDevice.text =
+                    binding.tvDevice.text =
                         if (it.first.deviceClass != Device.DeviceClass.AURORADUALSOCKET) {
                             device.first.name
                         } else {
@@ -353,15 +353,15 @@ class ScheduleEventFragment : Fragment() {
                             }
                         }
 
-                    cardEvent.isClickable = true
+                    binding.cardEvent.isClickable = true
                     if (mEvent != null) {
-                        cardEvent.backgroundTintList =
+                        binding.cardEvent.backgroundTintList =
                             ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                        tvEvent.setTextColor(activity.getColor(R.color.colorPrimary))
+                        binding.tvEvent.setTextColor(activity.getColor(R.color.colorPrimary))
                     } else {
-                        cardEvent.backgroundTintList =
+                        binding.cardEvent.backgroundTintList =
                             ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
-                        tvEvent.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                        binding.tvEvent.setTextColor(activity.getColor(R.color.colorTextPrimary))
                     }
                     when (mEvent) {
                         EventAction.ON -> getString(R.string.on)
@@ -370,24 +370,24 @@ class ScheduleEventFragment : Fragment() {
                         EventAction.UNLOCK -> getString(R.string.unlock)
                         else -> {
                             if (it.second != "lock") {
-                                tvEvent.text = getString(R.string.on_off)
+                                binding.tvEvent.text = getString(R.string.on_off)
                             } else {
-                                tvEvent.text = getString(R.string.lock_unlock)
+                                binding.tvEvent.text = getString(R.string.lock_unlock)
                             }
                         }
                         }
 
                     if (viewModel.eventAction.value != null) {
-                        cardTime.isClickable = true
-                        cardTime.backgroundTintList =
+                        binding.cardTime.isClickable = true
+                        binding.cardTime.backgroundTintList =
                             ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
 
-                        cardDays.isClickable = true
-                        cardDays.backgroundTintList =
+                        binding.cardDays.isClickable = true
+                        binding.cardDays.backgroundTintList =
                             ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
 
-                        tvTime.setTextColor(activity.getColor(R.color.colorPrimary))
-                        tvDays.setTextColor(activity.getColor(R.color.colorPrimary))
+                        binding.tvTime.setTextColor(activity.getColor(R.color.colorPrimary))
+                        binding.tvDays.setTextColor(activity.getColor(R.color.colorPrimary))
                     }
                 }
             }
@@ -400,7 +400,7 @@ class ScheduleEventFragment : Fragment() {
 
             scene?.let {
                 activity?.runOnUiThread {
-                    tvScene.text = scene.name
+                    binding.tvScene.text = scene.name
                 }
 
                 viewModel.eventAction.postValue(EventAction.ON)
@@ -412,16 +412,16 @@ class ScheduleEventFragment : Fragment() {
             mEvent = action
             activity.runOnUiThread {
                 if (mEvent != null) {
-                    cardEvent.backgroundTintList =
+                    binding.cardEvent.backgroundTintList =
                         ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                    tvEvent.setTextColor(activity.getColor(R.color.colorPrimary))
+                    binding.tvEvent.setTextColor(activity.getColor(R.color.colorPrimary))
                 } else {
-                    cardEvent.backgroundTintList =
+                    binding.cardEvent.backgroundTintList =
                         ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
                     if (mEventTarget == EventTarget.SPACE || mDevice != null || mScene != null) {
-                        tvEvent.setTextColor(activity.getColor(R.color.colorTextPrimary))
+                        binding.tvEvent.setTextColor(activity.getColor(R.color.colorTextPrimary))
                     } else {
-                        tvEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                        binding.tvEvent.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
                     }
                 }
 
@@ -430,7 +430,7 @@ class ScheduleEventFragment : Fragment() {
                     EventAction.OFF,
                     EventAction.LOCK,
                     EventAction.UNLOCK -> {
-                        tvEvent.text = when (action) {
+                        binding.tvEvent.text = when (action) {
                             EventAction.ON -> {
                                 getString(R.string.on)
                             }
@@ -449,37 +449,37 @@ class ScheduleEventFragment : Fragment() {
                             || (viewModel.eventTarget.value == EventTarget.DEVICE && viewModel.device.value != null)
                             || viewModel.eventTarget.value == EventTarget.SPACE
                         ) {
-                            cardTime.isClickable = true
-                            cardTime.backgroundTintList =
+                            binding.cardTime.isClickable = true
+                            binding.cardTime.backgroundTintList =
                                 activity.resources.getColorStateList(
                                     R.color.colorTileActive,
                                     null
                                 )
 
-                            cardDays.isClickable = true
-                            cardDays.backgroundTintList =
+                            binding.cardDays.isClickable = true
+                            binding.cardDays.backgroundTintList =
                                 activity.resources.getColorStateList(
                                     R.color.colorTileActive,
                                     null
                                 )
 
-                            tvTime.setTextColor(activity.getColor(R.color.colorPrimary))
-                            tvDays.setTextColor(activity.getColor(R.color.colorPrimary))
+                            binding.tvTime.setTextColor(activity.getColor(R.color.colorPrimary))
+                            binding.tvDays.setTextColor(activity.getColor(R.color.colorPrimary))
                         }
                     }
                     null -> {
-                        tvEvent.text = getString(R.string.on_off)
+                        binding.tvEvent.text = getString(R.string.on_off)
 
-                        cardTime.isClickable = false
-                        cardTime.backgroundTintList =
+                        binding.cardTime.isClickable = false
+                        binding.cardTime.backgroundTintList =
                             activity.resources.getColorStateList(R.color.colorTileTextActive, null)
 
-                        cardDays.isClickable = false
-                        cardDays.backgroundTintList =
+                        binding.cardDays.isClickable = false
+                        binding.cardDays.backgroundTintList =
                             activity.resources.getColorStateList(R.color.colorTileTextActive, null)
 
-                        tvTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                        tvDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                        binding.tvTime.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                        binding.tvDays.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
                     }
                 }
             }
@@ -491,33 +491,33 @@ class ScheduleEventFragment : Fragment() {
                     SunriseSunsetType.SUNRISE,
                     SunriseSunsetType.SUNSET -> {
                         binding.offsetOuterLayout.visibility = View.VISIBLE
-                        tvTime.text = trigger.trigger.displayName.toCapitalisedLowerCase()
+                        binding.tvTime.text = trigger.trigger.displayName.toCapitalisedLowerCase()
                     }
                     else -> {
                         binding.offsetOuterLayout.visibility = View.GONE
                         val hour = viewModel.trigger.value?.hour ?: 0
                         val minute = viewModel.trigger.value?.minute ?: 0
-                        tvTime.text = String.format("%02d:%02d", hour, minute)
+                        binding.tvTime.text = String.format("%02d:%02d", hour, minute)
                     }
                 }
 
                 when {
                     trigger.offset > 0 -> {
-                        tvOffset.text = getString(
+                        binding.tvOffset.text = getString(
                             R.string.offset_after_time,
                             trigger.offset,
                             trigger.trigger.displayName
                         )
                     }
                     trigger.offset < 0 -> {
-                        tvOffset.text = getString(
+                        binding.tvOffset.text = getString(
                             R.string.offset_before_time,
                             abs(trigger.offset),
                             trigger.trigger.displayName
                         )
                     }
                     else -> {
-                        tvOffset.text = getString(R.string.no_offset)
+                        binding.tvOffset.text = getString(R.string.no_offset)
                     }
                 }
             }
@@ -528,47 +528,47 @@ class ScheduleEventFragment : Fragment() {
 
             mDay = day
             activity?.runOnUiThread {
-                tvDays.text = day.displayName
+                binding.tvDays.text = day.displayName
             }
         }
 
-        cardTarget.setOnClickListener(
+        binding.cardTarget.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 ScheduleEventFragmentDirections
                     .actionGlobalEventTargetSelectorFragment(ScheduleEventFragment::class.simpleName)
             )
         )
 
-        cardDevice.setOnClickListener {
+        binding.cardDevice.setOnClickListener {
             val action = ScheduleEventFragmentDirections.actionGlobalEventDeviceSelectorFragment(
                 ScheduleEventFragment::class.simpleName!!
             )
             findNavController().navigate(action)
         }
 
-        cardScene.setOnClickListener {
+        binding.cardScene.setOnClickListener {
             val sender = ScheduleEventFragment::class.simpleName ?: return@setOnClickListener
             val action = ScheduleEventFragmentDirections.actionGlobalEventSceneSelectorFragment(sender, mGroup)
             findNavController().navigate(action)
         }
 
-        cardEvent.setOnClickListener {
+        binding.cardEvent.setOnClickListener {
             val action = ScheduleEventFragmentDirections
                 .actionScheduleEventFragmentToEventActionSelectorFragment(viewModel.device.value?.second == "lock", ScheduleEventFragment::class.simpleName ?: "")
             findNavController().navigate(action)
         }
 
-        cardTime.setOnClickListener {
+        binding.cardTime.setOnClickListener {
             val action = ScheduleEventFragmentDirections.actionScheduleEventFragmentToScheduleTimeTriggerFragment(ScheduleEventFragment::class.simpleName ?: "")
             findNavController().navigate(action)
         }
 
-        cardOffset.setOnClickListener {
+        binding.cardOffset.setOnClickListener {
             val action = ScheduleEventFragmentDirections.actionScheduleEventFragmentToOffsetFragment(ScheduleEventFragment::class.simpleName ?: "")
             findNavController().navigate(action)
         }
 
-        cardDays.setOnClickListener(
+        binding.cardDays.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 ScheduleEventFragmentDirections.actionGlobalEventDaySelectorFragment(
                     ScheduleEventFragment::class.simpleName
@@ -597,7 +597,7 @@ class ScheduleEventFragment : Fragment() {
                         App.actionFailed()
                     }
 //    TODO                if (isSuccessful) {
-                        binding.binding.btnSave.isEnabled = true
+                        binding.btnSave.isEnabled = true
                         activity.layoutGreyOut?.visibility = View.GONE
                         findNavController().popBackStack()
 //                    }

@@ -55,7 +55,7 @@ class RenameGroupFragment : Fragment() {
             getString(R.string.rename_group)
         }
 
-        etName.setText(viewModel.group.name)
+        binding.etName.setText(viewModel.group.name)
 
         binding.btnSave.setOnClickListener {
             val name = etName.text?.toString() ?: return@setOnClickListener

@@ -61,20 +61,20 @@ class SharedUserFragment : Fragment() {
         }
         val grants = share.grants
 
-        tvNameValue.text = share.name
-        tvEmailValue.text = share.email
+        binding.tvNameValue.text = share.name
+        binding.tvEmailValue.text = share.email
 
         for (i in grants.indices()) {
             val grant = grants.optJSONObject(i) ?: JSONObject()
 
             if (grant.optString("TP") == AccessTemplate.EDIT_ROOT.displayName) {
-                tvPermissionsValue.text = getString(R.string.full_control_edit_permissions)
+                binding.tvPermissionsValue.text = getString(R.string.full_control_edit_permissions)
             } else {
-                tvPermissionsValue.text = getString(R.string.control_only_permissions)
+                binding.tvPermissionsValue.text = getString(R.string.control_only_permissions)
             }
         }
 
-        btnRemove.setOnClickListener {
+        binding.btnRemove.setOnClickListener {
             it.isEnabled = false
 
             viewModel.viewModelScope.launch(Dispatchers.IO) {

@@ -76,9 +76,9 @@ class ScheduleFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         val activity = activity ?: throw Exception("Invalid activity")
 
         if (viewModel.logicCollection.metadata.collectionType == CollectionType.SCHEDULE) {
-            tvEventsTitle.text = getString(R.string.scheduled_events)
+            binding.tvEventsTitle.text = getString(R.string.scheduled_events)
         } else if (viewModel.logicCollection.metadata.collectionType == CollectionType.DYNAMIC_EVENT) {
-            tvEventsTitle.text = getString(R.string.dynamic_events)
+            binding.tvEventsTitle.text = getString(R.string.dynamic_events)
         }
 
         val eventsAdapter = EventRecyclerViewAdapter(activity, viewModel.logicCollection).apply {

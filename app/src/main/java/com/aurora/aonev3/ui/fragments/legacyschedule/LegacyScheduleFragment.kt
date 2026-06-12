@@ -168,11 +168,11 @@ class LegacyScheduleFragment : Fragment() {
 
                 if (onTime.isNotBlank()) {
                     binding.btnOn.text = onTime
-                    layoutOn.visibility = View.VISIBLE
+                    binding.layoutOn.visibility = View.VISIBLE
                 }
                 if (offTime.isNotBlank()) {
                     binding.btnOff.text = offTime
-                    layoutOff.visibility = View.VISIBLE
+                    binding.layoutOff.visibility = View.VISIBLE
                 }
             }
         }

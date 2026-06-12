@@ -49,8 +49,8 @@ class AccountFragment : Fragment() {
 
         val email = CloudHandler.user.optString("email")
 
-        tvEmailValue.text = email
-        tvNameValue.text = arrayOf(CloudHandler.user.optString("first_name"), CloudHandler.user.optString("last_name")).joinToString(" ")
+        binding.tvEmailValue.text = email
+        binding.tvNameValue.text = arrayOf(CloudHandler.user.optString("first_name"), CloudHandler.user.optString("last_name")).joinToString(" ")
 
         binding.btnDeleteAccount.visibility = if (OtaHandler.isAccountDeleteAvailable) View.VISIBLE else View.GONE
 

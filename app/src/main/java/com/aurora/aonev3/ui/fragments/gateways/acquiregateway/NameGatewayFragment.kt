@@ -43,7 +43,7 @@ class NameGatewayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        etName.setOnEditorActionListener { _, actionId, _ ->
+        binding.etName.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
                     rename()

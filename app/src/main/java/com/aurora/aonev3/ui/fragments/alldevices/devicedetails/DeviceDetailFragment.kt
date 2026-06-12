@@ -75,7 +75,7 @@ open class DeviceDetailFragment : Fragment() {
             viewModel.getGroupMembers(gateway).observe(viewLifecycleOwner, Observer { members ->
                 mGroupMembers = members.toList()
                 if (members.isNullOrEmpty()) {
-                    tvSpace.text = getString(R.string.unassigned)
+                    binding.tvSpace.text = getString(R.string.unassigned)
 
                     return@Observer
                 }
@@ -89,46 +89,46 @@ open class DeviceDetailFragment : Fragment() {
         }
 
         viewModel.group.observe(viewLifecycleOwner, { group ->
-            tvSpace.text = group?.name ?: getString(R.string.unassigned)
+            binding.tvSpace.text = group?.name ?: getString(R.string.unassigned)
             if (group != null) {
                 groupLayout.backgroundTintList =
                     ContextCompat.getColorStateList(requireContext(), R.color.colorTileActive)
-                tvSpace.setTextColor(
+                binding.tvSpace.setTextColor(
                     ContextCompat.getColor(requireContext(), R.color.colorPrimary)
                 )
             } else {
                 groupLayout.backgroundTintList =
                     ContextCompat.getColorStateList(requireContext(), R.color.colorTileInactive)
-                tvSpace.setTextColor(
+                binding.tvSpace.setTextColor(
                     ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
                 )
             }
             viewModel.selectedGroup = group
         })
 
-        etName.setText(device.name)
+        binding.etName.setText(device.name)
 
-        tvDefaultNameValue.text = device.defaultName
-        tvOtaStatusValue.text = device.otaStatus
+        binding.tvDefaultNameValue.text = device.defaultName
+        binding.tvOtaStatusValue.text = device.otaStatus
         if (device.firmwareVersion == "") {
-            tvFirmwareVersionValue.visibility = View.GONE
-            tvFirmwareVersionLabel.visibility = View.GONE
+            binding.tvFirmwareVersionValue.visibility = View.GONE
+            binding.tvFirmwareVersionLabel.visibility = View.GONE
         } else {
-            tvFirmwareVersionValue.visibility = View.VISIBLE
-            tvFirmwareVersionLabel.visibility = View.VISIBLE
-            tvFirmwareVersionValue.text = device.firmwareVersion
+            binding.tvFirmwareVersionValue.visibility = View.VISIBLE
+            binding.tvFirmwareVersionLabel.visibility = View.VISIBLE
+            binding.tvFirmwareVersionValue.text = device.firmwareVersion
         }
-        tvEuiValue.text = device.eui
+        binding.tvEuiValue.text = device.eui
 
-        etName.setOnEditorActionListener { _, actionId, _ ->
+        binding.etName.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
-                    etName.clearFocus()
+                    binding.etName.clearFocus()
                 }
             }
             false
         }
-        etName.setOnFocusChangeListener { _, hasFocus ->
+        binding.etName.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 viewModel.deviceName = etName.text.toString()
             }
@@ -202,8 +202,8 @@ open class DeviceDetailFragment : Fragment() {
         }
 
         if (!allowEditing()) {
-            etName.isClickable = false
-            etName.isEnabled = false
+            binding.etName.isClickable = false
+            binding.etName.isEnabled = false
             groupLayout.isClickable = false
             binding.btnDelete.visibility = View.GONE
             binding.btnSave.visibility = View.GONE
@@ -224,7 +224,7 @@ open class DeviceDetailFragment : Fragment() {
             if (viewModel.deviceName.isNotBlank() && viewModel.deviceName != device.name) {
                 NabtoHandler.selectedGateway?.let { gateway ->
                     if (gateway.isConnected) {
-                        binding.binding.btnSave.isEnabled = false
+                        binding.btnSave.isEnabled = false
                         activity?.layoutGreyOut?.visibility = View.VISIBLE
                         viewModel.viewModelScope.launch(Dispatchers.IO) {
                             try {
@@ -248,7 +248,7 @@ open class DeviceDetailFragment : Fragment() {
                             }
 
                             activity?.runOnUiThread {
-                                binding.binding.btnSave.isEnabled = true
+                                binding.btnSave.isEnabled = true
                                 activity?.layoutGreyOut?.visibility = View.GONE
                                 findNavController().popBackStack()
                             }

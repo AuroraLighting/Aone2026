@@ -268,7 +268,7 @@ class NewSceneFragment : Fragment() {
             val metadata = scene.metadata
 
             if (etName.text.isNullOrBlank()) {
-                etName.setText(scene.name)
+                binding.etName.setText(scene.name)
             }
             if (metadata.has("icon_colour") && viewModel.selectedColour == null) {
                 viewModel.selectedColour = metadata.optString("icon_colour")

@@ -109,8 +109,8 @@ open class MotionSensorEventFragment : Fragment() {
                             viewModel.scene.postValue(null)
 
                             binding.btnTarget.text = getString(R.string.this_space)
-                            layoutScene.visibility = View.GONE
-                            layoutDevice.visibility = View.GONE
+                            binding.layoutScene.visibility = View.GONE
+                            binding.layoutDevice.visibility = View.GONE
 
                             binding.btnEvent.setTextColor(activity.getColor(R.color.colorPrimary))
                             binding.btnEvent.backgroundTintList =
@@ -132,9 +132,9 @@ open class MotionSensorEventFragment : Fragment() {
                             binding.btnDays.backgroundTintList =
                                 ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
 
-                            btnDaylight.isClickable = true
-                            btnDaylight.setTextColor(activity.getColor(R.color.colorPrimary))
-                            btnDaylight.backgroundTintList =
+                            binding.btnDaylight.isClickable = true
+                            binding.btnDaylight.setTextColor(activity.getColor(R.color.colorPrimary))
+                            binding.btnDaylight.backgroundTintList =
                                 ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
                         }
                         EventTarget.DEVICE -> {
@@ -142,7 +142,7 @@ open class MotionSensorEventFragment : Fragment() {
 
                             binding.btnTarget.text = getString(R.string.device_in_space)
 
-                            layoutDevice.visibility = View.VISIBLE
+                            binding.layoutDevice.visibility = View.VISIBLE
 
                             binding.btnDevice.isClickable = true
                             binding.btnDevice.backgroundTintList =
@@ -174,9 +174,9 @@ open class MotionSensorEventFragment : Fragment() {
                                 binding.btnDays.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
 
-                                btnDaylight.isClickable = false
-                                btnDaylight.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                btnDaylight.backgroundTintList =
+                                binding.btnDaylight.isClickable = false
+                                binding.btnDaylight.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnDaylight.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
                             }
                         }
@@ -184,7 +184,7 @@ open class MotionSensorEventFragment : Fragment() {
                             viewModel.device.postValue(null)
                             binding.btnTarget.text = getString(R.string.scene)
 
-                            layoutScene.visibility = View.VISIBLE
+                            binding.layoutScene.visibility = View.VISIBLE
 
                             binding.btnScene.isClickable = true
                             binding.btnScene.backgroundTintList =
@@ -216,9 +216,9 @@ open class MotionSensorEventFragment : Fragment() {
                                 binding.btnDays.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
 
-                                btnDaylight.isClickable = false
-                                btnDaylight.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
-                                btnDaylight.backgroundTintList =
+                                binding.btnDaylight.isClickable = false
+                                binding.btnDaylight.setTextColor(activity.getColor(R.color.colorPrimaryBackground))
+                                binding.btnDaylight.backgroundTintList =
                                     ColorStateList.valueOf(activity.getColor(R.color.colorTileInactive))
                             }
                         }
@@ -254,9 +254,9 @@ open class MotionSensorEventFragment : Fragment() {
                 binding.btnDays.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
                 binding.btnDays.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnDaylight.isClickable = true
-                btnDaylight.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnDaylight.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnDaylight.isClickable = true
+                binding.btnDaylight.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnDaylight.setTextColor(activity.getColor(R.color.colorPrimary))
             }
         })
 
@@ -287,9 +287,9 @@ open class MotionSensorEventFragment : Fragment() {
                 binding.btnDays.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
                 binding.btnDays.setTextColor(activity.getColor(R.color.colorPrimary))
 
-                btnDaylight.isClickable = true
-                btnDaylight.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
-                btnDaylight.setTextColor(activity.getColor(R.color.colorPrimary))
+                binding.btnDaylight.isClickable = true
+                binding.btnDaylight.backgroundTintList = ColorStateList.valueOf(activity.getColor(R.color.colorTileActive))
+                binding.btnDaylight.setTextColor(activity.getColor(R.color.colorPrimary))
             }
         })
 
@@ -478,7 +478,7 @@ open class MotionSensorEventFragment : Fragment() {
         viewModel.targetLux.observe(viewLifecycleOwner) { lux ->
             mLux = lux
 
-            btnDaylight.text = if (lux != null) {
+            binding.btnDaylight.text = if (lux != null) {
                 "$lux"
             } else {
                 getString(R.string.always)
@@ -608,7 +608,7 @@ open class MotionSensorEventFragment : Fragment() {
         )
         binding.btnDays.isClickable = false
 
-        btnDaylight.setOnClickListener(
+        binding.btnDaylight.setOnClickListener(
             if (this !is EditMotionSensorEventFragment) {
                 Navigation.createNavigateOnClickListener(
                     MotionSensorEventFragmentDirections
@@ -621,7 +621,7 @@ open class MotionSensorEventFragment : Fragment() {
                 )
             }
         )
-        btnDaylight.isClickable = false
+        binding.btnDaylight.isClickable = false
 
         binding.btnTimeout.setOnClickListener {
             val sender = MotionSensorEventFragment::class.simpleName ?: return@setOnClickListener
@@ -803,7 +803,7 @@ open class MotionSensorEventFragment : Fragment() {
                                         )
 
                                         activity?.runOnUiThread {
-                                            binding.binding.btnSave.isEnabled = true
+                                            binding.btnSave.isEnabled = true
                                             activity?.layoutGreyOut?.visibility = View.GONE
                                             findNavController().popBackStack()
                                         }
@@ -832,7 +832,7 @@ open class MotionSensorEventFragment : Fragment() {
                                         )
 
                                         activity?.runOnUiThread {
-                                            binding.binding.btnSave.isEnabled = true
+                                            binding.btnSave.isEnabled = true
                                             activity?.layoutGreyOut?.visibility = View.GONE
                                             findNavController().popBackStack()
                                         }

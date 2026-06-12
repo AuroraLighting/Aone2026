@@ -41,7 +41,7 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvAppVersionValue.text = BuildConfig.VERSION_NAME
+        binding.tvAppVersionValue.text = BuildConfig.VERSION_NAME
 
         binding.btnPrivacy.setOnClickListener(
             Navigation

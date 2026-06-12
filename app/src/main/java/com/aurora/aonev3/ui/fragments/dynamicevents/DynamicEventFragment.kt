@@ -119,7 +119,7 @@ class DynamicEventFragment : Fragment() {
                         App.actionFailed()
                     }
 //    TODO                if (isSuccessful) {
-                    binding.binding.btnSave.isEnabled = true
+                    binding.btnSave.isEnabled = true
                     activity.layoutGreyOut?.visibility = View.GONE
                     findNavController().popBackStack()
 //                    }

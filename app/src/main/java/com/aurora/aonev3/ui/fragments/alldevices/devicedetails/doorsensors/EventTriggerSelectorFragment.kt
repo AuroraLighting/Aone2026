@@ -156,10 +156,10 @@ class EventTriggerSelectorFragment : Fragment() {
                 name.text = trigger.name.toCapitalisedLowerCase()
 
                 if (trigger == selected) {
-                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
+                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileActive))
                     name.setTextColor(context.getColor(R.color.colorPrimary))
                 } else {
-                    cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
+                    binding.cardView.setCardBackgroundColor(context.getColor(R.color.colorTileInactive))
                     name.setTextColor(context.getColor(R.color.colorTextPrimary))
                 }
             }

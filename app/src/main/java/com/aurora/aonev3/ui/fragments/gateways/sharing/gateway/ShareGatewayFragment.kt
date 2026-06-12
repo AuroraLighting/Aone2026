@@ -88,7 +88,7 @@ class ShareGatewayFragment : Fragment() {
             share(it)
         }
 
-        etEmail.apply {
+        binding.etEmail.apply {
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE -> {
@@ -195,10 +195,10 @@ class ShareGatewayFragment : Fragment() {
             userAdapter.setShares(shares)
 
             if (shares.isNotEmpty()) {
-                tvSharedUsers.visibility = View.VISIBLE
+                binding.tvSharedUsers.visibility = View.VISIBLE
                 binding.rvUsers.visibility = View.VISIBLE
             } else {
-                tvSharedUsers.visibility = View.GONE
+                binding.tvSharedUsers.visibility = View.GONE
                 binding.rvUsers.visibility = View.GONE
             }
         }
