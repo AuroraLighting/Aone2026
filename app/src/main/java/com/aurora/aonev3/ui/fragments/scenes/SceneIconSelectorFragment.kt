@@ -6,38 +6,60 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.view.WindowManager
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aurora.aonev3.databinding.FragmentSceneIconSelectorBinding
+import com.aurora.aonev3.App
 import com.aurora.aonev3.GridItemDecoration
+import com.aurora.aonev3.ItemClickListener
+import com.aurora.aonev3.ItemLongClickListener
 import com.aurora.aonev3.R
-import com.aurora.aonev3.SectionHeaderViewHolder
-import com.aurora.aonev3.ui.ColourScenes
+import com.aurora.aonev3.SceneDeviceDataType
+import com.aurora.aonev3.toCapitalisedLowerCase
+import com.aurora.aonev3.toIntArray
+import com.aurora.aonev3.data.devices.Device
+import com.aurora.aonev3.data.groups.Group
+import com.aurora.aonev3.databinding.FragmentNewSceneBinding
+import com.aurora.aonev3.network.handlers.NabtoHandler
+import com.aurora.aonev3.network.handlers.SyncHandler
 import com.aurora.aonev3.ui.IconsScenes
+import com.aurora.aonev3.ui.activities.MainActivity
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class SceneIconSelectorFragment : Fragment() {
+class NewSceneFragment : Fragment() {
 
-    private var _binding: FragmentSceneIconSelectorBinding? = null
+    private var _binding: FragmentNewSceneBinding? = null
     private val binding get() = _binding!!
 
+    companion object {
+        const val TAG = "NewSceneFragment"
+    }
 
+    private val crashlytics = FirebaseCrashlytics.getInstance()
+    private var originalMode: Int? = null
     private val viewModel: NewSceneViewModel by viewModels()
-    private val args: SceneIconSelectorFragmentArgs by navArgs()
+    private lateinit var mGroup: Group
+    private var mColour = ""
+    private var mIcon = ""
+    private val args: NewSceneFragmentArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return run {
-            _binding = FragmentSceneIconSelectorBinding.inflate(inflater, container, false)
+            _binding = FragmentNewSceneBinding.inflate(inflater, container, false)
             binding.root
         }
     }
@@ -45,201 +67,444 @@ class SceneIconSelectorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val iconsAdapter = IconViewAdapter()
+        (activity as? MainActivity)?.setupUI(view)
 
-        with(binding.rvColours) {
-            adapter = iconsAdapter
-            setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false).apply {
-                spanSizeLookup = SceneIconSpanSizeLookup(iconsAdapter, 4)
+        if (!this::mGroup.isInitialized) {
+            findNavController().popBackStack(R.id.groupsFragment, false)
+            return
+        }
+
+        originalMode = activity?.window?.attributes?.softInputMode
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("colour")
+            ?.observe(viewLifecycleOwner) {
+                viewModel.selectedColour = it
+            }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<IconsScenes>("icon")
+            ?.observe(viewLifecycleOwner) {
+                viewModel.selectedIcon = it
+            }
+
+        val gridAdapter = SceneDevicesRecyclerViewAdapter(requireActivity()).apply {
+            onItemClickListener = object : ItemClickListener {
+                override fun onItemClick(view: View, position: Int) {
+                    val device = getItem(position)?.device
+                    val group = getItem(position)?.group
+
+                    device?.let {
+                        viewModel.toggleDeviceOnOff(device)
+                    }
+
+                    group?.let {
+                        viewModel.toggleGroupOnOff(group)
+                    }
+                }
+            }
+
+            onItemLongClickListener = object : ItemLongClickListener {
+                override fun onItemLongClick(view: View, position: Int): Boolean {
+                    val device = getItem(position)?.device
+                    val group = getItem(position)?.group
+
+                    device?.let {
+                        val action =
+                            NewSceneFragmentDirections.actionGlobalControlsFragment(device.id)
+                        findNavController().navigate(action)
+                        return true
+                    }
+
+                    group?.let {
+                        val action =
+                            NewSceneFragmentDirections.actionNewSceneFragmentToGroupFragment(
+                                group.id,
+                                false
+                            )
+                        findNavController().navigate(action)
+                        return true
+                    }
+
+                    return false
+                }
+            }
+
+            onLeftSocketClickListener = object : ItemClickListener {
+                override fun onItemClick(view: View, position: Int) {
+                    val device = getItem(position)?.device ?: return
+                    viewModel.toggleDeviceOnOff(device, "socket1")
+                }
+            }
+
+            onRightSocketClickListener = object : ItemClickListener {
+                override fun onItemClick(view: View, position: Int) {
+                    val device = getItem(position)?.device ?: return
+                    viewModel.toggleDeviceOnOff(device, "socket2")
+                }
+            }
+        }
+
+        with(binding.rvLights) {
+            adapter = gridAdapter
+            setHasFixedSize(false)
+            layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false).apply {
+                spanSizeLookup = SceneSpanSizeLookup(gridAdapter, spanCount)
             }
 
             val margin = resources.getDimensionPixelSize(R.dimen.default_margin_small)
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
-        binding.btnSave.setOnClickListener {
-            findNavController().previousBackStackEntry?.savedStateHandle?.set("colour", viewModel.selectedColour)
-            findNavController().previousBackStackEntry?.savedStateHandle?.set("icon", viewModel.selectedIcon)
-            findNavController().popBackStack()
+        NabtoHandler.selectedGateway?.let { gateway ->
+            if (!gateway.isConnected) return@let
+
+            SyncHandler.syncHandlerCoroutineScope.launch {
+                val nestedGroupIds =
+                    mGroup.metadata.optJSONArray("nested_groups")?.toIntArray() ?: intArrayOf()
+
+                val nestedGroups = SyncHandler
+                    .groupsList
+                    .filter { group ->
+                        group.parentGateway == gateway.serial && group.id in nestedGroupIds
+                    }
+
+                val nestedGroupsDatapointsLiveData = viewModel.getGroupDatapoints(gateway)
+
+                val memberIds = viewModel.getMembersEntities(gateway, mGroup).map { it.deviceId }
+
+                val members = SyncHandler.devicesList.filter {
+                    it.parentGateway == mGroup.parentGateway && it.id in memberIds
+                }
+
+                val nestedDevices = findNestedDevices(nestedGroups)
+
+                val allGroupMembers = SyncHandler
+                    .groupMembersList
+                    .filter {
+                        it.parentGateway == gateway.serial && it.groupId == mGroup.id
+                    }
+
+                val nonVirtualMembers = members.filter { member ->
+                    allGroupMembers.find {
+                        it.deviceId == member.id
+                    }?.isVirtualMember == false && member !in nestedDevices
+                }
+
+                val lights = nonVirtualMembers.filter { device ->
+                    device.getDeviceCategory() == Device.DeviceCategory.LIGHTS
+                }
+
+                val power = nonVirtualMembers.filter { device ->
+                    device.getDeviceCategory() == Device.DeviceCategory.POWER
+                }
+
+                val sockets = nonVirtualMembers.filter { device ->
+                    device.getDeviceCategory() == Device.DeviceCategory.SOCKETS
+                }
+
+                val switches = nonVirtualMembers.filter { device ->
+                    device.getDeviceCategory() == Device.DeviceCategory.SWITCHES
+                }
+
+                val devicesList = ArrayList<Pair<String, List<Device>>>()
+
+                if (lights.isNotEmpty()) {
+                    devicesList.add(
+                        Pair(
+                            Device.DeviceCategory.LIGHTS.name.toCapitalisedLowerCase(),
+                            lights
+                        )
+                    )
+                }
+
+                if (power.isNotEmpty()) {
+                    devicesList.add(
+                        Pair(
+                            Device.DeviceCategory.POWER.name.toCapitalisedLowerCase(),
+                            power
+                        )
+                    )
+                }
+
+                if (sockets.isNotEmpty()) {
+                    devicesList.add(
+                        Pair(
+                            Device.DeviceCategory.SOCKETS.name.toCapitalisedLowerCase(),
+                            sockets.distinctBy { it.id }
+                        )
+                    )
+                }
+
+                if (switches.isNotEmpty()) {
+                    devicesList.add(
+                        Pair(
+                            Device.DeviceCategory.SWITCHES.name.toCapitalisedLowerCase(),
+                            switches
+                        )
+                    )
+                }
+
+                activity?.runOnUiThread {
+                    gridAdapter.setDevices(devicesList)
+
+                    if (nestedGroups.isNotEmpty()) {
+                        gridAdapter.setGroups(nestedGroups)
+                    }
+
+                    nestedGroupsDatapointsLiveData.observe(viewLifecycleOwner) {
+                        activity?.runOnUiThread {
+                            gridAdapter.setGroupDatapoints(it)
+                        }
+                    }
+                }
+
+                val ids = nonVirtualMembers.map { it.id }.toIntArray()
+
+                val datapointsLiveData = viewModel.getAllDeviceDatapoints(gateway)
+
+                viewModel.viewModelScope.launch(Dispatchers.Main) {
+                    datapointsLiveData.observe(viewLifecycleOwner) { dp ->
+                        val datapoints = dp.toList().filter {
+                            it.parentGateway == gateway.serial &&
+                                it.id in ids &&
+                                it.key in arrayOf(
+                                    "onoff",
+                                    "level",
+                                    "mired",
+                                    "hue",
+                                    "colourtempmin",
+                                    "colourtempmax"
+                                )
+                        }
+
+                        activity?.runOnUiThread {
+                            gridAdapter.setDatapoints(datapoints)
+                        }
+                    }
+                }
+
+                viewModel.reportGroupDatapoints(gateway)
+            }
         }
 
-        binding.btnCancel.setOnClickListener {
-            findNavController().popBackStack()
+        binding.iconLayout.setOnClickListener {
+            val action =
+                NewSceneFragmentDirections
+                    .actionNewSceneFragmentToSceneIconSelectorFragment(
+                        viewModel.selectedColour,
+                        viewModel.selectedIcon
+                    )
+            findNavController().navigate(action)
+        }
+
+        viewModel.scene?.let { scene ->
+            val metadata = scene.metadata
+
+            if (binding.etName.text.isNullOrBlank()) {
+                binding.etName.setText(scene.name)
+            }
+
+            if (metadata.has("icon_colour") && viewModel.selectedColour == null) {
+                viewModel.selectedColour = metadata.optString("icon_colour")
+                setColour()
+            }
+
+            if (metadata.has("icon") && viewModel.selectedIcon == IconsScenes.NULL) {
+                val icon = try {
+                    IconsScenes.fromString(metadata.optString("icon"))
+                } catch (ex: IllegalArgumentException) {
+                    ex.printStackTrace()
+                    IconsScenes.NULL
+                }
+
+                viewModel.selectedIcon = icon
+                setIcon()
+            }
+
+            binding.fabDelete.visibility = View.VISIBLE
+        }
+
+        binding.fabDone.setOnClickListener {
+            val name = binding.etName.text.toString().trim()
+
+            if (name.isBlank()) {
+                Toast.makeText(context, "Please give your Scene a name", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            binding.fabDone.isEnabled = false
+
+            viewModel.saveScene(name, mColour, mIcon) {
+                val activity = activity ?: return@saveScene
+
+                App.requestReviewIfAppropriate(activity)
+
+                activity.runOnUiThread {
+                    findNavController().popBackStack()
+                }
+            }
+        }
+
+        binding.fabControls.setOnClickListener {
+            viewModel.turnGroupOn()
+
+            val action = NewSceneFragmentDirections.actionGlobalControlsFragment(
+                groupId = mGroup.id,
+                isRgb = viewModel.isGroupRgb,
+                isCt = viewModel.isGroupCt,
+                ctMax = viewModel.groupColourTemperatureMax,
+                ctMin = viewModel.groupColourTemperatureMin
+            )
+
+            findNavController().navigate(action)
+        }
+
+        binding.fabDelete.setOnClickListener {
+            if (!requireActivity().isFinishing) {
+                viewModel.scene?.let { scene ->
+                    AlertDialog.Builder(requireActivity())
+                        .setMessage(getString(R.string.delete_confirmation, scene.name))
+                        .setPositiveButton(R.string.yes) { _, _ ->
+                            viewModel.deleteScene(scene) {
+                                activity?.runOnUiThread {
+                                    findNavController().popBackStack()
+                                }
+                            }
+                        }
+                        .setNegativeButton(R.string.no) { _, _ ->
+
+                        }
+                        .create()
+                        .show()
+                }
+            }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.selectedColour = args.colour
-        viewModel.selectedIcon = args.icon
-    }
+        activity?.window?.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+        )
 
-    companion object {
-        fun newInstance() =
-            SceneIconSelectorFragment()
-    }
+        NabtoHandler.selectedGateway?.let { gateway ->
+            if (!gateway.isConnected) return
 
-    private class SceneIconSpanSizeLookup(
-        private val adapter: IconViewAdapter,
-        private val spanCount: Int
-    ) : GridLayoutManager.SpanSizeLookup() {
-        override fun getSpanSize(position: Int): Int {
-            return if (adapter.getItemViewType(position) == SceneIconDataType.SECTION.ordinal) {
-                spanCount / 1
-            } else {
-                spanCount / 4
-            }
-        }
-    }
+            if (viewModel.selectedGroup == null) {
+                val groupId = args.groupId
 
-    data class SceneIconData(val icon: IconsScenes? = null, val colour: String? = null, val section: String? = null, val type: SceneIconDataType)
-
-    enum class SceneIconDataType {
-        ICON,
-        COLOUR,
-        SECTION
-    }
-
-    inner class IconViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-        private var iconList = ArrayList<SceneIconData>().apply {
-            add(SceneIconData(section = "Select a colour:", type = SceneIconDataType.SECTION))
-
-            enumValues<ColourScenes>().map {  it.stringValue }.forEach {
-                add(SceneIconData(colour = it, type = SceneIconDataType.COLOUR))
-            }
-
-            add(SceneIconData(section = "Select an icon:", type = SceneIconDataType.SECTION))
-
-            enumValues<IconsScenes>().forEach {
-                add(SceneIconData(icon = it, type = SceneIconDataType.ICON))
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return when (viewType) {
-                SceneIconDataType.ICON.ordinal -> {
-                    val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_scene_icon, parent, false)
-                    IconViewHolder(layoutView)
-                }
-                SceneIconDataType.COLOUR.ordinal -> {
-                    val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_scene_colour, parent, false)
-                    ColourViewHolder(layoutView)
-                }
-                else -> {
-                    val layoutView = LayoutInflater.from(parent.context).inflate(R.layout.layout_section_header, parent, false)
-                    SectionHeaderViewHolder(layoutView)
-                }
-            }
-        }
-
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            if (position < iconList.size) {
-                val item = iconList[position]
-
-                when (item.type) {
-                    SceneIconDataType.ICON -> {
-                        val icon = item.icon ?: return
-
-                        (holder as? IconViewHolder)?.setIcon(icon)
+                viewModel.selectedGroup = SyncHandler
+                    .groupsList
+                    .find { group ->
+                        group.parentGateway == gateway.serial && group.id == groupId
                     }
-                    SceneIconDataType.COLOUR -> {
-                        val colour = item.colour ?: return
 
-                        (holder as? ColourViewHolder)?.setColour(colour)
+                viewModel.scene = SyncHandler
+                    .scenesList
+                    .find { scene ->
+                        scene.parentGateway == gateway.serial &&
+                            scene.id == args.sceneId &&
+                            scene.groupId == groupId
                     }
-                    SceneIconDataType.SECTION -> {
-                        val section = item.section ?: return
 
-                        (holder as? SectionHeaderViewHolder)?.setSectionHeader(section)
-                    }
+                viewModel.isGroupRgb = args.isRgb
+                viewModel.isGroupCt = args.isCt
+                viewModel.groupColourTemperatureMax = args.ctMax
+                viewModel.groupColourTemperatureMin = args.ctMin
+            }
+
+            val group: Group = viewModel.selectedGroup ?: return
+            mGroup = group
+        }
+    }
+
+    private fun setColour() {
+        var colour = viewModel.selectedColour
+
+        if (!colour.isNullOrBlank()) {
+            try {
+                if (!colour.startsWith("#")) {
+                    colour = "#$colour"
                 }
+
+                binding.iconLayout.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor(colour))
+
+                mColour = colour
+            } catch (ex: IllegalArgumentException) {
+                crashlytics.log("E/$TAG:$colour")
+                crashlytics.recordException(ex)
             }
         }
+    }
 
-        override fun getItemCount() = iconList.size
+    private fun setIcon() {
+        val icon = viewModel.selectedIcon
 
-        fun getItem(position: Int): SceneIconData? = if (position in iconList.indices) iconList[position] else null
-
-        override fun getItemViewType(position: Int): Int {
-            return if (position in iconList.indices) {
-                iconList[position].type.ordinal
-            } else {
-                SceneDeviceDataType.SECTION.ordinal
-            }
-        }
-
-        inner class ColourViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val fill: ConstraintLayout = itemView.findViewById(R.id.fill)
-            private val selectedView: ConstraintLayout = itemView.findViewById(R.id.selected)
-
-            init {
-                itemView.setOnClickListener(this)
-            }
-
-            override fun onClick(p0: View?) {
-                val colour = iconList[adapterPosition].colour
-                val previousColour = viewModel.selectedColour
-                if (colour != previousColour) {
-                    viewModel.selectedColour = colour
-                    notifyItemChanged(iconList.indexOfFirst { it.colour == previousColour })
-                } else {
-                    viewModel.selectedColour = null
-                }
-                notifyItemRangeChanged(
-                    iconList.indexOfFirst { it.type == SceneIconDataType.ICON },
-                    iconList.count { it.type == SceneIconDataType.ICON}
+        if (icon != IconsScenes.NULL) {
+            binding.sceneIconIv.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    icon.resourceValue
                 )
-                notifyItemChanged(adapterPosition)
-            }
+            )
 
-            fun setColour(colour: String) {
-                fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
-                selectedView.visibility = if (colour == viewModel.selectedColour) { View.VISIBLE } else { View.INVISIBLE }
-            }
-        }
-
-        inner class IconViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            private val fill: ConstraintLayout = itemView.findViewById(R.id.fill)
-            private val ivIcon: ImageView = itemView.findViewById(R.id.iconIv)
-            private val selectedView: ConstraintLayout = itemView.findViewById(R.id.selected)
-
-            init {
-                itemView.setOnClickListener(this)
-            }
-
-            override fun onClick(p0: View?) {
-                val icon = iconList[adapterPosition].icon ?: IconsScenes.NULL
-                val previousIcon = viewModel.selectedIcon
-                if (icon != previousIcon) {
-                    viewModel.selectedIcon = icon
-                    notifyItemChanged(iconList.indexOfFirst { it.icon == previousIcon })
-                } else {
-                    viewModel.selectedIcon = IconsScenes.NULL
-                }
-                notifyItemChanged(adapterPosition)
-            }
-
-            fun setIcon(icon: IconsScenes) {
-                val colour = if (!viewModel.selectedColour.isNullOrBlank()) viewModel.selectedColour else ColourScenes.DEFAULT.stringValue
-                fill.backgroundTintList = ColorStateList.valueOf( Color.parseColor(colour))
-                selectedView.visibility = if (icon == viewModel.selectedIcon) { View.VISIBLE } else { View.INVISIBLE }
-
-                ivIcon.setImageDrawable(
-                    if (icon != IconsScenes.NULL) {
-                        ContextCompat.getDrawable(requireContext(), icon.resourceValue)
-                    } else {
-                        null
-                    })
-            }
+            mIcon = icon.stringValue
         }
     }
 
+    private fun findNestedDevices(groups: List<Group>): List<Device> {
+        val gateway = NabtoHandler.selectedGateway ?: return emptyList()
+        val groupIds = groups.toList().map { it.id }
+
+        val groupMembers = SyncHandler
+            .groupMembersList
+            .filter {
+                it.parentGateway == gateway.serial &&
+                    !it.isVirtualMember &&
+                    it.groupId in groupIds
+            }
+
+        val deviceIds = groupMembers.map { it.deviceId }
+
+        return SyncHandler
+            .devicesList
+            .filter {
+                it.parentGateway == gateway.serial && it.id in deviceIds
+            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        originalMode?.let { activity?.window?.setSoftInputMode(it) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setColour()
+        setIcon()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private class SceneSpanSizeLookup(
+        private val adapter: SceneDevicesRecyclerViewAdapter,
+        private val spanCount: Int
+    ) : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            return if (
+                adapter.getItemViewType(position) == SceneDeviceDataType.SECTION.ordinal ||
+                adapter.getItemViewType(position) == SceneDeviceDataType.SOCKET.ordinal ||
+                adapter.getItemViewType(position) == SceneDeviceDataType.GROUP.ordinal
+            ) {
+                spanCount / 1
+            } else {
+                spanCount / 2
+            }
+        }
     }
 }
