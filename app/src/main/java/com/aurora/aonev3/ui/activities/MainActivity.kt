@@ -113,9 +113,7 @@ class MainActivity : AppCompatActivity() {
             gateway.isMigrating.observeForever(observer)
             mPreviousGateway = gateway
 
-            gateway.isConnectedLive?.observe(this) { connected ->
-                ConnectionService.updateStatus(this, connected == true)
-            }
+            ConnectionService.updateStatus(this, gateway.isConnected)
 
             OtaHandler.gatewayFirmware.observeForever(Observer { gatewayFirmware ->
                 val version = gatewayFirmware.optString("version")
@@ -332,7 +330,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(applicationContext, SplashscreenActivity::class.java))
                 return
             }
-            NabtoHandler.openTunnel(gateway, credentials.first)
+            SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
+                NabtoHandler.openTunnel(gateway, credentials.first)
+            }
         }
     }
 
