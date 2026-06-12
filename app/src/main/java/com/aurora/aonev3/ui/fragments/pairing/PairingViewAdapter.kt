@@ -59,10 +59,10 @@ class PairingViewAdapter internal constructor(val context: Context) : RecyclerVi
     }
 
     inner class DeviceCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var cardView: MaterialCardView = itemView.cardView
-        var name: TextView = itemView.tvName
+        var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+        var name: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
         var progress: ProgressBar = itemView.progress_circular
-        var icon: ImageView = itemView.ivIcon
+        var icon: ImageView = itemView.findViewById<android.widget.ImageView>(R.id.ivIcon)
 
         init {
             itemView.setOnClickListener(this)

@@ -55,20 +55,20 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
 
     inner class ScheduleEventCardViewHolder(itemView: View) : EventCardViewHolder(itemView) {
         var cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-        var name: TextView = itemView.tvName
-        var days: TextView = itemView.tvDays
+        var name: TextView = itemView.findViewById(R.id.tvName)
+        var days: TextView = itemView.findViewById(R.id.tvDays)
         var menu: ImageView = itemView.findViewById(R.id.menu)
 
         init {
             if (allowEditing()) {
-                binding.menu.visibility = View.VISIBLE
-                binding.menu.setOnClickListener {
+                menu.visibility = View.VISIBLE
+                menu.setOnClickListener {
                     onMenuClickListener?.onItemClick(it, bindingAdapterPosition)
                 }
                 itemView.setOnClickListener(this)
                 itemView.setOnLongClickListener(this)
             } else {
-                binding.menu.visibility = View.GONE
+                menu.visibility = View.GONE
             }
         }
 
@@ -77,7 +77,7 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
         }
 
         override fun onLongClick(v: View?): Boolean {
-            return onItemLongClickListener?.onItemLongClick(binding.cardView, bindingAdapterPosition) ?: false
+            return onItemLongClickListener?.onItemLongClick(cardView, bindingAdapterPosition) ?: false
         }
 
         override fun setEvent(rule: LogicRule) {
@@ -217,20 +217,20 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
 
     inner class DynamicEventCardViewHolder(itemView: View) : EventCardViewHolder(itemView) {
         var cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-        var name: TextView = itemView.tvName
-        var days: TextView = itemView.tvDays
+        var name: TextView = itemView.findViewById(R.id.tvName)
+        var days: TextView = itemView.findViewById(R.id.tvDays)
         var menu: ImageView = itemView.findViewById(R.id.menu)
 
         init {
             if (allowEditing()) {
-                binding.menu.visibility = View.VISIBLE
-                binding.menu.setOnClickListener {
+                menu.visibility = View.VISIBLE
+                menu.setOnClickListener {
                     onMenuClickListener?.onItemClick(it, bindingAdapterPosition)
                 }
                 itemView.setOnClickListener(this)
                 itemView.setOnLongClickListener(this)
             } else {
-                binding.menu.visibility = View.GONE
+                menu.visibility = View.GONE
             }
         }
 
@@ -239,7 +239,7 @@ class EventRecyclerViewAdapter internal constructor(val context: Context, val lo
         }
 
         override fun onLongClick(v: View?): Boolean {
-            return onItemLongClickListener?.onItemLongClick(binding.cardView, bindingAdapterPosition) ?: false
+            return onItemLongClickListener?.onItemLongClick(cardView, bindingAdapterPosition) ?: false
         }
 
         override fun setEvent(rule: LogicRule) {

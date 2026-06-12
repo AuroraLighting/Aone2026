@@ -527,9 +527,9 @@ open class MotionSensorDetailFragment : DeviceDetailFragment(), PopupMenu.OnMenu
 
         inner class EventCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
             View.OnClickListener, View.OnLongClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
-            var days: TextView = itemView.tvDays
+            var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+            var name: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
+            var days: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvDays)
             var menu: ImageView = itemView.menu
 
             init {
@@ -658,8 +658,8 @@ open class MotionSensorDetailFragment : DeviceDetailFragment(), PopupMenu.OnMenu
 
         inner class NewEventCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
             View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
+            var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+            var name: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
 
             init {
                 cardView.setOnClickListener(this)

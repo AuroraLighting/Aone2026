@@ -151,12 +151,12 @@ class SceneDevicesRecyclerViewAdapter(val context: Context) : RecyclerView.Adapt
     }
 
     inner class LightCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
-        var cardView: MaterialCardView = itemView.cardView
-        var tvName: TextView = itemView.tvName
-        var tvLevel: TextView = itemView.tvLevel
-        var tvColourTemperature: TextView = itemView.tvColourTemperature
-        var ivIcon: ImageView = itemView.ivIcon
-        var ivOffline: ImageView = itemView.ivOffline
+        var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+        var tvName: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
+        var tvLevel: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvLevel)
+        var tvColourTemperature: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvColourTemperature)
+        var ivIcon: ImageView = itemView.findViewById<android.widget.ImageView>(R.id.ivIcon)
+        var ivOffline: ImageView = itemView.findViewById<android.widget.ImageView>(R.id.ivOffline)
 
         init {
             itemView.setOnClickListener(this)

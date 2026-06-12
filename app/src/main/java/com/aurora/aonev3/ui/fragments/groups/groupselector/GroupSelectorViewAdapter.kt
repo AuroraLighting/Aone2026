@@ -118,7 +118,7 @@ class GroupSelectorViewAdapter internal constructor(val context: Context, privat
     }
 
     inner class GroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var cardView: MaterialCardView = itemView.cardView
+        var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
         var standardLayout: ConstraintLayout = itemView.standardLayout
         var name: TextView = standardLayout.tvName
         var icon: ImageView = standardLayout.ivIcon

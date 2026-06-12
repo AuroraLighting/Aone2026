@@ -50,9 +50,9 @@ class CreateGroupsViewAdapter internal constructor(val context: Context) :
 
     inner class GroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        var cardView: MaterialCardView = itemView.cardView
-        var name: TextView = itemView.tvName
-        var icon: ImageView = itemView.ivIcon
+        var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+        var name: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
+        var icon: ImageView = itemView.findViewById<android.widget.ImageView>(R.id.ivIcon)
 
         init {
             cardView.setOnClickListener(this)

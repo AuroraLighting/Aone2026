@@ -232,13 +232,13 @@ class RemoteDeviceSelectorFragment : Fragment() {
         }
 
         inner class RemoteDeviceCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
+            var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+            var name: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
             lateinit var deviceData: DeviceTargetData
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.ivIcon.visibility = View.GONE
+                itemView.findViewById<android.widget.ImageView>(R.id.ivIcon).visibility = View.GONE
             }
 
             override fun onClick(p0: View?) {
@@ -264,13 +264,13 @@ class RemoteDeviceSelectorFragment : Fragment() {
         }
 
         inner class RemoteGroupCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            var cardView: MaterialCardView = itemView.cardView
-            var name: TextView = itemView.tvName
+            var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+            var name: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
             lateinit var deviceData: DeviceTargetData
 
             init {
                 itemView.setOnClickListener(this)
-                itemView.ivIcon.visibility = View.GONE
+                itemView.findViewById<android.widget.ImageView>(R.id.ivIcon).visibility = View.GONE
                 name.text = context.getString(R.string.control_entire_space)
             }
 

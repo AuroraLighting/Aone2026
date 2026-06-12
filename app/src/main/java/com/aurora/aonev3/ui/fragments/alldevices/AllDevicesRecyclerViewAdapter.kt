@@ -179,10 +179,10 @@ class AllDevicesRecyclerViewAdapter internal constructor(val context: Context) :
     }
 
     inner class DeviceCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var cardView: MaterialCardView = itemView.cardView
-        var tvName: TextView = itemView.tvName
-        private var tvGroup : TextView = itemView.tvGroup
-        var tvUpdating: TextView = itemView.tvUpdating
+        var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+        var tvName: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
+        private var tvGroup : TextView = itemView.findViewById<android.widget.TextView>(R.id.tvGroup)
+        var tvUpdating: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvUpdating)
 
         init {
             itemView.setOnClickListener(this)
@@ -200,8 +200,8 @@ class AllDevicesRecyclerViewAdapter internal constructor(val context: Context) :
     }
 
     inner class GatewayCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var cardView: MaterialCardView = itemView.cardView
-        var name: TextView = itemView.tvName
+        var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+        var name: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
 
         init {
             itemView.setOnClickListener(this)
@@ -217,8 +217,8 @@ class AllDevicesRecyclerViewAdapter internal constructor(val context: Context) :
     }
 
     inner class LegacyScheduleCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var cardView: MaterialCardView = itemView.cardView
-        var name: TextView = itemView.tvName
+        var cardView: MaterialCardView = itemView.findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardView)
+        var name: TextView = itemView.findViewById<android.widget.TextView>(R.id.tvName)
 
         init {
             itemView.setOnClickListener(this)
