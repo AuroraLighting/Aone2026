@@ -267,7 +267,7 @@ class NewSceneFragment : Fragment() {
         viewModel.scene?.let { scene ->
             val metadata = scene.metadata
 
-            if (etName.text.isNullOrBlank()) {
+            if (binding.etName.text.isNullOrBlank()) {
                 binding.etName.setText(scene.name)
             }
             if (metadata.has("icon_colour") && viewModel.selectedColour == null) {
@@ -286,17 +286,17 @@ class NewSceneFragment : Fragment() {
                 setIcon()
             }
 
-            fabDelete.visibility = View.VISIBLE
+            binding.fabDelete.visibility = View.VISIBLE
         }
 
-        fabDone.setOnClickListener {
-            val name = etName.text.toString().trim()
+        binding.fabDone.setOnClickListener {
+            val name = binding.etName.text.toString().trim()
 
             if (name.isBlank()) {
                 Toast.makeText(context, "Please give your Scene a name", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            fabDone.isEnabled = false
+            binding.fabDone.isEnabled = false
 
             viewModel.saveScene(name, mColour, mIcon) {
                 val activity = activity ?: return@saveScene
@@ -307,7 +307,7 @@ class NewSceneFragment : Fragment() {
             }
         }
 
-        fabControls.setOnClickListener {
+        binding.fabControls.setOnClickListener {
             viewModel.turnGroupOn()
 
             val action = NewSceneFragmentDirections.actionGlobalControlsFragment(
@@ -320,7 +320,7 @@ class NewSceneFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        fabDelete.setOnClickListener {
+        binding.fabDelete.setOnClickListener {
             if (!requireActivity().isFinishing) {
                 viewModel.scene?.let { scene ->
                     AlertDialog.Builder(requireActivity())
