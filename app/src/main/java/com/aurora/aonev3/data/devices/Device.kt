@@ -84,6 +84,8 @@ data class Device(
                     DeviceClass.PTM215ZE -> KINETIC
                     DeviceClass.REMOTE -> REMOTE
                     DeviceClass.GATEWAY -> GATEWAY
+                    DeviceClass.AURORAGEYSER -> POWER
+                    DeviceClass.UNKNOWN -> LIGHTS
                     else -> null
                 }
             }
