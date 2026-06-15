@@ -1,6 +1,5 @@
 package com.aurora.aonev3.ui.activities
 
-import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -10,7 +9,6 @@ import android.view.WindowInsets.Type.statusBars
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.ClientError
 import com.android.volley.VolleyError
-import com.aurora.aonev3.databinding.ActivitySplashscreenBinding
 import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.aurora.aonev3.network.handlers.NabtoHandler
@@ -23,28 +21,27 @@ import kotlinx.coroutines.launch
 
 class SplashscreenActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySplashscreenBinding
-
     companion object {
         const val TAG = "SplashscreenActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySplashscreenBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(com.aurora.aonev3.R.layout.activity_splashscreen)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(statusBars())
         } else {
+            @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         }
 
-        // Warm templates/identities in the background only. Do not block the welcome screen.
-        // SyncHandler.syncDevices() also calls ensureTemplatesAndIdentitiesReady() before
-        // parsing devices, so device parsing still waits for identities when needed.
+        // Sync OTA templates/identities in background - don't block splash screen.
+        // SyncHandler.inferDeviceClassFromName() handles first-run when identities DB is empty.
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                OtaHandler.ensureTemplatesAndIdentitiesReady()
+                OtaHandler.syncLatest()
+                OtaHandler.syncIdentities()
+                OtaHandler.syncTemplates()
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
@@ -54,19 +51,15 @@ class SplashscreenActivity : AppCompatActivity() {
     }
 
     private fun chooseStartLocation() {
-        if (SharedPreferencesHandler.getPrefs().sharedPreferences.contains("abc012") && CloudHandler.getCredentials().first.isNotBlank()) {
+        if (SharedPreferencesHandler.getPrefs().sharedPreferences.contains("abc012") &&
+            CloudHandler.getCredentials().first.isNotBlank()) {
             val credentials = CloudHandler.getCredentials()
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val response = CloudHandler.login(credentials.first, credentials.second)
                     if (response.optJSONObject("body")?.optString("status") == "PE") {
                         CoroutineScope(Dispatchers.Main).launch {
-                            startActivity(
-                                Intent(
-                                    this@SplashscreenActivity,
-                                    ActivateAccountActivity::class.java
-                                )
-                            )
+                            startActivity(Intent(this@SplashscreenActivity, ActivateAccountActivity::class.java))
                             finish()
                         }
                         return@launch
@@ -79,52 +72,32 @@ class SplashscreenActivity : AppCompatActivity() {
                 NabtoHandler.openSession(credentials.first)
                 val fingerprint = NabtoHandler.getFingerprint(credentials.first) ?: ""
                 CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        CloudHandler.postFingerprint(fingerprint)
-                    } catch (ex: VolleyError) {
-                    }
+                    try { CloudHandler.postFingerprint(fingerprint) } catch (ex: VolleyError) { }
                     NabtoHandler.openTunnels(credentials.first)
                 }
                 CoroutineScope(Dispatchers.Main).launch {
-                    if (SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean(
-                            "introDone",
-                            false
-                        )
-                    ) {
-                        startActivity(
-                            Intent(
-                                this@SplashscreenActivity,
-                                MainActivity::class.java
-                            )
-                        )
+                    if (SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean("introDone", false)) {
+                        startActivity(Intent(this@SplashscreenActivity, MainActivity::class.java))
                     } else {
-                        val intent = Intent(this@SplashscreenActivity, IntroActivity::class.java)
-                        intent.putExtra("target", "main")
-                        startActivity(intent)
+                        startActivity(Intent(this@SplashscreenActivity, IntroActivity::class.java).apply {
+                            putExtra("target", "main")
+                        })
                     }
                     finish()
                 }
             }
         } else {
             Handler(mainLooper).postDelayed({
-                if (SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean(
-                        "introDone",
-                        false
-                    )
-                ) {
+                if (SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean("introDone", false)) {
                     startActivity(Intent(this, LoginActivity::class.java))
                 } else {
-                    val intent = Intent(this, IntroActivity::class.java)
-                    intent.putExtra("target", "login")
-                    startActivity(intent)
+                    startActivity(Intent(this, IntroActivity::class.java).apply {
+                        putExtra("target", "login")
+                    })
                 }
                 finish()
             }, 2000)
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onResume() {
