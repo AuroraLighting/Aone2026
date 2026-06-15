@@ -13,6 +13,7 @@ import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.aurora.aonev3.network.handlers.NabtoHandler
 import com.aurora.aonev3.network.handlers.OtaHandler
+import com.aurora.aonev3.network.handlers.SyncHandler
 import com.aurora.aonev3.ui.activities.createaccount.ActivateAccountActivity
 import com.aurora.aonev3.ui.activities.login.LoginActivity
 import kotlinx.coroutines.CoroutineScope
@@ -35,13 +36,20 @@ class SplashscreenActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         }
 
-        // Sync OTA templates/identities in background - don't block splash screen.
-        // SyncHandler.inferDeviceClassFromName() handles first-run when identities DB is empty.
+        // Sync OTA identities in background. When done, force a device re-sync
+        // so any devices initially classified by name inference get reclassified
+        // correctly using the now-populated identities DB.
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 OtaHandler.syncLatest()
                 OtaHandler.syncIdentities()
                 OtaHandler.syncTemplates()
+                // Identities are now loaded - force re-sync devices if gateway connected
+                NabtoHandler.selectedGateway?.let { gateway ->
+                    if (gateway.isConnected) {
+                        SyncHandler.syncDevices(gateway, force = true)
+                    }
+                }
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
