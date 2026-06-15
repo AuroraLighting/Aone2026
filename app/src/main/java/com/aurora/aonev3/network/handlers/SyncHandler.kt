@@ -76,6 +76,11 @@ object SyncHandler {
         if (devicesList.any { it.parentGateway == gateway.serial } && !force) return devicesList
         if (force) devices.removeAll { it.parentGateway == gateway.serial }
 
+        // Device-class lookup depends on the OTA identities table. On SDK 34 the app can
+        // reach device sync before the splash-screen OTA preload has finished, which makes
+        // every device resolve as UNKNOWN and prevents normal device rendering/control.
+        OtaHandler.ensureTemplatesAndIdentitiesReady()
+
         val response = DevelcoHandler.getDevices(gateway)
         val body = response.optJSONArray("body") ?: JSONArray()
 

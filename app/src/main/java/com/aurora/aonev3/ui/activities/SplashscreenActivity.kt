@@ -44,15 +44,15 @@ class SplashscreenActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                OtaHandler.syncLatest()
-                OtaHandler.syncIdentities()
-                OtaHandler.syncTemplates()
+                OtaHandler.ensureTemplatesAndIdentitiesReady()
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
-        }
 
-        chooseStartLocation()
+            CoroutineScope(Dispatchers.Main).launch {
+                chooseStartLocation()
+            }
+        }
     }
 
     private fun chooseStartLocation() {

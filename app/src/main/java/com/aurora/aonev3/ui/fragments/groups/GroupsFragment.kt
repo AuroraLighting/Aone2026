@@ -1,6 +1,5 @@
 package com.aurora.aonev3.ui.fragments.groups
 
-import com.aurora.aonev3.synthetic.*
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,8 +19,6 @@ import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
 import com.android.volley.VolleyError
-import com.aurora.aonev3.ui.activities.MainActivity
-import com.aurora.aonev3.databinding.FragmentGroupsBinding
 import com.aurora.aonev3.*
 import com.aurora.aonev3.logic.CollectionType
 import com.aurora.aonev3.network.handlers.*
@@ -35,6 +32,7 @@ import com.aurora.aonev3.ui.activities.TourActivity
 import com.aurora.aonev3.ui.activities.login.LoginActivity
 import com.aurora.aonev3.ui.fragments.groups.creategroups.NoGroupsFragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.aurora.aonev3.synthetic.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,10 +41,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
-
-    protected var _binding: FragmentGroupsBinding? = null
-    protected val binding get() = _binding!!
-
 
     companion object {
         const val TAG = "GroupsFragment"
@@ -66,14 +60,27 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return run {
-            _binding = FragmentGroupsBinding.inflate(inflater, container, false)
-            binding.root
-        }
+        return inflater.inflate(R.layout.fragment_groups, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // If gateway is already connected when fragment loads (tunnel connected before fragment),
+        // sync immediately without waiting for connectingCallback
+        NabtoHandler.selectedGateway?.let { gw ->
+            if (gw.isConnected) {
+                SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
+                    try {
+                        SyncHandler.syncGroups(gw, first = true)
+                        SyncHandler.syncDevices(gw, force = true)
+                        SyncHandler.syncDeviceDatapoints(gw, force = true)
+                        SyncHandler.groupsList.filter { it.parentGateway == gw.serial }
+                            .forEach { group -> try { SyncHandler.syncGroupMembers(gw, group, force = true) } catch (e: Exception) { } }
+                    } catch (e: Exception) { e.printStackTrace() }
+                }
+            }
+        }
 
         NabtoHandler.connectingCallback = object : NabtoHandler.NabtoConnecting {
             override fun finish(success: Boolean) {
@@ -94,7 +101,6 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                                     } catch (ex: IllegalArgumentException) {
                                         Log.e(TAG, ex.localizedMessage ?: "")
                                         ex.printStackTrace()
-//                                        crashlytics.recordException(ex)
                                     }
                                 }
                                 .create()
@@ -104,14 +110,21 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 } else {
                     activity?.runOnUiThread {
                         checkTimezone()
-                        (activity as? MainActivity)?.binding?.connectingLayout?.visibility = View.GONE
+                        activity?.connectingLayout?.visibility = View.GONE
                     }
                     SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
                         NabtoHandler.selectedGateway?.let { gateway ->
                             if (!gateway.isConnected) return@let
 
                             try {
-                                syncGatewayDeviceData(gateway, force = true)
+                                SyncHandler.syncGroups(gateway, first = true)
+                                SyncHandler.syncDevices(gateway, force = true)
+                                SyncHandler.syncDeviceDatapoints(gateway, force = true)
+                                SyncHandler.groupsList
+                                    .filter { it.parentGateway == gateway.serial }
+                                    .forEach { group ->
+                                        try { SyncHandler.syncGroupMembers(gateway, group, force = true) } catch (e: Exception) { }
+                                    }
 
                                 if (SyncHandler.getGroupCount() == 0) {
                                     val action =
@@ -150,22 +163,40 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 if (credentials.first.isEmpty()) {
                     activity?.finishAffinity()
                     startActivity(Intent(context, SplashscreenActivity::class.java))
+                    return@launch
                 }
                 NabtoHandler.openTunnels(credentials.first)
                 NabtoHandler.selectedGateway?.let { gateway ->
                     groupsLiveData = viewModel.getGroups(gateway)
-                    datapointsLiveData =
-                        SyncHandler.groupDatapoints
+                    datapointsLiveData = SyncHandler.groupDatapoints
                     allDevicesLiveData = viewModel.getDevices(gateway)
                     deviceDatapointsLiveData = viewModel.getDeviceDatapoints(gateway)
                     logicCollectionsLiveData = viewModel.getLogicCollection(gateway)
 
+                    // If already connected, sync now; otherwise wait for connection
                     if (gateway.isConnected) {
                         SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
                             try {
-                                syncGatewayDeviceData(gateway, force = true)
-                            } catch (err: VolleyError) {
-                                handleGatewayConnectionError(err, gateway)
+                                SyncHandler.syncGroups(gateway, first = true)
+                                SyncHandler.syncDevices(gateway, force = true)
+                                SyncHandler.syncDeviceDatapoints(gateway, force = true)
+                                SyncHandler.groupsList.filter { it.parentGateway == gateway.serial }
+                                    .forEach { group -> try { SyncHandler.syncGroupMembers(gateway, group, force = true) } catch (e: Exception) { } }
+                            } catch (e: Exception) { }
+                        }
+                    } else {
+                        activity?.runOnUiThread {
+                            gateway.isConnectedLiveData.observe(viewLifecycleOwner) { connected ->
+                                if (connected != true) return@observe
+                                SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
+                                    try {
+                                        SyncHandler.syncGroups(gateway, first = true)
+                                        SyncHandler.syncDevices(gateway, force = true)
+                                        SyncHandler.syncDeviceDatapoints(gateway, force = true)
+                                        SyncHandler.groupsList.filter { it.parentGateway == gateway.serial }
+                                            .forEach { group -> try { SyncHandler.syncGroupMembers(gateway, group, force = true) } catch (e: Exception) { } }
+                                    } catch (e: Exception) { }
+                                }
                             }
                         }
                     }
@@ -179,7 +210,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             startActivity(intent)
         }
 
-        binding.tvTitle.setOnClickListener {
+        tvTitle.setOnClickListener {
             val action = GroupsFragmentDirections.actionGroupsFragmentToGatewaySwitchFragment()
             try {
                 findNavController().navigate(action)
@@ -192,7 +223,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
 
-        binding.ivHub.setOnClickListener {
+        ivHub.setOnClickListener {
             val action = GroupsFragmentDirections.actionGroupsFragmentToGatewaySwitchFragment()
             try {
                 findNavController().navigate(action)
@@ -205,7 +236,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
         }
 
-        binding.menu.setOnClickListener {
+        menu.setOnClickListener {
             val popup = PopupMenu(requireContext(), it)
             popup.menuInflater.inflate(R.menu.groups_menu, popup.menu)
             if (!allowEditing()) {
@@ -233,9 +264,7 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 override fun onItemClick(view: View, position: Int) {
                     val group = getItem(position) ?: return
                     viewModel.selectedGroup = group
-
-                    val action =
-                        GroupsFragmentDirections.actionGroupsFragmentToGroupFragment(group.id)
+                    val action = GroupsFragmentDirections.actionGroupsFragmentToGroupFragment(group.id)
                     try {
                         findNavController().navigate(action)
                     } catch (ex: IllegalArgumentException) {
@@ -251,31 +280,16 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             onItemLongClickListener = object : ItemLongClickListener {
                 override fun onItemLongClick(view: View, position: Int): Boolean {
                     val group = getItem(position) ?: return false
-                    val members = SyncHandler
-                        .groupMembersList
+                    val members = SyncHandler.groupMembersList
                         .filter { it.parentGateway == group.parentGateway && it.groupId == group.id && !it.isVirtualMember }
-                    val datapoints = SyncHandler
-                        .deviceDatapointsList
+                    val datapoints = SyncHandler.deviceDatapointsList
                         .filter { members.any { member -> member.parentGateway == it.parentGateway && member.deviceId == it.id } }
-
                     val isGroupCt = datapoints.any { it.key == "mired" }
                     val isGroupRgb = datapoints.any { it.key == "hue" }
-
-                    val groupColourTemperatureMax = datapoints
-                        .map { if (it.key == "colourtempmax") it.value as? Int ?: 0 else 0 }
-                        .fold(0) { max, element -> if (element > max) element else max }
-                    val groupColourTemperatureMin = datapoints
-                        .map {
-                            if (it.key == "colourtempmin") it.value as? Int ?: 999 else 999
-                        }
-                        .fold(999) { min, element -> if (element < min) element else min }
-
+                    val ctMax = datapoints.map { if (it.key == "colourtempmax") it.value as? Int ?: 0 else 0 }.fold(0) { max, e -> if (e > max) e else max }
+                    val ctMin = datapoints.map { if (it.key == "colourtempmin") it.value as? Int ?: 999 else 999 }.fold(999) { min, e -> if (e < min) e else min }
                     val action = GroupsFragmentDirections.actionGlobalControlsFragment(
-                        groupId = group.id,
-                        isRgb = isGroupRgb,
-                        isCt = isGroupCt,
-                        ctMax = groupColourTemperatureMax,
-                        ctMin = groupColourTemperatureMin
+                        groupId = group.id, isRgb = isGroupRgb, isCt = isGroupCt, ctMax = ctMax, ctMin = ctMin
                     )
                     try {
                         findNavController().navigate(action)
@@ -286,7 +300,6 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                         ex.printStackTrace()
                         Log.e(TAG, "Failed to navigate")
                     }
-
                     return true
                 }
             }
@@ -297,18 +310,16 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     viewModel.viewModelScope.launch(Dispatchers.IO) {
                         val activity = activity ?: return@launch
                         viewModel.toggleOnOff(group, activity)
-
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R)
                             view.performHapticFeedback(CONFIRM)
-                        } else {
+                        else
                             view.performHapticFeedback(CONTEXT_CLICK)
-                        }
                     }
                 }
             }
         }
 
-        with(binding.rvGroups) {
+        with(rvGroups) {
             adapter = gridAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 6, RecyclerView.VERTICAL, false).apply {
@@ -324,17 +335,15 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     }
                 }
             }
-
             val margin = resources.getDimensionPixelSize(R.dimen.default_margin_small)
             addItemDecoration(GridItemDecoration(margin, margin, margin, margin))
         }
 
         NabtoHandler.selectedGatewayLive.observe(viewLifecycleOwner) {
             NabtoHandler.selectedGateway?.let { gateway ->
-                binding.tvTitle.text = gateway.name.replace("Gateway Lite ", "")
+                tvTitle.text = gateway.name.replace("Gateway Lite ", "")
                 groupsLiveData = viewModel.getGroups(gateway)
-                datapointsLiveData =
-                    viewModel.getDatapoints(gateway)//, arrayOf("onoff", "level", "mired"))
+                datapointsLiveData = viewModel.getDatapoints(gateway)
                 allDevicesLiveData = viewModel.getDevices(gateway)
                 logicCollectionsLiveData = viewModel.getLogicCollection(gateway)
                 deviceDatapointsLiveData = viewModel.getDeviceDatapoints(gateway)
@@ -366,200 +375,64 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 }
 
                 allDevicesLiveData.removeObservers(viewLifecycleOwner)
-                allDevicesLiveData.observe(
-                    viewLifecycleOwner
-                ) { d ->
+                allDevicesLiveData.observe(viewLifecycleOwner) { d ->
                     val activity = activity ?: return@observe
-
-                    val devices = d
-                        .toList()
-                        .filter { it.parentGateway == gateway.serial }
+                    val devices = d.toList().filter { it.parentGateway == gateway.serial }
                     gridAdapter.setDevices(devices)
-                    val lights = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.LIGHTS
+                    val lights = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.LIGHTS }
+                    val sensors = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.SENSORS }
+                    val power = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.POWER }
+                    val sockets = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.SOCKETS }
+                    val switches = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.SWITCHES }
+                    val legacyCollections = SyncHandler.logicCollectionsList.filter { collection ->
+                        collection.parentGateway == gateway.serial &&
+                                collection.metadata.collectionType == CollectionType.SCHEDULE &&
+                                collection.metadata.parentSpace == null
                     }
-                    val sensors = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.SENSORS
-                    }
-                    val power = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.POWER
-                    }
-                    val sockets = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.SOCKETS
-                    }
-                    val switches = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.SWITCHES
-                    }
-                    val legacyCollections = SyncHandler
-                        .logicCollectionsList
-                        .filter { collection ->
-                            collection.parentGateway == gateway.serial &&
-                                    collection.metadata.collectionType == CollectionType.SCHEDULE &&
-                                    collection.metadata.parentSpace == null
-                        }
-
                     val deviceStrings: ArrayList<String> = ArrayList()
-                    if (lights.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_lights,
-                                lights.size,
-                                lights.size
-                            )
-                        )
-                    }
-                    if (power.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_power,
-                                power.size,
-                                power.size
-                            )
-                        )
-                    }
-                    if (sockets.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_sockets,
-                                sockets.size,
-                                sockets.size
-                            )
-                        )
-                    }
-                    if (sensors.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_sensors,
-                                sensors.size,
-                                sensors.size
-                            )
-                        )
-                    }
-                    if (switches.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_switches,
-                                switches.size,
-                                switches.size
-                            )
-                        )
-                    }
-                    if (legacyCollections.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_legacy_schedules,
-                                legacyCollections.size,
-                                legacyCollections.size
-                            )
-                        )
-                    }
-
-                    activity.runOnUiThread {
-                        binding.tvDevices.text = deviceStrings.joinToString(" | ")
-                    }
+                    if (lights.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_lights, lights.size, lights.size))
+                    if (power.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_power, power.size, power.size))
+                    if (sockets.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_sockets, sockets.size, sockets.size))
+                    if (sensors.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_sensors, sensors.size, sensors.size))
+                    if (switches.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_switches, switches.size, switches.size))
+                    if (legacyCollections.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_legacy_schedules, legacyCollections.size, legacyCollections.size))
+                    activity.runOnUiThread { tvDevices.text = deviceStrings.joinToString(" | ") }
                 }
 
                 logicCollectionsLiveData.removeObservers(viewLifecycleOwner)
-                logicCollectionsLiveData.observe(
-                    viewLifecycleOwner
-                ) { collections ->
+                logicCollectionsLiveData.observe(viewLifecycleOwner) { collections ->
                     val activity = activity ?: return@observe
-
-                    val devices =
-                        SyncHandler.devicesList.filter { it.parentGateway == gateway.serial }
-                    val lights = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.LIGHTS
-                    }
-                    val sensors = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.SENSORS
-                    }
-                    val power = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.POWER
-                    }
-                    val sockets = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.SOCKETS
-                    }
-                    val switches = devices.filter {
-                        it.getDeviceCategory() == Device.DeviceCategory.SWITCHES
-                    }
+                    val devices = SyncHandler.devicesList.filter { it.parentGateway == gateway.serial }
+                    val lights = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.LIGHTS }
+                    val sensors = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.SENSORS }
+                    val power = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.POWER }
+                    val sockets = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.SOCKETS }
+                    val switches = devices.filter { it.getDeviceCategory() == Device.DeviceCategory.SWITCHES }
                     val legacyCollections = collections.filter { collection ->
                         collection.metadata.collectionType == CollectionType.SCHEDULE &&
                                 collection.metadata.parentSpace == null
                     }
-
                     val deviceStrings: ArrayList<String> = ArrayList()
-                    if (lights.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_lights,
-                                lights.size,
-                                lights.size
-                            )
-                        )
-                    }
-                    if (sensors.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_sensors,
-                                sensors.size,
-                                sensors.size
-                            )
-                        )
-                    }
-                    if (power.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_power,
-                                power.size,
-                                power.size
-                            )
-                        )
-                    }
-                    if (sockets.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_sockets,
-                                sockets.size,
-                                sockets.size
-                            )
-                        )
-                    }
-                    if (switches.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_switches,
-                                switches.size,
-                                switches.size
-                            )
-                        )
-                    }
-                    if (legacyCollections.isNotEmpty()) {
-                        deviceStrings.add(
-                            activity.resources.getQuantityString(
-                                R.plurals.number_legacy_schedules,
-                                legacyCollections.size,
-                                legacyCollections.size
-                            )
-                        )
-                    }
-
-                    activity.runOnUiThread {
-                        binding.tvDevices.text = deviceStrings.joinToString(" | ")
-                    }
+                    if (lights.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_lights, lights.size, lights.size))
+                    if (sensors.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_sensors, sensors.size, sensors.size))
+                    if (power.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_power, power.size, power.size))
+                    if (sockets.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_sockets, sockets.size, sockets.size))
+                    if (switches.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_switches, switches.size, switches.size))
+                    if (legacyCollections.isNotEmpty()) deviceStrings.add(activity.resources.getQuantityString(R.plurals.number_legacy_schedules, legacyCollections.size, legacyCollections.size))
+                    activity.runOnUiThread { tvDevices.text = deviceStrings.joinToString(" | ") }
                 }
             }
         }
 
-        binding.viewAllDevicesCard.setOnClickListener(
+        viewAllDevicesCard.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 GroupsFragmentDirections.actionGroupsFragmentToAllDevicesFragment()
             )
         )
 
-        binding.swipeLayout.setOnRefreshListener {
+        swipeLayout.setOnRefreshListener {
             val gateway = NabtoHandler.selectedGateway ?: return@setOnRefreshListener
-            binding.swipeLayout.isRefreshing = true
-
+            swipeLayout.isRefreshing = true
             viewModel.viewModelScope.launch(Dispatchers.IO) {
                 if (!gateway.isConnected) {
                     val credentials = CloudHandler.getCredentials()
@@ -570,7 +443,6 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     NabtoHandler.openTunnel(gateway, credentials.first)
                     return@launch
                 }
-
                 try {
                     SyncHandler.syncGroups(gateway, force = true)
                     SyncHandler.groupsList.firstOrNull()?.let { group ->
@@ -578,9 +450,8 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     }
                     SyncHandler.syncDevices(gateway, force = true)
                     SyncHandler.syncDeviceDatapoints(gateway, force = true)
-
                     viewModel.viewModelScope.launch(Dispatchers.Main) {
-                        binding.swipeLayout?.isRefreshing = false
+                        swipeLayout?.isRefreshing = false
                     }
                 } catch (err: VolleyError) {
                     if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
@@ -612,10 +483,8 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             }
             R.id.sign_out -> {
                 signOut()
-
                 activity?.startActivity(Intent(activity, LoginActivity::class.java))
                 activity?.finishAffinity()
-
                 true
             }
             else -> false
@@ -628,225 +497,57 @@ class GroupsFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             NabtoHandler.selectedGateway?.let { gateway ->
                 gateway.isConnectedLiveData.observe(activity) {
                     if (!it) return@observe
-
                     viewModel.viewModelScope.launch(Dispatchers.IO) {
-                        val metadata = SyncHandler
-                            .getHubMetadata(gateway) ?: return@launch
-                        val metadataTimeZone = metadata
-                            .optString("timezone")
-                        val phoneTimeZone = Calendar
-                            .getInstance()
-                            .timeZone
-                            .id
+                        val metadata = SyncHandler.getHubMetadata(gateway) ?: return@launch
+                        val metadataTimeZone = metadata.optString("timezone")
+                        val phoneTimeZone = Calendar.getInstance().timeZone.id
                         val gwTimeZone = try {
-                            DevelcoHandler
-                                .getTime(gateway)
-                                .optJSONObject("body")
-                                ?.optString("timezone") ?: ""
-                        } catch (ex: Exception) {
-                            crashlytics.recordException(ex)
-                            ""
-                        }
+                            DevelcoHandler.getTime(gateway).optJSONObject("body")?.optString("timezone") ?: ""
+                        } catch (ex: Exception) { crashlytics.recordException(ex); "" }
 
                         if (!metadataTimeZone.isNullOrBlank()) {
                             if (metadataTimeZone != phoneTimeZone) {
-                                val activity = activity ?: return@launch
                                 activity.runOnUiThread {
-                                    activity.runOnUiThread {
-                                        if (!activity.isFinishing) {
-                                            AlertDialog.Builder(activity)
-                                                .setMessage(
-                                                    getString(
-                                                        R.string.different_timezone,
-                                                        metadataTimeZone,
-                                                        phoneTimeZone
-                                                    )
-                                                )
-                                                .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                                    if (!activity.isFinishing) {
+                                        AlertDialog.Builder(activity)
+                                            .setMessage(getString(R.string.different_timezone, metadataTimeZone, phoneTimeZone))
+                                            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                                                viewModel.viewModelScope.launch(Dispatchers.IO) {
+                                                    try {
+                                                        DevelcoHandler.putTime(gateway, JSONObject().put("timezone", phoneTimeZone))
+                                                        metadata.put("timezone", phoneTimeZone)
+                                                        DevelcoHandler.putDevice(gateway, 0, JSONObject().put("metadata", metadata.toString()))
+                                                    } catch (err: VolleyError) { err.printStackTrace() }
+                                                }
+                                            }
+                                            .setNegativeButton(getString(R.string.no)) { _, _ ->
+                                                if (metadataTimeZone != gwTimeZone) {
                                                     viewModel.viewModelScope.launch(Dispatchers.IO) {
-                                                        try {
-                                                            DevelcoHandler.putTime(
-                                                                gateway,
-                                                                JSONObject().put(
-                                                                    "timezone",
-                                                                    phoneTimeZone
-                                                                )
-                                                            )
-                                                            metadata.put("timezone", phoneTimeZone)
-                                                            DevelcoHandler.putDevice(
-                                                                gateway,
-                                                                0,
-                                                                JSONObject()
-                                                                    .put(
-                                                                        "metadata",
-                                                                        metadata.toString()
-                                                                    )
-                                                            )
-                                                        } catch (err: VolleyError) {
-                                                            if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
-                                                                gateway.isConnected = false
-                                                                val credentials =
-                                                                    CloudHandler.getCredentials()
-                                                                if (credentials.first.isEmpty()) {
-                                                                    activity.finishAffinity()
-                                                                    startActivity(
-                                                                        Intent(
-                                                                            context,
-                                                                            SplashscreenActivity::class.java
-                                                                        )
-                                                                    )
-                                                                }
-                                                                NabtoHandler.openTunnel(
-                                                                    gateway,
-                                                                    credentials.first
-                                                                )
-                                                            }
-                                                            err.printStackTrace()
-                                                        }
+                                                        try { DevelcoHandler.putTime(gateway, JSONObject().put("timezone", metadataTimeZone)) }
+                                                        catch (err: VolleyError) { err.printStackTrace() }
                                                     }
                                                 }
-                                                .setNegativeButton(getString(R.string.no)) { _, _ ->
-                                                    if (metadataTimeZone != gwTimeZone) {
-                                                        viewModel.viewModelScope.launch(Dispatchers.IO) {
-                                                            try {
-                                                                DevelcoHandler.putTime(
-                                                                    gateway,
-                                                                    JSONObject().put(
-                                                                        "timezone",
-                                                                        metadataTimeZone
-                                                                    )
-                                                                )
-                                                            } catch (err: VolleyError) {
-                                                                if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
-                                                                    gateway.isConnected = false
-                                                                    val credentials =
-                                                                        CloudHandler.getCredentials()
-                                                                    if (credentials.first.isEmpty()) {
-                                                                        activity.finishAffinity()
-                                                                        startActivity(
-                                                                            Intent(
-                                                                                context,
-                                                                                SplashscreenActivity::class.java
-                                                                            )
-                                                                        )
-                                                                    }
-                                                                    NabtoHandler.openTunnel(
-                                                                        gateway,
-                                                                        credentials.first
-                                                                    )
-                                                                }
-                                                                err.printStackTrace()
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                .create()
-                                                .show()
-                                        }
+                                            }
+                                            .create().show()
                                     }
                                 }
                             }
-
                             if (metadataTimeZone != gwTimeZone) {
                                 viewModel.viewModelScope.launch(Dispatchers.IO) {
-                                    try {
-                                        DevelcoHandler.putTime(
-                                            gateway,
-                                            JSONObject().put("timezone", metadataTimeZone)
-                                        )
-                                    } catch (err: VolleyError) {
-                                        if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
-                                            gateway.isConnected = false
-                                            val credentials = CloudHandler.getCredentials()
-                                            if (credentials.first.isEmpty()) {
-                                                activity?.finishAffinity()
-                                                startActivity(
-                                                    Intent(
-                                                        context,
-                                                        SplashscreenActivity::class.java
-                                                    )
-                                                )
-                                            }
-                                            NabtoHandler.openTunnel(gateway, credentials.first)
-                                        }
-                                        err.printStackTrace()
-                                    }
+                                    try { DevelcoHandler.putTime(gateway, JSONObject().put("timezone", metadataTimeZone)) }
+                                    catch (err: VolleyError) { err.printStackTrace() }
                                 }
                             }
                         } else {
                             try {
-                                DevelcoHandler.putTime(
-                                    gateway,
-                                    JSONObject().put("timezone", phoneTimeZone)
-                                )
+                                DevelcoHandler.putTime(gateway, JSONObject().put("timezone", phoneTimeZone))
                                 metadata.put("timezone", phoneTimeZone)
-                                DevelcoHandler.putDevice(
-                                    gateway,
-                                    0,
-                                    JSONObject()
-                                        .put("metadata", metadata.toString())
-                                )
-                            } catch (err: VolleyError) {
-                                if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
-                                    gateway.isConnected = false
-                                    val credentials = CloudHandler.getCredentials()
-                                    if (credentials.first.isEmpty()) {
-                                        activity?.finishAffinity()
-                                        startActivity(
-                                            Intent(
-                                                context,
-                                                SplashscreenActivity::class.java
-                                            )
-                                        )
-                                    }
-                                    NabtoHandler.openTunnel(gateway, credentials.first)
-                                }
-                                err.printStackTrace()
-                            }
+                                DevelcoHandler.putDevice(gateway, 0, JSONObject().put("metadata", metadata.toString()))
+                            } catch (err: VolleyError) { err.printStackTrace() }
                         }
                     }
                 }
             }
         }
-    }
-
-
-
-    private suspend fun syncGatewayDeviceData(gateway: NabtoHandler.NabtoGateway, force: Boolean = false) {
-        // Keep the working SDK 31 app flow, but make the initial SDK 34 load request
-        // the same data the manual refresh requests. This repopulates the device counts,
-        // group members and datapoints without changing Nabto/WebSocket lifecycle code.
-        SyncHandler.syncGroups(gateway, first = true, force = force)
-        SyncHandler.syncDevices(gateway, force = force)
-        SyncHandler.syncDeviceDatapoints(gateway, force = force)
-        SyncHandler.syncGroupDatapointsAndScenesCached(gateway, force = force)
-
-        SyncHandler.groupsList
-            .filter { it.parentGateway == gateway.serial }
-            .forEach { group ->
-                SyncHandler.syncGroupMembers(gateway, group, force = force)
-            }
-
-        SyncHandler.syncLogicCollectionsCached(gateway, force = force)
-    }
-
-    private fun handleGatewayConnectionError(err: VolleyError, gateway: NabtoHandler.NabtoGateway) {
-        if ((err is NoConnectionError || gateway.port == null) && gateway.isConnected) {
-            gateway.isConnected = false
-            val credentials = CloudHandler.getCredentials()
-            if (credentials.first.isEmpty()) {
-                activity?.finishAffinity()
-                startActivity(Intent(context, SplashscreenActivity::class.java))
-                return
-            }
-            SyncHandler.syncHandlerCoroutineScope.launch(Dispatchers.IO) {
-                NabtoHandler.openTunnel(gateway, credentials.first)
-            }
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

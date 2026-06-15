@@ -121,6 +121,28 @@ object OtaHandler {
         }
     }
 
+
+    @WorkerThread
+    suspend fun ensureTemplatesAndIdentitiesReady() {
+        try {
+            if (templatesObject.optString("identifiers").isBlank() || templatesObject.optString("uri").isBlank()) {
+                syncLatest()
+            }
+
+            if (identitiesDao.getAll().isEmpty()) {
+                syncIdentities()
+            }
+
+            val currentTemplates = templates.value
+            if (currentTemplates == null || currentTemplates.isEmpty()) {
+                syncTemplates()
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            Log.e(TAG, "ensureTemplatesAndIdentitiesReady exception")
+        }
+    }
+
     val isDynamicEventsAvailable: Boolean
         get() = SharedPreferencesHandler.getPrefs().sharedPreferences.getBoolean("dynamic_events", false) || CloudHandler.isBeta
 
