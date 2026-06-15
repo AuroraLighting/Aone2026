@@ -83,6 +83,52 @@ class WebsocketHandler(private val gateway: NabtoHandler.NabtoGateway) : WebSock
         })
     }
 
+
+    private suspend fun resolveDeviceClass(defaultName: String): Device.DeviceClass {
+        val deviceClassName = if (defaultName.equals("squidzigbee", ignoreCase = true)) {
+            "gateway"
+        } else {
+            AppDatabase.getDatabase().identitiesDao().getDeviceClassForDefaultName(defaultName)
+                ?: fallbackDeviceClassName(defaultName)
+                ?: "unknown"
+        }
+
+        return try {
+            Device.DeviceClass.valueOf(deviceClassName.toUpperCase())
+        } catch (ex: IllegalArgumentException) {
+            crashlytics.recordException(
+                Exception("No such enum: defaultName - $defaultName, deviceClass - $deviceClassName")
+            )
+            Log.e(TAG, "No such enum: defaultName - $defaultName, deviceClass - $deviceClassName")
+            Device.DeviceClass.UNKNOWN
+        }
+    }
+
+    private fun fallbackDeviceClassName(defaultName: String): String? {
+        val name = defaultName.toLowerCase()
+        return when {
+            name.contains("squidzigbee") || name.contains("gateway") -> "gateway"
+            name.contains("rgbw") || name.contains("rgb") -> "aurorargbwbulb"
+            name.contains("tunable") || name.contains("tuneable") || name.contains("tw") -> "auroratwbulb"
+            name.contains("bulb") || name.contains("lamp") || name.contains("light") -> "aurorabulb"
+            name.contains("dual") && name.contains("socket") -> "auroradualsocket"
+            name.contains("socket") -> "auroradualsocket"
+            name.contains("smart") && name.contains("plug") -> "aurorasmartplug"
+            name.contains("plug") -> "smartplug"
+            name.contains("wall") && name.contains("dimmer2") -> "aurorawalldimmer2"
+            name.contains("wall") && name.contains("dimmer") -> "aurorawalldimmer"
+            name.contains("dimmer2") -> "aurorawalldimmer2"
+            name.contains("dimmer") -> "aurorawalldimmer"
+            name.contains("door") || name.contains("window") -> "doorwindow"
+            name.contains("motion") || name.contains("pir") || name.contains("occupancy") -> "motion"
+            name.contains("remote") -> "remote"
+            name.contains("ptm") || name.contains("kinetic") -> "ptm215ze"
+            name.contains("battery") -> "batterydimmer"
+            name.contains("geyser") || name.contains("geyser") -> "aurorageyser"
+            else -> null
+        }
+    }
+
     override fun onOpen(handshakedata: ServerHandshake?) {
         Log.v(this@WebsocketHandler::class.simpleName, "WS open")
     }
@@ -276,6 +322,8 @@ class WebsocketHandler(private val gateway: NabtoHandler.NabtoGateway) : WebSock
                                 metadata,
                                 data.optBoolean("online")
                             )
+                            device.deviceClass = resolveDeviceClass(data.optString("defaultName"))
+                            device.ldevs = device.deviceClass.ldevs
 
                             SyncHandler.devices.add(device)
                         }
@@ -298,31 +346,8 @@ class WebsocketHandler(private val gateway: NabtoHandler.NabtoGateway) : WebSock
                                     device.name = data.optString("name")
                                     device.defaultName = data.optString("defaultName")
 
-                                    val deviceClassName =
-                                        AppDatabase.getDatabase().identitiesDao()
-                                            .getDeviceClassForDefaultName(
-                                                data.optString("defaultName")
-                                            ) ?: "unknown"
-
-                                    try {
-                                        device.deviceClass =
-                                            Device.DeviceClass.valueOf(deviceClassName.toUpperCase())
-                                        device.ldevs = device.deviceClass.ldevs
-                                    } catch (ex: IllegalArgumentException) {
-                                        crashlytics.recordException(
-                                            Exception(
-                                                "No such enum: defaultName - ${
-                                                    data.optString(
-                                                        "defaultName"
-                                                    )
-                                                }, deviceClass - $deviceClassName"
-                                            )
-                                        )
-                                        Log.e(
-                                            TAG,
-                                            "No such enum: defaultName - ${data.optString("defaultName")}, deviceClass - $deviceClassName"
-                                        )
-                                    }
+                                    device.deviceClass = resolveDeviceClass(data.optString("defaultName"))
+                                    device.ldevs = device.deviceClass.ldevs
                                     device.metadata = metadata
                                     device.online = data.optBoolean("online")
 

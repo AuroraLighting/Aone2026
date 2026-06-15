@@ -22,6 +22,7 @@ import com.aurora.aonev3.ui.activities.login.LoginActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class SplashscreenActivity : AppCompatActivity() {
 
@@ -42,9 +43,14 @@ class SplashscreenActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         }
 
+        // Device loading needs OTA identities/templates, but the welcome screen must not
+        // spin forever if OTA is slow. Wait briefly, then continue; SyncHandler.syncDevices()
+        // also waits/falls back before parsing devices.
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                OtaHandler.ensureTemplatesAndIdentitiesReady()
+                withTimeoutOrNull(8000) {
+                    OtaHandler.ensureTemplatesAndIdentitiesReady()
+                }
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
