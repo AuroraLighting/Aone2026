@@ -7,12 +7,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.view.WindowInsets.Type.statusBars
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.ClientError
 import com.android.volley.VolleyError
 import com.aurora.aonev3.databinding.ActivitySplashscreenBinding
-import com.aurora.aonev3.R
 import com.aurora.aonev3.SharedPreferencesHandler
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.aurora.aonev3.network.handlers.NabtoHandler
@@ -26,7 +24,6 @@ import kotlinx.coroutines.launch
 class SplashscreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashscreenBinding
-
 
     companion object {
         const val TAG = "SplashscreenActivity"
@@ -42,17 +39,18 @@ class SplashscreenActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         }
 
+        // Warm templates/identities in the background only. Do not block the welcome screen.
+        // SyncHandler.syncDevices() also calls ensureTemplatesAndIdentitiesReady() before
+        // parsing devices, so device parsing still waits for identities when needed.
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 OtaHandler.ensureTemplatesAndIdentitiesReady()
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
-
-            CoroutineScope(Dispatchers.Main).launch {
-                chooseStartLocation()
-            }
         }
+
+        chooseStartLocation()
     }
 
     private fun chooseStartLocation() {

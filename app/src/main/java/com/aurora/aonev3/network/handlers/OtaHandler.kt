@@ -11,6 +11,9 @@ import com.aurora.aonev3.*
 import com.aurora.aonev3.network.volley.Request
 import com.aurora.aonev3.data.AppDatabase
 import com.aurora.aonev3.data.templates.Identity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -72,8 +75,11 @@ object OtaHandler {
     @WorkerThread
     @Throws(VolleyError::class)
     suspend fun syncIdentities() {
+        val identifiersUrl = templatesObject.optString("identifiers")
+        if (identifiersUrl.isBlank()) return
+
         val identifiers = try {
-            Request.get("http://${templatesObject.optString("identifiers")}", maxRetries = 4)
+            Request.get("http://$identifiersUrl", maxRetries = 4)
         } catch (ex: Exception) {
             ex.printStackTrace()
             Log.e(TAG, "syncIdentities exception")
@@ -84,11 +90,11 @@ object OtaHandler {
         val identifiersArray = identifiers.optJSONArray("body") ?: JSONArray()
 
         for (i in identifiersArray.indices()) {
-            val identity = identifiersArray.optJSONObject(i)
+            val identity = identifiersArray.optJSONObject(i) ?: continue
             val identitiesArray = identity.optJSONArray("identities") ?: JSONArray()
 
             for (j in identitiesArray.indices()) {
-                val defaultName = identitiesArray.optJSONObject(j).optString("default_name")
+                val defaultName = identitiesArray.optJSONObject(j)?.optString("default_name") ?: continue
 
                 identities.add(Identity(
                     identity.optString("device_class"),
@@ -110,22 +116,25 @@ object OtaHandler {
     @Throws(VolleyError::class)
     suspend fun  syncTemplates() {
         try {
-            val templates = Request.get("http://${templatesObject.optString("uri")}", maxRetries = 4).optJSONArray("body")
+            val templatesUrl = templatesObject.optString("uri")
+            if (templatesUrl.isBlank()) return
+            val templates = Request.get("http://$templatesUrl", maxRetries = 4).optJSONArray("body")
 
             if (templates?.isEmpty() == false) {
                 (this.templates as? MutableLiveData<JSONArray>)?.postValue(templates)
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
-            Log.e(TAG, "syncLatest exception")
+            Log.e(TAG, "syncTemplates exception")
         }
     }
-
 
     @WorkerThread
     suspend fun ensureTemplatesAndIdentitiesReady() {
         try {
-            if (templatesObject.optString("identifiers").isBlank() || templatesObject.optString("uri").isBlank()) {
+            // Device display only needs the identities table. Full templates are useful for
+            // OTA/firmware, but they should not block login, space loading, or device loading.
+            if (templatesObject.optString("identifiers").isBlank()) {
                 syncLatest()
             }
 
@@ -135,7 +144,14 @@ object OtaHandler {
 
             val currentTemplates = templates.value
             if (currentTemplates == null || currentTemplates.isEmpty()) {
-                syncTemplates()
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        if (templatesObject.optString("uri").isBlank()) syncLatest()
+                        syncTemplates()
+                    } catch (ex: Exception) {
+                        ex.printStackTrace()
+                    }
+                }
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
