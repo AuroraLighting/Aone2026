@@ -35,6 +35,8 @@ import com.aurora.aonev3.ui.activities.SplashscreenActivity
 import com.aurora.aonev3.ui.fragments.alldevices.devicedetails.motionsensors.TimeConditionFragment
 import com.aurora.aonev3.ui.fragments.schedules.*
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -223,23 +225,53 @@ class ScheduleTimeTriggerFragment : Fragment() {
                     return@setOnClickListener
                 }
             }
-            eventTimeViewModel.updateTrigger(hour = viewModel.trigger.value?.hour ?: 0, minute = viewModel.trigger.value?.minute ?: 0, triggerType = viewModel.trigger.value?.trigger ?: SunriseSunsetType.TIME)
+            val trigger = viewModel.trigger.value
+            eventTimeViewModel.updateTrigger(
+                hour = trigger?.hour ?: 0,
+                minute = trigger?.minute ?: 0,
+                triggerType = trigger?.trigger ?: SunriseSunsetType.TIME,
+                offset = trigger?.offset ?: 0
+            )
 
             findNavController().popBackStack()
         }
     }
 
+    private fun showBusy(show: Boolean) {
+        activity?.runOnUiThread {
+            requireActivity().findViewById<android.view.View>(R.id.layoutGreyOut)?.visibility =
+                if (show) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun showLocationFailedMessage() {
+        showBusy(false)
+        activity ?: return
+        AlertDialog.Builder(activity)
+            .setMessage("Unable to get your location. Please make sure Location is enabled on this phone, then try Sunrise / Sunset again.")
+            .setPositiveButton(getString(R.string.ok), null)
+            .create()
+            .show()
+    }
+
     @SuppressLint("MissingPermission")
     private fun requestLocation() {
         activity ?: return
-        requireActivity().runOnUiThread {
-            requireActivity().findViewById<android.view.View>(R.id.layoutGreyOut).visibility = View.VISIBLE
-        }
-        LocationServices.getFusedLocationProviderClient(requireActivity()).lastLocation.addOnSuccessListener { location ->
+        showBusy(true)
+
+        val client = LocationServices.getFusedLocationProviderClient(requireActivity())
+        val cancellationTokenSource = CancellationTokenSource()
+
+        client.getCurrentLocation(
+            Priority.PRIORITY_BALANCED_POWER_ACCURACY,
+            cancellationTokenSource.token
+        ).addOnSuccessListener { currentLocation ->
+            val location = currentLocation
             if (location == null) {
-                requestLocation()
+                showLocationFailedMessage()
                 return@addOnSuccessListener
             }
+
             sunriseSunsetViewModel.viewModelScope.launch(Dispatchers.IO) {
                 val gateway = NabtoHandler.selectedGateway ?: return@launch
                 try {
@@ -262,16 +294,24 @@ class ScheduleTimeTriggerFragment : Fragment() {
                     return@launch requestLocation()
                 }
 
-                eventTimeViewModel.updateTrigger(triggerType = viewModel.trigger.value?.trigger ?: SunriseSunsetType.TIME)
+                val trigger = viewModel.trigger.value
+                eventTimeViewModel.updateTrigger(
+                    hour = trigger?.hour ?: 0,
+                    minute = trigger?.minute ?: 0,
+                    triggerType = trigger?.trigger ?: SunriseSunsetType.TIME,
+                    offset = trigger?.offset ?: 0
+                )
 
                 activity ?: return@launch
                 requireActivity().runOnUiThread {
                     activity ?: return@runOnUiThread
-                    requireActivity().findViewById<android.view.View>(R.id.layoutGreyOut).visibility = View.GONE
-
+                    showBusy(false)
                     findNavController().popBackStack()
                 }
             }
+        }.addOnFailureListener {
+            it.printStackTrace()
+            showLocationFailedMessage()
         }
     }
 
