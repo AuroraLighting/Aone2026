@@ -138,8 +138,16 @@ object OtaHandler {
                 syncLatest()
             }
 
-            if (identitiesDao.getAll().isEmpty()) {
+            val wasEmpty = identitiesDao.getAll().isEmpty()
+            if (wasEmpty) {
                 syncIdentities()
+                // Identities just loaded for first time - force device re-sync
+                // so devices initially classified by name inference get corrected
+                NabtoHandler.selectedGateway?.let { gateway ->
+                    if (gateway.isConnected) {
+                        SyncHandler.syncDevices(gateway, force = true)
+                    }
+                }
             }
 
             val currentTemplates = templates.value
