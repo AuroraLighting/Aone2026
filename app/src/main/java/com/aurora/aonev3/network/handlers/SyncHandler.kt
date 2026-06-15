@@ -880,19 +880,38 @@ object SyncHandler {
     private fun inferDeviceClassFromName(defaultName: String): String {
         val n = defaultName.lowercase()
         return when {
+            // RGBW lights - must check before generic "white" checks
             n.contains("rgbw") || n.contains("rgb") || n.contains("colour") || n.contains("color") -> "AURORARGBWBULB"
-            n.contains("tuneable") || n.contains("tunable") || n.contains("tw") || n.contains("white") -> "AURORATWBULB"
-            n.contains("dual") && n.contains("socket") -> "AURORADUALSOCKET"
-            n.contains("smart plug") || n.contains("smartplug") -> "AURORASMARTPLUG"
-            n.contains("dimmer") && (n.contains("wall") || n.contains("inline")) -> "AURORAWALLDIMMER"
-            n.contains("dimmer") -> "AURORAWALLDIMMER2"
+            // Tunable white lights
+            n.contains("tunable white") || n.contains("tuneable white") || n.contains("tunable") || n.contains("tuneable") || n.contains("cx led") || n.contains("nxp strip") || n.contains("lds strip") || n.contains("aurora led (tunable") -> "AURORATWBULB"
+            // Fixed white / single colour lights
+            n.contains("fixed white") || n.contains("single colour") || n.contains("aone 1-10v") || n.contains("aurora led (fixed") -> "AURORABULB"
+            // Dual socket
+            n.contains("dual socket") || n.contains("dual channel") -> "AURORADUALSOCKET"
+            // Smart plugs
+            n.contains("smart plug") || n.contains("smartplug") || n.contains("plug in adaptor") || n.contains("smart cable") || n.contains("smart relay") -> "SMARTPLUG"
+            // Aurora smart plug
+            n.contains("aurora smart plug") -> "AURORASMARTPLUG"
+            // Wall dimmers
+            n.contains("wall dimmer (inline)") || n.contains("wall dimmer (control)") -> "AURORAWALLDIMMER2"
+            n.contains("wall dimmer") || n.contains("walldimmer") -> "AURORAWALLDIMMER"
+            // Battery dimmers
+            n.contains("battery dimmer dual") || n.contains("dual knob") -> "BATTERYDIMMERDUAL"
+            n.contains("battery dimmer") || n.contains("npd4440") -> "BATTERYDIMMER"
+            // Kinetic / PTM
+            n.contains("kinetic") || n.contains("ptm") -> "PTM215ZE"
+            // Remote
+            n.contains("remote") -> "REMOTE"
+            // Motion sensors
             n.contains("motion") || n.contains("pir") || n.contains("occupancy") -> "MOTION"
-            n.contains("door") || n.contains("window sensor") || n.contains("contact") -> "DOORWINDOW"
-            n.contains("window") && n.contains("blind") -> "WINDOW"
-            n.contains("remote") || n.contains("ptm") -> "REMOTE"
-            n.contains("geyser") || n.contains("boiler") || n.contains("water") -> "AURORAGEYSER"
-            n.contains("lamp") || n.contains("bulb") || n.contains("light") || n.contains("luminaire") -> "AURORABULB"
-            n.contains("plug") || n.contains("socket") -> "SMARTPLUG"
+            // Door/window sensors
+            n.contains("door sensor") || n.contains("window sensor") || n.contains("magnetic sensor") || n.contains("contact") -> "DOORWINDOW"
+            // Window/blind
+            n.contains("window") || n.contains("blind") -> "WINDOW"
+            // Geyser
+            n.contains("geyser") || n.contains("boiler") || n.contains("water heater") -> "AURORAGEYSER"
+            // Generic lights - catch-all for any remaining bulb/lamp/GU10/strip types
+            n.contains("lamp") || n.contains("bulb") || n.contains("gu10") || n.contains("candle") || n.contains("filament") || n.contains("mproz") || n.contains("mpro") || n.contains("strip") || n.contains("led") || n.contains("light") || n.contains("luminaire") -> "AURORABULB"
             else -> "UNKNOWN"
         }
     }
