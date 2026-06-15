@@ -42,18 +42,17 @@ class SplashscreenActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         }
 
-        // Do not block the welcome/login screen on OTA template downloads.
-        // Template/identity readiness is enforced inside SyncHandler.syncDevices(),
-        // where devices are actually parsed. Warm it in the background only.
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 OtaHandler.ensureTemplatesAndIdentitiesReady()
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
-        }
 
-        chooseStartLocation()
+            CoroutineScope(Dispatchers.Main).launch {
+                chooseStartLocation()
+            }
+        }
     }
 
     private fun chooseStartLocation() {

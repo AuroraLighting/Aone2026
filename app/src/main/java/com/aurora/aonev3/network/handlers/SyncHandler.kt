@@ -70,64 +70,16 @@ object SyncHandler {
 
     private val crashlytics = FirebaseCrashlytics.getInstance()
 
-    private suspend fun resolveDeviceClass(defaultName: String): Device.DeviceClass {
-        val deviceClassName = if (defaultName.equals("squidzigbee", ignoreCase = true)) {
-            "gateway"
-        } else {
-            identitiesDao.getDeviceClassForDefaultName(defaultName)
-                ?: fallbackDeviceClassName(defaultName)
-                ?: "unknown"
-        }
-
-        return try {
-            Device.DeviceClass.valueOf(deviceClassName.uppercase())
-        } catch (ex: IllegalArgumentException) {
-            crashlytics.recordException(
-                Exception("No such enum: defaultName - $defaultName, deviceClass - $deviceClassName")
-            )
-            Log.e(TAG, "No such enum: defaultName - $defaultName, deviceClass - $deviceClassName")
-            Device.DeviceClass.UNKNOWN
-        }
-    }
-
-    private fun fallbackDeviceClassName(defaultName: String): String? {
-        val name = defaultName.lowercase()
-
-        return when {
-            name.contains("squidzigbee") || name.contains("gateway") -> "gateway"
-            name.contains("rgbw") || name.contains("rgb") -> "aurorargbwbulb"
-            name.contains("tunable") || name.contains("tuneable") || name.contains("tw") -> "auroratwbulb"
-            name.contains("bulb") || name.contains("lamp") || name.contains("light") -> "aurorabulb"
-            name.contains("dual") && name.contains("socket") -> "auroradualsocket"
-            name.contains("socket") -> "auroradualsocket"
-            name.contains("smart") && name.contains("plug") -> "aurorasmartplug"
-            name.contains("plug") -> "smartplug"
-            name.contains("wall") && name.contains("dimmer2") -> "aurorawalldimmer2"
-            name.contains("wall") && name.contains("dimmer") -> "aurorawalldimmer"
-            name.contains("dimmer2") -> "aurorawalldimmer2"
-            name.contains("dimmer") -> "aurorawalldimmer"
-            name.contains("door") || name.contains("window") -> "doorwindow"
-            name.contains("motion") || name.contains("pir") || name.contains("occupancy") -> "motion"
-            name.contains("remote") -> "remote"
-            name.contains("ptm") || name.contains("kinetic") -> "ptm215ze"
-            name.contains("battery") -> "batterydimmer"
-            name.contains("geyser") || name.contains("geyser") -> "aurorageyser"
-            else -> null
-        }
-    }
-
     @WorkerThread
     @Throws(VolleyError::class)
     suspend fun syncDevices(gateway: NabtoHandler.NabtoGateway, force: Boolean = false): List<Device> {
         if (devicesList.any { it.parentGateway == gateway.serial } && !force) return devicesList
         if (force) devices.removeAll { it.parentGateway == gateway.serial }
 
-        // Device-class lookup depends on the OTA identities table. Wait briefly here rather
-        // than only on the welcome screen; if OTA is slow/unavailable, fallback mapping below
-        // still keeps devices visible instead of silently classing everything as UNKNOWN.
-        withTimeoutOrNull(12000) {
-            OtaHandler.ensureTemplatesAndIdentitiesReady()
-        }
+        // Device-class lookup depends on the OTA identities table. On SDK 34 the app can
+        // reach device sync before the splash-screen OTA preload has finished, which makes
+        // every device resolve as UNKNOWN and prevents normal device rendering/control.
+        OtaHandler.ensureTemplatesAndIdentitiesReady()
 
         val response = DevelcoHandler.getDevices(gateway)
         val body = response.optJSONArray("body") ?: JSONArray()
@@ -135,7 +87,29 @@ object SyncHandler {
         for (i in body.indices()) {
             val deviceJson = body.optJSONObject(i) ?: continue
 
-            val deviceClass = resolveDeviceClass(deviceJson.optString("defaultName"))
+            val deviceClassName = if (!deviceJson.optString("defaultName").equals("squidzigbee", ignoreCase = true)) {
+                AppDatabase.getDatabase().identitiesDao()
+                    .getDeviceClassForDefaultName(deviceJson.optString("defaultName"))
+                    ?: "unknown"
+            } else {
+                "gateway"
+            }
+
+            val deviceClass = try {
+                Device.DeviceClass.valueOf(deviceClassName.uppercase())
+            } catch (ex: IllegalArgumentException) {
+                crashlytics.recordException(
+                    Exception(
+                        "No such enum: defaultName - ${deviceJson.optString("defaultName")}, deviceClass - $deviceClassName"
+                    )
+                )
+
+                Log.e(
+                    TAG,
+                    "No such enum: defaultName - ${deviceJson.optString("defaultName")}, deviceClass - $deviceClassName"
+                )
+                continue
+            }
             val ldevs = deviceClass.ldevs
 
             val metadata = try {
@@ -850,7 +824,24 @@ object SyncHandler {
         for (i in body.indices()) {
             val deviceJson = body.optJSONObject(i) ?: continue
 
-            val deviceClass = resolveDeviceClass(deviceJson.optString("defaultName"))
+            val deviceClassName = if (!deviceJson.optString("defaultName").equals("squidzigbee", ignoreCase = true)) {
+                AppDatabase.getDatabase().identitiesDao()
+                    .getDeviceClassForDefaultName(deviceJson.optString("defaultName"))
+                    ?: "unknown"
+            } else {
+                "gateway"
+            }
+
+            val deviceClass = try {
+                Device.DeviceClass.valueOf(deviceClassName.uppercase())
+            } catch (ex: IllegalArgumentException) {
+                crashlytics.recordException(
+                    Exception("No such enum: defaultName - ${deviceJson.optString("defaultName")}, deviceClass - $deviceClassName")
+                )
+
+                Log.e("SyncHandler", "No such enum: defaultName - ${deviceJson.optString("defaultName")}, deviceClass - $deviceClassName")
+                continue
+            }
             try {
                 if (deviceClass == Device.DeviceClass.GATEWAY) {
                     if (deviceJson.has("metadata")) {
