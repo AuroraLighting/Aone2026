@@ -90,30 +90,27 @@ class ControlsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val device: Device? = viewModel.selectedDevice
         val isGroupRgb = viewModel.isGroupRgb
         val isGroupCt = viewModel.isGroupCt
 
+        _binding = ControlsFragmentRgbwBinding.inflate(inflater, container, false)
+
         return if (device == null) {
             when {
-                isGroupRgb -> {
-                    inflater.inflate(R.layout.controls_fragment_rgbw, container, false)
-                }
-                isGroupCt -> {
-                    inflater.inflate(R.layout.controls_fragment_tw, container, false)
-                }
-                else -> {
-                    inflater.inflate(R.layout.controls_fragment_fw, container, false)
-                }
+                isGroupRgb -> binding.root
+                isGroupCt -> inflater.inflate(R.layout.controls_fragment_tw, container, false)
+                else -> inflater.inflate(R.layout.controls_fragment_fw, container, false)
             }
         } else {
-            if (device.deviceClass == Device.DeviceClass.AURORABULB || device.deviceClass == Device.DeviceClass.AURORAWALLDIMMER) {
-                inflater.inflate(R.layout.controls_fragment_fw, container, false)
-            } else if (device.deviceClass == Device.DeviceClass.AURORATWBULB) {
-                inflater.inflate(R.layout.controls_fragment_tw, container, false)
-            } else {
-                inflater.inflate(R.layout.controls_fragment_rgbw, container, false)
+            when {
+                device.deviceClass == Device.DeviceClass.AURORABULB ||
+                device.deviceClass == Device.DeviceClass.AURORAWALLDIMMER ->
+                    inflater.inflate(R.layout.controls_fragment_fw, container, false)
+                device.deviceClass == Device.DeviceClass.AURORATWBULB ->
+                    inflater.inflate(R.layout.controls_fragment_tw, container, false)
+                else -> binding.root
             }
         }
     }
@@ -166,15 +163,15 @@ class ControlsFragment : Fragment() {
                 }
 
                 activity?.runOnUiThread {
-                    binding.tvLevel?.text = "$level%"
-                    level_seekbar?.progress = 100 - level
+                    view?.findViewById<android.widget.TextView>(R.id.tvLevel)?.text = "$level%"
+                    view?.findViewById<android.widget.SeekBar>(R.id.level_seekbar)?.progress = 100 - level
                 }
             }
             datapoints.find { dp -> dp.key == "colourtempmin" }?.also { miredMin ->
                 val value = miredMin.value as? Int ?: 154
                 colourTemperatureMin = value
                 activity?.runOnUiThread {
-                    colour_temperature_seekbar?.max =
+                    view?.findViewById<android.widget.SeekBar>(R.id.colour_temperature_seekbar)?.max =
                         colourTemperatureMax - colourTemperatureMin + (0.05 * (colourTemperatureMax - colourTemperatureMin)).toInt()
                 }
             }
@@ -187,7 +184,7 @@ class ControlsFragment : Fragment() {
 
                 colourTemperatureMax = value
                 activity?.runOnUiThread {
-                    colour_temperature_seekbar?.max =
+                    view?.findViewById<android.widget.SeekBar>(R.id.colour_temperature_seekbar)?.max =
                         colourTemperatureMax - colourTemperatureMin + (0.05 * (colourTemperatureMax - colourTemperatureMin)).toInt()
                 }
             }
@@ -199,8 +196,8 @@ class ControlsFragment : Fragment() {
                 }
 
                 activity?.runOnUiThread {
-                    binding.tvColourTemperature?.text = "${((1000000 / value) / 100) * 100}K"
-                    colour_temperature_seekbar?.progress =
+                    view?.findViewById<android.widget.TextView>(R.id.tvColourTemperature)?.text = "${((1000000 / value) / 100) * 100}K"
+                    view?.findViewById<android.widget.SeekBar>(R.id.colour_temperature_seekbar)?.progress =
                         (value as? Int ?: 220) - colourTemperatureMin
                 }
             }
@@ -223,7 +220,7 @@ class ControlsFragment : Fragment() {
         })
 
         if (group != null) {
-            colour_temperature_seekbar?.max =
+            view?.findViewById<android.widget.SeekBar>(R.id.colour_temperature_seekbar)?.max =
                 colourTemperatureMax - colourTemperatureMin + (0.05 * (colourTemperatureMax - colourTemperatureMin)).toInt()
         }
 
@@ -248,8 +245,8 @@ class ControlsFragment : Fragment() {
                 }
 
                 activity?.runOnUiThread {
-                    binding.tvLevel?.text = "$level%"
-                    level_seekbar?.progress = 100 - level
+                    view?.findViewById<android.widget.TextView>(R.id.tvLevel)?.text = "$level%"
+                    view?.findViewById<android.widget.SeekBar>(R.id.level_seekbar)?.progress = 100 - level
                 }
             }
             datapoints.find { dp -> dp.key == "mired" }?.also { mired ->
@@ -258,8 +255,8 @@ class ControlsFragment : Fragment() {
                     value = 454
                 }
                 activity?.runOnUiThread {
-                    binding.tvColourTemperature?.text = "${((1000000 / value) / 100) * 100}K"
-                    colour_temperature_seekbar?.progress =
+                    view?.findViewById<android.widget.TextView>(R.id.tvColourTemperature)?.text = "${((1000000 / value) / 100) * 100}K"
+                    view?.findViewById<android.widget.SeekBar>(R.id.colour_temperature_seekbar)?.progress =
                         (value as? Int ?: 220) - colourTemperatureMin
                 }
             }
@@ -281,15 +278,15 @@ class ControlsFragment : Fragment() {
             }
         })
 
-        level_seekbar?.max = 105
-        level_seekbar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        view?.findViewById<android.widget.SeekBar>(R.id.level_seekbar)?.max = 105
+        view?.findViewById<android.widget.SeekBar>(R.id.level_seekbar)?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 p0 ?: return
                 if (p1 > 100) {
                     p0.progress = 100
                 }
                 activity?.runOnUiThread {
-                    binding.tvLevel?.text = "${100 - p0.progress}%"
+                    view?.findViewById<android.widget.TextView>(R.id.tvLevel)?.text = "${100 - p0.progress}%"
                 }
             }
 
@@ -303,7 +300,7 @@ class ControlsFragment : Fragment() {
             }
         })
 
-        colour_temperature_seekbar?.setOnSeekBarChangeListener(object :
+        view?.findViewById<android.widget.SeekBar>(R.id.colour_temperature_seekbar)?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             var tracking = false
 
@@ -314,7 +311,7 @@ class ControlsFragment : Fragment() {
                     p0.progress = colourTemperatureMax - colourTemperatureMin
                 }
                 activity?.runOnUiThread {
-                    binding.tvColourTemperature?.text =
+                    view?.findViewById<android.widget.TextView>(R.id.tvColourTemperature)?.text =
                         "${((1000000 / (p0.progress + colourTemperatureMin)) / 100) * 100}K"
                 }
             }
