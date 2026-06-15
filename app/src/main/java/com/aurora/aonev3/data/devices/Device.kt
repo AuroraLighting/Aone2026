@@ -1,6 +1,5 @@
 package com.aurora.aonev3.data.devices
 
-import com.aurora.aonev3.synthetic.*
 import org.json.JSONObject
 
 data class Device(
@@ -84,8 +83,6 @@ data class Device(
                     DeviceClass.PTM215ZE -> KINETIC
                     DeviceClass.REMOTE -> REMOTE
                     DeviceClass.GATEWAY -> GATEWAY
-                    DeviceClass.AURORAGEYSER -> POWER
-                    DeviceClass.UNKNOWN -> LIGHTS
                     else -> null
                 }
             }
