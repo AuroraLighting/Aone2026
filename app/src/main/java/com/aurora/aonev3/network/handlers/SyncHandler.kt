@@ -95,17 +95,14 @@ object SyncHandler {
             val deviceClass = try {
                 Device.DeviceClass.valueOf(deviceClassName.uppercase())
             } catch (ex: IllegalArgumentException) {
-                crashlytics.recordException(
-                    Exception(
-                        "No such enum: defaultName - ${deviceJson.optString("defaultName")}, deviceClass - $deviceClassName"
-                    )
-                )
-
-                Log.e(
+                Log.w(
                     TAG,
-                    "No such enum: defaultName - ${deviceJson.optString("defaultName")}, deviceClass - $deviceClassName"
+                    "Unknown device class: defaultName='${deviceJson.optString("defaultName")}', class='$deviceClassName' - showing as generic light"
                 )
-                continue
+                // Don't skip unknown devices - show them as a generic light
+                // so they appear in the UI rather than being silently hidden.
+                // The identities DB will classify them correctly once synced.
+                Device.DeviceClass.AURORABULB
             }
             val ldevs = deviceClass.ldevs
 
@@ -834,12 +831,8 @@ object SyncHandler {
             val deviceClass = try {
                 Device.DeviceClass.valueOf(deviceClassName.uppercase())
             } catch (ex: IllegalArgumentException) {
-                crashlytics.recordException(
-                    Exception("No such enum: defaultName - ${deviceJson.optString("defaultName")}, deviceClass - $deviceClassName")
-                )
-
-                Log.e("SyncHandler", "No such enum: defaultName - ${deviceJson.optString("defaultName")}, deviceClass - $deviceClassName")
-                continue
+                Log.w(TAG, "Unknown device class: defaultName='${deviceJson.optString("defaultName")}' - showing as generic light")
+                Device.DeviceClass.AURORABULB
             }
             try {
                 if (deviceClass == Device.DeviceClass.GATEWAY) {
