@@ -9,6 +9,7 @@ import com.android.volley.ClientError
 import com.android.volley.VolleyError
 import com.aurora.aonev3.network.handlers.CloudHandler
 import com.aurora.aonev3.network.handlers.NabtoHandler
+import com.aurora.aonev3.network.handlers.OtaHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,11 +33,24 @@ class LoginViewModel : ViewModel() {
             )
             return
         }
+        // Pre-load templates and identities in parallel with login so devices
+        // show immediately after connection without a separate download delay
+        CoroutineScope(Dispatchers.IO).launch {
+            try { OtaHandler.ensureTemplatesAndIdentitiesReady() } catch (ex: Exception) { }
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 CloudHandler.verify(username, password)
                 response = CloudHandler.login(username, password)
                 CloudHandler.getGateways()
+                NabtoHandler.openSession(username)
+                val fingerprint = NabtoHandler.getFingerprint(username) ?: ""
+                try {
+                    CloudHandler.postFingerprint(fingerprint)
+                } catch (ex: VolleyError) {
+                }
+                NabtoHandler.openTunnels(username)
                 _loginSuccess.postValue(true)
             } catch (err: VolleyError) {
                 try {
@@ -72,15 +86,6 @@ class LoginViewModel : ViewModel() {
                 }
                 _loginSuccess.postValue(false)
             }
-
-            NabtoHandler.openSession(username)
-            val fingerprint = NabtoHandler.getFingerprint(username) ?: ""
-            try {
-                CloudHandler.postFingerprint(fingerprint)
-            } catch (ex: VolleyError) {
-
-            }
-            NabtoHandler.openTunnels(username)
         }
     }
 
