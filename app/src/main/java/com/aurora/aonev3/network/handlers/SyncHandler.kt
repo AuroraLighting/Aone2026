@@ -871,41 +871,103 @@ object SyncHandler {
         syncHandlerCoroutineScope = CoroutineScope(Dispatchers.IO)
     }
     private fun inferDeviceClassFromName(defaultName: String): String {
+        // Hardcoded lookup table built from gateway_zb_templates and IconsDevices.kt
+        // This is used as fallback when the identities DB hasn't been populated yet (first install)
+        val exactMatch = mapOf(
+            // AOne controllers
+            "AOneDimmer" to "AURORAWALLDIMMER",
+            "AOneConnector" to "AURORABULB",
+            "AOne 1-10V controller" to "AURORABULB",
+            "AOne Kinetic Controller" to "PTM215ZE",
+            // GLS bulbs
+            "Aurora Smart Bulb (Warm White)" to "AURORABULB",
+            "Aurora Smart Bulb (Fixed White)" to "AURORABULB",
+            "Aurora Smart Lamp (Fixed White)" to "AURORABULB",
+            "Aurora Smart Bulb (Tunable White)" to "AURORATWBULB",
+            "Aurora Smart Lamp (Tunable White)" to "AURORATWBULB",
+            "Aurora Smart Bulb (RGBW)" to "AURORARGBWBULB",
+            "Aurora Smart Lamp (RGBW)" to "AURORARGBWBULB",
+            // GU10
+            "Aurora Smart GU10 (Fixed White)" to "AURORABULB",
+            "Aurora Smart GU10 (Tunable White)" to "AURORATWBULB",
+            "Aurora Smart GU10 (RGBW)" to "AURORARGBWBULB",
+            "Aurora Smart GU10 (RGBW) v2" to "AURORARGBWBULB",
+            // Candle
+            "Aurora Smart Candle (Tunable White)" to "AURORATWBULB",
+            "Aurora Smart Candle (RGBW)" to "AURORARGBWBULB",
+            // LED strip controllers
+            "Aurora LED (Fixed White)" to "AURORABULB",
+            "Aurora LED (Tunable White)" to "AURORATWBULB",
+            "Single Colour LED Strip Controller" to "AURORABULB",
+            "NXP Strip (Tunable White)" to "AURORATWBULB",
+            "LDS Strip (Tunable White)" to "AURORATWBULB",
+            "CX LED Strip Controller" to "AURORATWBULB",
+            "RGBCX LED Strip Controller" to "AURORARGBWBULB",
+            // MPRO-X
+            "Aurora MPRO-X (Fixed White)" to "AURORABULB",
+            "Aurora MPRO-X (Tunable White)" to "AURORATWBULB",
+            // Filaments
+            "A60 filament" to "AURORABULB",
+            "ST64 filament" to "AURORABULB",
+            "G125 filament" to "AURORABULB",
+            "G95 filament" to "AURORABULB",
+            "PREPRODUCTION SAMPLE FW" to "AURORABULB",
+            // Wall dimmers
+            "Aurora Wall Dimmer" to "AURORAWALLDIMMER",
+            "Aurora Wall Dimmer (inline)" to "AURORAWALLDIMMER",
+            "Aurora Wall Dimmer (control)" to "AURORAWALLDIMMER2",
+            // Battery dimmers
+            "Aurora Battery Dimmer NPD4440" to "BATTERYDIMMER",
+            "Aurora Battery Dimmer dual knob" to "BATTERYDIMMERDUAL",
+            // Remotes
+            "Remote" to "REMOTE",
+            "Leedarson Remote" to "REMOTE",
+            "EnOcean Rocker Switch" to "REMOTE",
+            // Motion sensors
+            "Motion Sensor" to "MOTION",
+            "PIR Motion Sensor" to "MOTION",
+            // Door/window sensors
+            "Window Sensor" to "DOORWINDOW",
+            "Magnetic Sensor" to "DOORWINDOW",
+            "Door Sensor" to "DOORWINDOW",
+            "Aurora Door Sensor" to "DOORWINDOW",
+            "Flood Alarm" to "DOORWINDOW",
+            "Heat Alarm" to "DOORWINDOW",
+            "Smoke Alarm" to "DOORWINDOW",
+            "Humidity Sensor" to "DOORWINDOW",
+            // Smart plugs
+            "Smart Plug" to "SMARTPLUG",
+            "Aurora Smart Plug in Adaptor" to "AURORASMARTPLUG",
+            "Smart Plug Mini UK" to "SMARTPLUG",
+            "Smart Plug Mini Schuko" to "SMARTPLUG",
+            "Smart Plug Mini French" to "SMARTPLUG",
+            "Smart Plug Mini DK" to "SMARTPLUG",
+            "Smart Cable" to "SMARTPLUG",
+            "Smart Relay" to "SMARTPLUG",
+            "Smart Plug Classic" to "SMARTPLUG",
+            // Geyser
+            "Aurora Geyser" to "AURORAGEYSER"
+        )
+
+        // Try exact match first (case-insensitive)
+        exactMatch.entries.find { it.key.equals(defaultName, ignoreCase = true) }?.let {
+            return it.value
+        }
+
+        // Fallback to pattern matching for any unlisted devices
         val n = defaultName.lowercase()
         return when {
-            // RGBW lights - must check before generic "white" checks
-            n.contains("rgbw") || n.contains("rgb") || n.contains("colour") || n.contains("color") -> "AURORARGBWBULB"
-            // Tunable white lights
-            n.contains("tunable white") || n.contains("tuneable white") || n.contains("tunable") || n.contains("tuneable") || n.contains("cx led") || n.contains("nxp strip") || n.contains("lds strip") || n.contains("aurora led (tunable") -> "AURORATWBULB"
-            // Fixed white / single colour lights
-            n.contains("fixed white") || n.contains("single colour") || n.contains("aone 1-10v") || n.contains("aurora led (fixed") -> "AURORABULB"
-            // Dual socket
-            n.contains("dual socket") || n.contains("dual channel") -> "AURORADUALSOCKET"
-            // Smart plugs
-            n.contains("smart plug") || n.contains("smartplug") || n.contains("plug in adaptor") || n.contains("smart cable") || n.contains("smart relay") -> "SMARTPLUG"
-            // Aurora smart plug
-            n.contains("aurora smart plug") -> "AURORASMARTPLUG"
-            // Wall dimmers
-            n.contains("wall dimmer (inline)") || n.contains("wall dimmer (control)") -> "AURORAWALLDIMMER2"
-            n.contains("wall dimmer") || n.contains("walldimmer") -> "AURORAWALLDIMMER"
-            // Battery dimmers
-            n.contains("battery dimmer dual") || n.contains("dual knob") -> "BATTERYDIMMERDUAL"
-            n.contains("battery dimmer") || n.contains("npd4440") -> "BATTERYDIMMER"
-            // Kinetic / PTM
-            n.contains("kinetic") || n.contains("ptm") -> "PTM215ZE"
-            // Remote
-            n.contains("remote") -> "REMOTE"
-            // Motion sensors
+            n.contains("rgbw") || n.contains("rgb") -> "AURORARGBWBULB"
+            n.contains("tunable") || n.contains("tuneable") || n.contains("cx") -> "AURORATWBULB"
+            n.contains("wall dimmer") || n.contains("aone") -> "AURORAWALLDIMMER"
+            n.contains("battery dimmer") -> "BATTERYDIMMER"
             n.contains("motion") || n.contains("pir") || n.contains("occupancy") -> "MOTION"
-            // Door/window sensors
-            n.contains("door sensor") || n.contains("window sensor") || n.contains("magnetic sensor") || n.contains("contact") -> "DOORWINDOW"
-            // Window/blind
-            n.contains("window") || n.contains("blind") -> "WINDOW"
-            // Geyser
+            n.contains("window") || n.contains("door") || n.contains("magnetic") || n.contains("contact") -> "DOORWINDOW"
+            n.contains("plug") || n.contains("socket") || n.contains("relay") || n.contains("cable") -> "SMARTPLUG"
             n.contains("geyser") || n.contains("boiler") || n.contains("water heater") -> "AURORAGEYSER"
-            // Generic lights - catch-all for any remaining bulb/lamp/GU10/strip types
-            n.contains("lamp") || n.contains("bulb") || n.contains("gu10") || n.contains("candle") || n.contains("filament") || n.contains("mproz") || n.contains("mpro") || n.contains("strip") || n.contains("led") || n.contains("light") || n.contains("luminaire") -> "AURORABULB"
-            else -> "UNKNOWN"
+            n.contains("kinetic") -> "PTM215ZE"
+            n.contains("remote") || n.contains("switch") -> "REMOTE"
+            else -> "AURORABULB"
         }
     }
 
