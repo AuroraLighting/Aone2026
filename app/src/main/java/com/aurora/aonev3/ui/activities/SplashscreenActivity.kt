@@ -44,18 +44,13 @@ class SplashscreenActivity : AppCompatActivity() {
                 OtaHandler.syncLatest()
                 OtaHandler.syncIdentities()
                 OtaHandler.syncTemplates()
-                // Identities are now loaded - force re-sync devices if gateway connected
-                NabtoHandler.selectedGateway?.let { gateway ->
-                    if (gateway.isConnected) {
-                        SyncHandler.syncDevices(gateway, force = true)
-                    }
-                }
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
+            CoroutineScope(Dispatchers.Main).launch {
+                chooseStartLocation()
+            }
         }
-
-        chooseStartLocation()
     }
 
     private fun chooseStartLocation() {
