@@ -76,13 +76,6 @@ object SyncHandler {
         if (devicesList.any { it.parentGateway == gateway.serial } && !force) return devicesList
         if (force) devices.removeAll { it.parentGateway == gateway.serial }
 
-        // On first install the identities DB is empty - wait for OTA sync to complete
-        // so all device types are classified correctly. On subsequent launches
-        // the DB is already populated so this check returns immediately.
-        if (AppDatabase.getDatabase().identitiesDao().getAll().isEmpty()) {
-            OtaHandler.ensureTemplatesAndIdentitiesReady()
-        }
-
         val response = DevelcoHandler.getDevices(gateway)
         val body = response.optJSONArray("body") ?: JSONArray()
 
