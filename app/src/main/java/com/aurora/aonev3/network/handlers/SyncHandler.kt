@@ -76,6 +76,13 @@ object SyncHandler {
         if (devicesList.any { it.parentGateway == gateway.serial } && !force) return devicesList
         if (force) devices.removeAll { it.parentGateway == gateway.serial }
 
+        // On first install the identities DB is empty - wait for OTA sync to complete
+        // so all device types are classified correctly. On subsequent launches
+        // the DB is already populated so this check returns immediately.
+        if (AppDatabase.getDatabase().identitiesDao().getAll().isEmpty()) {
+            OtaHandler.ensureTemplatesAndIdentitiesReady()
+        }
+
         val response = DevelcoHandler.getDevices(gateway)
         val body = response.optJSONArray("body") ?: JSONArray()
 
@@ -954,21 +961,8 @@ object SyncHandler {
             return it.value
         }
 
-        // Fallback to pattern matching for any unlisted devices
-        val n = defaultName.lowercase()
-        return when {
-            n.contains("rgbw") || n.contains("rgb") -> "AURORARGBWBULB"
-            n.contains("tunable") || n.contains("tuneable") || n.contains("cx") -> "AURORATWBULB"
-            n.contains("wall dimmer") || n.contains("aone") -> "AURORAWALLDIMMER"
-            n.contains("battery dimmer") -> "BATTERYDIMMER"
-            n.contains("motion") || n.contains("pir") || n.contains("occupancy") -> "MOTION"
-            n.contains("window") || n.contains("door") || n.contains("magnetic") || n.contains("contact") -> "DOORWINDOW"
-            n.contains("plug") || n.contains("socket") || n.contains("relay") || n.contains("cable") -> "SMARTPLUG"
-            n.contains("geyser") || n.contains("boiler") || n.contains("water heater") -> "AURORAGEYSER"
-            n.contains("kinetic") -> "PTM215ZE"
-            n.contains("remote") || n.contains("switch") -> "REMOTE"
-            else -> "AURORABULB"
-        }
+        // Unknown device - show as generic light rather than hiding it
+        return "AURORABULB"
     }
 
 }
